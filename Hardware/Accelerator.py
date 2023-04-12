@@ -44,12 +44,7 @@ class Accelerator:
         Raises:
             TypeError: [description]
         """
-        if not isinstance(vdp,VDP):
-            raise AcceleratorException(f"Object should be of type VDP Class")
         self.vdp_units_list.append(vdp)
-        self.vdp_element_sizes.add(vdp.vdp_element_list[0].element_size)
-        if len(self.vdp_element_sizes)>1:
-            self.is_hybrid = True
         self.vdp_units_count+=1
     def add_pheripheral(self,name,pheripheral):
         

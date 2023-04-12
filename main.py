@@ -14,6 +14,8 @@ from Hardware.stochastic_MRRVDP import Stocastic_MRRVDP
 from Hardware.MRRVDP import MRRVDP
 from Hardware.Adder import Adder
 from Hardware.Accelerator import Accelerator
+from Hardware.MultiplierNetwork import MultiplierNetwork
+from Hardware.Multiplier import Multiplier
 from Exceptions.AcceleratorExceptions import VDPElementException
 from ast import Str
 import os.path
@@ -136,11 +138,10 @@ def run(modelName, cnnModelDirectory, accelerator_config, required_precision=8):
     batch_size = 1
     pca = ""
     dataflow = ""
-    # * Creating MRR VDP units with the vdp configurations and adding it to accelerator
+    # * Creating Mltiplier Network with the configurations and adding it to accelerator
     for vdp_config in run_config:
         vdp_type = vdp_config[VDP_TYPE]
         dataflow = vdp_config.get(DATAFLOW)
-        pca = vdp_config.get(PCA)
         batch_size = vdp_config.get(BATCH_SIZE)
         accelerator.set_vdp_type(vdp_type)
         accelerator.set_acc_type(vdp_config.get(ACC_TYPE))
@@ -151,16 +152,12 @@ def run(modelName, cnnModelDirectory, accelerator_config, required_precision=8):
         
         accelerator.add_pheripheral(POOL, pool)
         for vdp_no in range(vdp_config.get(UNITS_COUNT)):
-            if vdp_config.get(ACC_TYPE) == 'STOCHASTIC':
-                vdp = Stocastic_MRRVDP(ring_radius, pitch, vdp_type, vdp_config.get(
-                    SUPPORTED_LAYER_LIST), vdp_config.get(BITRATE))
-            else:
-                vdp = MRRVDP(ring_radius, pitch, vdp_type,
-                             vdp_config.get(SUPPORTED_LAYER_LIST), vdp_config.get(BITRATE))
-            for vdp_element in range(vdp_config.get(ELEMENT_COUNT)):
-                vdp_element = VDPElement(vdp_config[ELEMENT_SIZE], vdp_config.get(
-                    RECONFIG), vdp_config.get(AUTO_RECONFIG), vdp_config.get(PRECISION))
-                vdp.add_vdp_element(vdp_element)
+            
+            vdp = MultiplierNetwork(vdp_config.get(SUPPORTED_LAYER_LIST),vdp_config.get(BITRATE))
+                
+            for multiplier_idx in range(vdp_config.get(ELEMENT_COUNT)):
+                multiplier = Multiplier()
+                vdp.add_multiplier(multiplier)
             # * Need to call set vdp latency => includes latency of prop + tia latency + pd latency + etc
             vdp.set_vdp_latency()
             accelerator.add_vdp(vdp)
@@ -202,7 +199,7 @@ def run(modelName, cnnModelDirectory, accelerator_config, required_precision=8):
         output_width = nnModel[OUTPUT_WIDTH][idx]
         output_depth = nnModel[OUTPUT_DEPTH][idx]
         # * debug statments to be deleted
-        # print('Layer Name  ;', layer_type)
+        print('Layer Name  ;', layer_type)
         # print('Kernel Height', kernel_height,'Kernel width',kernel_width, 'Kernel Depth', kernel_depth)
 
         # * VDP size and Number of VDP operations per layer
@@ -210,35 +207,18 @@ def run(modelName, cnnModelDirectory, accelerator_config, required_precision=8):
         
         conv1 = np.random.randn(tensor_count,kernel_depth,kernel_height,kernel_width) 
         X = np.random.randn(1,input_depth,input_height,input_width)
-        # print(X)
         stride = 1
         # Toeplitz matrix
         if layer_type == 'Conv2D' or layer_type == 'DepthWiseConv' or layer_type == 'PointWiseConv':
             X_im2col = im2col(X=X,conv1=conv1,pad=0,stride=1)
             toe_output_col = X_im2col.shape[1]
-            # no_of_vdp_ops = output_height*output_depth*output_width
-            no_of_vdp_ops = tensor_count*toe_output_col
+            no_of_vdp_ops = output_height*output_depth*output_width # todo: comment this line after testing
+            # no_of_vdp_ops = tensor_count*toe_output_col
         else:
             no_of_vdp_ops = output_height*output_depth*output_width
             toe_output_col = output_width
         
-        
-        
-        # * Estimate the additional vdp operations to achieve the required precision in Analog Accelerators
-        available_precision = accelerator.vdp_units_list[ZERO].vdp_element_list[ZERO].precision
-        if available_precision < required_precision:
-            required_precision_multiplier = math.ceil(
-                required_precision/available_precision)
-        else:
-            required_precision_multiplier = 1
-        no_of_vdp_ops = no_of_vdp_ops*required_precision_multiplier
-         
-        # * In Photonic VDPEs the weights are stationary and are operated using thermo optic tuning 
-        # * When weights ae stationary the inputs are streamed in and a particular set of weights are used output height times output weight, the weights can be mapped frontal or lateral 
-        
-      
-        
-        # print('No Of VDP Ops', no_of_vdp_ops)
+    
         # * Latency Calculation of the VDP operations
         layer_latency = 0
         # * Handles pooling layers and sends the requests to pooling unit
@@ -249,9 +229,11 @@ def run(modelName, cnnModelDirectory, accelerator_config, required_precision=8):
             layer_latency = pool_latency
         else:
             # * other layers are handled here
-
             for tensor in range(0, tensor_count):
-                layer_latency += controller.get_convolution_latency(accelerator, no_of_vdp_ops, vdp_size,toe_output_col, dataflow, pca)
+                no_of_vdp_ops_per_tensor = no_of_vdp_ops/tensor_count
+                # print("Processing Tensor ", tensor)
+                # print("No of Dot Products to be processed ", no_of_vdp_ops_per_tensor)
+                layer_latency += controller.get_latency(accelerator, no_of_vdp_ops_per_tensor, vdp_size,toe_output_col, dataflow)
                 # print('Tensor', tensor)
                 accelerator.reset()
                 # print("Layer latency", layer_latency)
@@ -265,9 +247,9 @@ def run(modelName, cnnModelDirectory, accelerator_config, required_precision=8):
     # print("No od VDPs", vdp_ops)
     # print("VDP size", vdp_sizes)
     # print("Latency  =",total_latency)
-    total_latency = sum(total_latency)
-    hardware_utilization = metrics.get_hardware_utilization(
-        controller.utilized_rings, controller.idle_rings)
+    total_latency = metrics.get_total_latency(total_latency,accelerator)
+    # hardware_utilization = metrics.get_hardware_utilization(
+    #     controller.utilized_rings, controller.idle_rings)
     dynamic_energy_w = metrics.get_dynamic_energy(
         accelerator, controller.utilized_rings)
     static_power_w = metrics.get_static_power(accelerator)
@@ -300,8 +282,7 @@ def run(modelName, cnnModelDirectory, accelerator_config, required_precision=8):
             metrics.dac.area = dac_area_power[round(running_br/PCA_ACC_Count,3)][AREA]
             metrics.dac.power = dac_area_power[round(running_br/PCA_ACC_Count,3)][POWER]
         # get_total_area(TYPE, X, Y, N, M, N_FC, M_FC):
-        area += metrics.get_total_area(vdp_type, accelearator_config[UNITS_COUNT], accelearator_config[ELEMENT_SIZE],
-                                       accelearator_config[ELEMENT_COUNT], accelearator_config[RECONFIG],accelearator_config[ACC_TYPE])
+        area += metrics.get_total_area(accelearator_config[UNITS_COUNT], accelearator_config[ELEMENT_COUNT])
         # print("Area_pre", area)
     fps_per_w_area = fps_per_w/area
     # print("Area :", area)
@@ -319,7 +300,6 @@ def run(modelName, cnnModelDirectory, accelerator_config, required_precision=8):
     result[NAME] = accelerator_config[0][NAME]
     result['Model_Name'] = modelName.replace(".csv", "")
     result[CONFIG] = run_config
-    result[HARDWARE_UTILIZATION] = hardware_utilization
     result[TOTAL_LATENCY] = total_latency
     result[FPS] = fps
     result[TOTAL_DYNAMIC_ENERGY] = dynamic_energy_w
@@ -332,7 +312,6 @@ def run(modelName, cnnModelDirectory, accelerator_config, required_precision=8):
     result["Total_Cache_Writes"] = total_writes
     result["Total_Cache_Access"] = total_access
     result["Dataflow"] = dataflow
-    result["PCA"] = pca 
     result["Datarate"] = accelerator_config[0][BITRATE]
     result["BatchSize"] = accelerator_config[0][BATCH_SIZE]
     
@@ -341,26 +320,21 @@ def run(modelName, cnnModelDirectory, accelerator_config, required_precision=8):
   # * Creating accelerator with the configurations
 
 
-accelerator_required_precision = 4
+accelerator_required_precision = 1
 
 ACCELERATOR_TEST =    [{
-    ELEMENT_SIZE: 1, # The supported dot product size of the processing unit, generally equal to number of wavelengths multiplexed in weight bank/activation bank 
-    ELEMENT_COUNT: 50, # Number of parallel dot products that can be performed by one processing unit, generally equal to the number of output waveguides in a processing unit  
-    UNITS_COUNT: 1, # Number of processing unit present in an accelerator
-    RECONFIG: [], # Useful if the processing unit element size can be reconfigured according to the convolution computation need
-    VDP_TYPE: "AMM", # More information abour vector dot product can be found in our paper ([https://ieeexplore.ieee.org/abstract/document/9852767]
-    NAME: "Test", # Name of the accelerator 
-    ACC_TYPE: "ANALOG", # Accelerator Type for example, ANALOG, ONNA, LIGHTBULB, and ROBIN. This parameter helps in evaluation of performance metrics based on accelerator
-    PRECISION: 4, # The bit precision supported  by the accelerator, this value along with ***accelerator_required_precision*** determines whether bit-slicing needs to be implemented
-    BITRATE: 100 ,
-    BATCH_SIZE: 1,# The bit rate of the accelerator 
-    PCA: True, # PCA: True for PCA, False for no PCA
-    DATAFLOW: "WS" # DATAFLOW: "WS" for weight-stationary, "OS" for output-stationary, "IS" for input-stationary
+    ELEMENT_SIZE: 1,    
+    ELEMENT_COUNT: 256,     
+    UNITS_COUNT: 1, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "Test",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 ,
+    BATCH_SIZE: 1,  
+    DATAFLOW: "WS" 
 }]
-# ANALOG_MAM_ACCELERATOR = [{ELEMENT_SIZE: 44, ELEMENT_COUNT: 44, UNITS_COUNT: 3172, RECONFIG: [
-# ], VDP_TYPE:'MAM', NAME:'ANALOG_MAM', ACC_TYPE:'ANALOG', PRECISION:4, BITRATE: 5}]
-# LIGHTBULB_ACCELERATOR = [{ELEMENT_SIZE: 16, ELEMENT_COUNT: 4, UNITS_COUNT: 1562, RECONFIG: [
-# ], VDP_TYPE:'AMM', NAME:'LIGHTBULB', ACC_TYPE:'ANALOG', PRECISION:1, BITRATE: 50}]
 
 
 tpc_list = [ACCELERATOR_TEST]
@@ -372,8 +346,6 @@ modelList = [f for f in listdir(
     cnnModelDirectory) if isfile(join(cnnModelDirectory, f))]
 # modelList = ['GoogLeNet.csv']
 modelList = ['GoogLeNet.csv']
-
-
 
 system_level_results = []
 for tpc in tpc_list:
@@ -388,18 +360,3 @@ sys_level_results_df = pd.DataFrame(system_level_results)
 sys_level_results_df.to_csv('Result/TEST_IS.csv')
 
 
-# #* set clock increment time as the vdp latency time for uniform vdp accelerator
-# clock_increment = accelerator.vdp_units_list[ZERO].latency
-
-# #* For Hybrid accelerator the clock increment is the difference between the largest vdp latency and the smallest vdp latency
-# #* vdp elements are sorted based on the element size during setup latency call
-
-# # todo 1: Fix the logging part 2: Add visualization code   2. Add pooling layer energy calculation
-# # todo 7. Add thermal tunning lateny to total latency
-
-# * FPS -  18747656.542931136 
-# Cycle 3276
-# Clock 6.676000000000237e-08
-# Clock Increment 2e-11
-# Clock 6.676000000000237e-08
-# Layer Latency  6.676000000000237e-08
