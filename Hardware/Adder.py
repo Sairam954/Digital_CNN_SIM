@@ -1,4 +1,5 @@
 
+from numpy import number
 from Exceptions.AcceleratorExceptions import AdderException
 from Hardware.Pheripheral import Pheripheral
 
@@ -21,6 +22,7 @@ class Adder(Pheripheral):
         self.waiting_queue = 0
         self.start_time = 0
         self.end_time = 0
+        self.reduction_type = "PT"
     # *Request Queue working => a kernel size is more than vdp element size 
     # *it will decomposed to multiple vdp elements and
     # *then the vdp unit will check the request queue of adder 
@@ -52,35 +54,51 @@ class Adder(Pheripheral):
         else:
             pass
             # print("Adder is busy for operations")
-    
+    def set_reduction_type(self,reduction_type):
+        self.reduction_type = reduction_type
       
-    def get_request_latency(self,request_count):
+    def get_request_latency(self,psums, folds):
         """[It takes the no of partial sum request and returns the latency required by adder to complete themselves]
 
         Args:
             request_count ([type]): [description]
+            
+            if reduction_type == "S_Tree":
+                number_of_clocks = 
+                return self.latency*number_of_clocks
         """
+        number_of_clocks = 0
+        if self.reduction_type == "PT" or self.reduction_type == "ST_Linear":
+            number_of_clocks = psums
+        elif self.reduction_type == "S_Tree":
+            adder_level = math.log2(psums)
+            number_of_clocks = (folds+adder_level)*math.log2(psums/folds)
+        elif self.reduction_type == "ST_Tree_Ac" or self.reduction_type == "STIFT":
+            number_of_clocks = (folds)*math.log2(psums/folds)
+        elif self.reduction_type == "Photonic_RN":
+            number_of_clocks = folds   
+                
         # print("Partial Sum Request Count :", request_count)
         # print("Request Queue ", self.request_queue)
         # print("Waiting Queue ", self.waiting_queue)
-        if self.request_queue !=0 and self.waiting_queue > 0:
-            raise AdderException("Something is wrong with this controller check it ")
+        # if self.request_queue !=0 and self.waiting_queue > 0:
+        #     raise AdderException("Something is wrong with this controller check it ")
         
-        if self.request_queue>0:
-            if self.request_queue<request_count:
-                request_count =request_count - self.request_queue
-                self.request_queue = 0
-                self.waiting_queue = self.waiting_queue+request_count
-                adder_clock_required = 1
-            else:
-                self.request_queue = self.request_queue- request_count
-                adder_clock_required = 1
+        # if self.request_queue>0:
+        #     if self.request_queue<request_count:
+        #         request_count =request_count - self.request_queue
+        #         self.request_queue = 0
+        #         self.waiting_queue = self.waiting_queue+request_count
+        #         adder_clock_required = 1
+        #     else:
+        #         self.request_queue = self.request_queue- request_count
+        #         adder_clock_required = 1
                 
-        else:
-            self.waiting_queue= self.waiting_queue+request_count
-            adder_clock_required = math.ceil(self.waiting_queue/self.no_of_parallel_requests)
-        # print("Adder Clocks required ",adder_clock_required)
-        return self.latency*adder_clock_required
+        # else:
+        #     self.waiting_queue= self.waiting_queue+request_count
+        #     adder_clock_required = math.ceil(self.waiting_queue/self.no_of_parallel_requests)
+        # # print("Adder Clocks required ",adder_clock_required)
+        return self.latency*number_of_clocks
     
     def get_waiting_list_latency(self):
         adder_clock_required = math.ceil(self.waiting_queue/self.no_of_parallel_requests)

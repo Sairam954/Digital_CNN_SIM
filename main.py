@@ -143,11 +143,13 @@ def run(modelName, cnnModelDirectory, accelerator_config, required_precision=8):
         vdp_type = vdp_config[VDP_TYPE]
         dataflow = vdp_config.get(DATAFLOW)
         batch_size = vdp_config.get(BATCH_SIZE)
+        reduction_type = vdp_config.get(REDUCTION_TYPE)
         accelerator.set_vdp_type(vdp_type)
         accelerator.set_acc_type(vdp_config.get(ACC_TYPE))
         
         # * Peripheral Parameters assigning
         adder.latency = (1/vdp_config.get(BITRATE))*1e-9
+        adder.set_reduction_type(reduction_type)
         accelerator.add_pheripheral(ADDER, adder)
         
         accelerator.add_pheripheral(POOL, pool)
@@ -199,7 +201,7 @@ def run(modelName, cnnModelDirectory, accelerator_config, required_precision=8):
         output_width = nnModel[OUTPUT_WIDTH][idx]
         output_depth = nnModel[OUTPUT_DEPTH][idx]
         # * debug statments to be deleted
-        print('Layer Name  ;', layer_type)
+        # print('Layer Name  ;', layer_type)
         # print('Kernel Height', kernel_height,'Kernel width',kernel_width, 'Kernel Depth', kernel_depth)
 
         # * VDP size and Number of VDP operations per layer
@@ -285,7 +287,7 @@ def run(modelName, cnnModelDirectory, accelerator_config, required_precision=8):
         area += metrics.get_total_area(accelearator_config[UNITS_COUNT], accelearator_config[ELEMENT_COUNT])
         # print("Area_pre", area)
     fps_per_w_area = fps_per_w/area
-    # print("Area :", area)
+    print("Area :", area)
     print("Total Latency ->", total_latency)
     print("FPS ->", fps)
     print("FPS/W  ->", fps_per_w)
@@ -324,16 +326,17 @@ accelerator_required_precision = 1
 
 ACCELERATOR_TEST =    [{
     ELEMENT_SIZE: 1,    
-    ELEMENT_COUNT: 256,     
+    ELEMENT_COUNT: 256, # number of multiplier    
     UNITS_COUNT: 1, 
     RECONFIG: [], 
     VDP_TYPE: "AMM", 
     NAME: "Test",  
     ACC_TYPE: "DIGITAL", 
     PRECISION: 1, 
-    BITRATE: 1 ,
+    BITRATE: 1 , # GHz
     BATCH_SIZE: 1,  
-    DATAFLOW: "WS" 
+    DATAFLOW: "OS",
+    REDUCTION_TYPE: "STIFT", 
 }]
 
 

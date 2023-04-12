@@ -155,16 +155,18 @@ class Controller:
                         accelerator.psum_reads += folds # TODO need to check if it is correct
                         accelerator.psum_writes += folds
                         fold_idx = 0
-                        while folds>0:
-                            # print("Processing Fold", fold_idx)
-                            psums = multiplier_network.get_multiplier_count()
-                            partial_sum_latency += accelerator.pheripherals[ADDER].get_request_latency(psums)
-                            vdp_cache_reads = multiplier_network.get_multiplier_count()*2 # OS , 2 to account for both inputs and weights
-                            accelerator.cache_reads += vdp_cache_reads
-                            accelerator.cache_writes +=  math.ceil((vdp_cache_reads)/(cache_size))
-                            folds-=1 
-                            fold_idx+=1
-                            vdp.calls_count +=1
+                        # while folds>0:
+                        #     # print("Processing Fold", fold_idx)
+                        psums = multiplier_network.get_multiplier_count()*folds
+                        partial_sum_latency += accelerator.pheripherals[ADDER].get_request_latency(psums,folds)
+                        # print('partial_sum_latency ', partial_sum_latency)
+                        # print("Multiplication Network Latency ", vdp.latency*folds)
+                        vdp_cache_reads = multiplier_network.get_multiplier_count()*2*folds # OS , 2 to account for both inputs and weights
+                        accelerator.cache_reads += vdp_cache_reads*folds
+                        accelerator.cache_writes +=  math.ceil((vdp_cache_reads)/(cache_size)) # TODO need to check if it is correct
+                        # folds-=1 
+                        # fold_idx+=1
+                        vdp.calls_count +=folds
                         performed_dot_product = 1
                         vdp.end_time += partial_sum_latency
                         # print("Utilized Rings :", self.utilized_rings)

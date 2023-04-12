@@ -38,7 +38,7 @@ class Metrics:
         self.wall_plug_efficiency = 5  # 20%
         self.thermal_tuning_latency = 4000e-9
         self.photonic_adder = 1060+5.12+200 
-        self.cache_latency = 5e-9
+        self.cache_latency = 0.1e-9
         
 
     def get_hardware_utilization(self, utilized_rings, idle_rings):
@@ -58,13 +58,16 @@ class Metrics:
             cache_write_energy = (accelerator.cache_writes + accelerator.psum_writes)*67.5e-15*4 # 0.044 pJ per bit
             cache_energy = cache_read_energy + cache_write_energy
             multiplier_energy = self.multiplier.energy*vdp.calls_count*vdp.get_multiplier_count()
+            # if reduction_type == 
+            
             total_energy += eDram_energy+cache_energy+multiplier_energy
             
             # todo: add the energy of the digital to pulse converter and reduction network
         return total_energy
 
     def get_total_latency(self, latencylist, accelerator):
-        total_latency = sum(latencylist)+(accelerator.cache_reads + accelerator.psum_reads +accelerator.cache_writes + accelerator.psum_writes)*self.cache_latency
+        total_latency = sum(latencylist)
+        # +(accelerator.cache_reads + accelerator.psum_reads +accelerator.cache_writes + accelerator.psum_writes)*self.cache_latency
         return total_latency
 
     def get_static_power(self, accelerator):
