@@ -1,0 +1,4 @@
+﻿cache,size,blocksize,ti(ns),energy_search,energy_read(nJ),energy_write(nJ),area(mm2),leakage_power(mW),gate_leakage_power(mW)
+l1,32kb,64bytes,0.867,0.0538,0.032,0.064,0.17055,31.78,2.57
+l2,32MB,64bytes,15.21,26.85,2.09,2.34,149.614,25855,1852
+dram,8GB,,100,,,,,,

@@ -1,0 +1,3 @@
+model_name,name,kernel_depth,kernel_height,kernel_width,tensor_count,input_shape,output_shape,tensor_shape,input_height,input_width,input_depth,output_height,output_width,output_depth
+GoogLeNet,Conv2D,64,3,3,192,"(None, 54, 54, 64)","(None, 54, 54, 192)","(3, 3, 64)",54,54,64,54,54,192
+GoogLeNet,Conv2D,64,3,3,192,"(None, 54, 54, 64)","(None, 54, 54, 192)","(3, 3, 64)",54,54,64,54,54,192
