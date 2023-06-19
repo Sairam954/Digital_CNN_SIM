@@ -642,6 +642,7 @@ for tpc in accelerator_list:
         dpe_latency = prop_latency+input_actuation_latency+weight_actuation_latency
         cache_access_latency = psum_access_latency+input_access_latency+weight_access_latency+output_access_latency
         psum_reduction_latency = psum_reduction_latency
+        total_access = psum_access_counter+input_access_counter+weight_access_counter+output_access_counter
         total_latency = dpe_latency+cache_access_latency+psum_reduction_latency
         total_energy = input_actuation_energy+weight_actuation_energy+input_access_energy+weight_access_energy+output_access_energy+psum_access_energy+dac_energy+adc_energy+partial_sum_reduction_energy
         
@@ -649,13 +650,13 @@ for tpc in accelerator_list:
         
             
 
-        latency_dict = {'reduction_network':reduction_network_type,'dataflow':dataflow,'propagation_latency':prop_latency, 'input_actuation_latency':input_actuation_latency, 'weight_actuation_latency':weight_actuation_latency, 'psum_access_latency':psum_access_latency, 'input_access_latency':input_access_latency, 'weight_access_latency':weight_access_latency, 'output_access_latency':output_access_latency, 'psum_reduction_latency':psum_reduction_latency, 'total_latency':total_latency}
+        latency_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'propagation_latency':prop_latency, 'input_actuation_latency':input_actuation_latency, 'weight_actuation_latency':weight_actuation_latency, 'psum_access_latency':psum_access_latency, 'input_access_latency':input_access_latency, 'weight_access_latency':weight_access_latency, 'output_access_latency':output_access_latency, 'psum_reduction_latency':psum_reduction_latency, 'total_latency':total_latency}
         tpc_latency_result.append(latency_dict)
         
-        access_dict = {'reduction_network':reduction_network_type,'dataflow':dataflow,'psum_access_counter':psum_access_counter, 'input_access_counter':input_access_counter, 'weight_access_counter':weight_access_counter, 'output_access_counter':output_access_counter}
+        access_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'psum_access_counter':psum_access_counter, 'input_access_counter':input_access_counter, 'weight_access_counter':weight_access_counter, 'output_access_counter':output_access_counter, 'total_access':total_access}
         tpc_access_result.append(access_dict)
         
-        energy_dict = {'reduction_network':reduction_network_type,'dataflow':dataflow,'psum_access_energy': psum_access_energy,'input_actuation_energy':input_actuation_energy,'weight_actuation_energy':weight_actuation_energy,'input_access_energy':input_access_energy,'weight_access_energy':weight_access_energy,'output_access_energy':output_access_energy, 'psum_reduction_energy': partial_sum_reduction_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'total_energy': total_energy}
+        energy_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'psum_access_energy': psum_access_energy,'input_actuation_energy':input_actuation_energy,'weight_actuation_energy':weight_actuation_energy,'input_access_energy':input_access_energy,'weight_access_energy':weight_access_energy,'output_access_energy':output_access_energy, 'psum_reduction_energy': partial_sum_reduction_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'total_energy': total_energy}
         tpc_energy_result.append(energy_dict)
 latency_df = pd.DataFrame(tpc_latency_result)
 access_df = pd.DataFrame(tpc_access_result)
