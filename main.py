@@ -15,8 +15,11 @@ from DAC import *
 from VoltageAdder import VoltageAdder
 
 
-accelerator_list = [AMM_IS_S_TREE,AMM_WS_S_TREE, AMM_OS_S_TREE, AMM_IS_ST_Tree_Ac, AMM_WS_ST_Tree_Ac, AMM_OS_ST_Tree_Ac, AMM_IS_STIFT,AMM_WS_STIFT, AMM_OS_STIFT,AMM_IS_PCA,AMM_WS_PCA, AMM_OS_PCA, MAM_IS_S_TREE,MAM_WS_S_TREE, MAM_OS_S_TREE, MAM_IS_ST_Tree_Ac, MAM_WS_ST_Tree_Ac, MAM_OS_ST_Tree_Ac, MAM_IS_STIFT,MAM_WS_STIFT, MAM_OS_STIFT,MAM_IS_PCA,MAM_WS_PCA, MAM_OS_PCA,AMM_RIS_S_TREE,AMM_RWS_S_TREE, AMM_ROS_S_TREE, AMM_RIS_ST_Tree_Ac, AMM_RWS_ST_Tree_Ac, AMM_ROS_ST_Tree_Ac, AMM_RIS_STIFT,AMM_RWS_STIFT, AMM_ROS_STIFT,AMM_RIS_PCA,AMM_RWS_PCA, AMM_ROS_PCA,MAM_RIS_S_TREE,MAM_RWS_S_TREE, MAM_ROS_S_TREE, MAM_RIS_ST_Tree_Ac, MAM_RWS_ST_Tree_Ac, MAM_ROS_ST_Tree_Ac, MAM_RIS_STIFT,MAM_RWS_STIFT, MAM_ROS_STIFT,MAM_RIS_PCA,MAM_RWS_PCA, MAM_ROS_PCA]
+# accelerator_list = [AMM_IS_S_TREE,AMM_WS_S_TREE, AMM_OS_S_TREE, AMM_IS_ST_Tree_Ac, AMM_WS_ST_Tree_Ac, AMM_OS_ST_Tree_Ac, AMM_IS_STIFT,AMM_WS_STIFT, AMM_OS_STIFT,AMM_IS_PCA,AMM_WS_PCA, AMM_OS_PCA, MAM_IS_S_TREE,MAM_WS_S_TREE, MAM_OS_S_TREE, MAM_IS_ST_Tree_Ac, MAM_WS_ST_Tree_Ac, MAM_OS_ST_Tree_Ac, MAM_IS_STIFT,MAM_WS_STIFT, MAM_OS_STIFT,MAM_IS_PCA,MAM_WS_PCA, MAM_OS_PCA,AMM_RIS_S_TREE,AMM_RWS_S_TREE, AMM_ROS_S_TREE, AMM_RIS_ST_Tree_Ac, AMM_RWS_ST_Tree_Ac, AMM_ROS_ST_Tree_Ac, AMM_RIS_STIFT,AMM_RWS_STIFT, AMM_ROS_STIFT,AMM_RIS_PCA,AMM_RWS_PCA, AMM_ROS_PCA,MAM_RIS_S_TREE,MAM_RWS_S_TREE, MAM_ROS_S_TREE, MAM_RIS_ST_Tree_Ac, MAM_RWS_ST_Tree_Ac, MAM_ROS_ST_Tree_Ac, MAM_RIS_STIFT,MAM_RWS_STIFT, MAM_ROS_STIFT,MAM_RIS_PCA,MAM_RWS_PCA, MAM_ROS_PCA]
 
+# TODO : Fix error in RIS and ROS output access counter calculation
+ 
+accelerator_list = [AMM_RIS_S_TREE] 
 
 model_precision = 8
 
@@ -291,7 +294,6 @@ for tpc in accelerator_list:
                                 dpu_w_slice = dpu_w_slice.T.repeat(min(c+M,C)-c,1)
                                 psum_dpu = torch.einsum('ij,ij->i', i_slice, dpu_w_slice)
                                 O[c:c+M,d+dpu_idx] = psum_dpu+O[c:c+M,d+dpu_idx]
-                                psum_access_counter += 2*torch.numel(psum_dpu)
                                 if reduction_network_type == 'PCA':
                                     psum_access_counter += 0
                                     psum_access_latency += 0
@@ -347,7 +349,6 @@ for tpc in accelerator_list:
                                 dpu_w_slice = dpu_w_slice.T.repeat(min(c+M,C)-c,1)
                                 psum_dpu = torch.einsum('ij,ij->i', i_slice, dpu_w_slice)
                                 O[c:c+M,d+dpu_idx] = psum_dpu+O[c:c+M,d+dpu_idx]
-                                psum_access_counter += 2*torch.numel(psum_dpu)
                                 if reduction_network_type == 'PCA':
                                     psum_access_counter += 0
                                     psum_access_latency += 0
