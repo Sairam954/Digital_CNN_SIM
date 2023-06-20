@@ -1,0 +1,5 @@
+DPU,reduction_network,dataflow,psum_access_counter,input_access_counter,weight_access_counter,output_access_counter,total_access
+AMM,S_Tree,IS,38928384,3115008,19728384,221184.0,61992960.0
+AMM,S_Tree,RIS,1327104,3115008,598081536,221184.0,602744832.0
+AMM,S_Tree,RWS,1327104,598081536,1038336,221184.0,600668160.0
+AMM,S_Tree,IS,38928384,3115008,19728384,221184.0,61992960.0

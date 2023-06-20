@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 from ADC import ADC
 from Config import *
 import torch.nn.functional as F
+import datetime
+
 
 # Components import
 from MRR_DPE import *
@@ -15,16 +17,12 @@ from DAC import *
 from VoltageAdder import VoltageAdder
 
 
-# accelerator_list = [AMM_IS_S_TREE,AMM_WS_S_TREE, AMM_OS_S_TREE, AMM_IS_ST_Tree_Ac, AMM_WS_ST_Tree_Ac, AMM_OS_ST_Tree_Ac, AMM_IS_STIFT,AMM_WS_STIFT, AMM_OS_STIFT,AMM_IS_PCA,AMM_WS_PCA, AMM_OS_PCA, MAM_IS_S_TREE,MAM_WS_S_TREE, MAM_OS_S_TREE, MAM_IS_ST_Tree_Ac, MAM_WS_ST_Tree_Ac, MAM_OS_ST_Tree_Ac, MAM_IS_STIFT,MAM_WS_STIFT, MAM_OS_STIFT,MAM_IS_PCA,MAM_WS_PCA, MAM_OS_PCA,AMM_RIS_S_TREE,AMM_RWS_S_TREE, AMM_ROS_S_TREE, AMM_RIS_ST_Tree_Ac, AMM_RWS_ST_Tree_Ac, AMM_ROS_ST_Tree_Ac, AMM_RIS_STIFT,AMM_RWS_STIFT, AMM_ROS_STIFT,AMM_RIS_PCA,AMM_RWS_PCA, AMM_ROS_PCA,MAM_RIS_S_TREE,MAM_RWS_S_TREE, MAM_ROS_S_TREE, MAM_RIS_ST_Tree_Ac, MAM_RWS_ST_Tree_Ac, MAM_ROS_ST_Tree_Ac, MAM_RIS_STIFT,MAM_RWS_STIFT, MAM_ROS_STIFT,MAM_RIS_PCA,MAM_RWS_PCA, MAM_ROS_PCA]
-
-# TODO : Fix error in RIS and ROS output access counter calculation
- 
-accelerator_list = [AMM_RIS_S_TREE] 
+accelerator_list = [AMM_IS_S_TREE,AMM_WS_S_TREE, AMM_OS_S_TREE, AMM_IS_ST_Tree_Ac, AMM_WS_ST_Tree_Ac, AMM_OS_ST_Tree_Ac, AMM_IS_STIFT,AMM_WS_STIFT, AMM_OS_STIFT,AMM_IS_PCA,AMM_WS_PCA, AMM_OS_PCA, MAM_IS_S_TREE,MAM_WS_S_TREE, MAM_OS_S_TREE, MAM_IS_ST_Tree_Ac, MAM_WS_ST_Tree_Ac, MAM_OS_ST_Tree_Ac, MAM_IS_STIFT,MAM_WS_STIFT, MAM_OS_STIFT,MAM_IS_PCA,MAM_WS_PCA, MAM_OS_PCA,AMM_RIS_S_TREE,AMM_RWS_S_TREE, AMM_ROS_S_TREE, AMM_RIS_ST_Tree_Ac, AMM_RWS_ST_Tree_Ac, AMM_ROS_ST_Tree_Ac, AMM_RIS_STIFT,AMM_RWS_STIFT, AMM_ROS_STIFT,AMM_RIS_PCA,AMM_RWS_PCA, AMM_ROS_PCA,MAM_RIS_S_TREE,MAM_RWS_S_TREE, MAM_ROS_S_TREE, MAM_RIS_ST_Tree_Ac, MAM_RWS_ST_Tree_Ac, MAM_ROS_ST_Tree_Ac, MAM_RIS_STIFT,MAM_RWS_STIFT, MAM_ROS_STIFT,MAM_RIS_PCA,MAM_RWS_PCA, MAM_ROS_PCA]
 
 model_precision = 8
 
 print("Required Model Precision ", model_precision)
-cnnModelDirectory = "CNNModels//"
+cnnModelDirectory = "CNNModels//Sample//"
 modelList = [f for f in listdir(cnnModelDirectory) if isfile(join(cnnModelDirectory, f))]
 modelList = ['GoogLeNet.csv']
 
@@ -530,15 +528,16 @@ for tpc in accelerator_list:
                                     adc_energy += torch.numel(psum_dpu)*adc_obj.energy # J
                             temp_output_access_counter += (min(c+Y,C)-c)
                     folds = math.ceil(K/(X*M))
+                    reduction_folds = folds
                     if torch.numel(psum_dpu)<folds:
-                            folds=1   
+                            reduction_folds=1   
                     if reduction_network_type=='PCA':
                             adc_energy += temp_adc_energy/folds # J
                             psum_reduction_latency += va_obj.latency
                             partial_sum_reduction_energy += va_obj.latency*va_obj.power*torch.numel(psum_dpu)
                     else:
-                        psum_reduction_latency +=rn_obj.get_reduction_latency(torch.numel(psum_dpu),folds)
-                        partial_sum_reduction_energy += rn_obj.get_reduction_latency(torch.numel(psum_dpu),folds)*rn_obj.power
+                        psum_reduction_latency +=rn_obj.get_reduction_latency(torch.numel(psum_dpu),reduction_folds)
+                        partial_sum_reduction_energy += rn_obj.get_reduction_latency(torch.numel(psum_dpu),reduction_folds)*rn_obj.power
                             
                 output_access_counter += (temp_output_access_counter/folds)
                 output_access_latency += (temp_output_access_counter/folds)*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec
@@ -608,16 +607,16 @@ for tpc in accelerator_list:
                                     psum_access_energy += 0
                                     adc_energy += torch.numel(psum_dpu)*adc_obj.energy # J
                             temp_output_access_counter += (min(d+Y,D)-d)
-                    folds = math.ceil(K/(X*M))
+                    reduction_folds = folds
                     if torch.numel(psum_dpu)<folds:
-                            folds=1
+                            reduction_folds=1 
                     if reduction_network_type=='PCA':
                             adc_energy += temp_adc_energy/folds # J
                             psum_reduction_latency += va_obj.latency
                             partial_sum_reduction_energy += va_obj.latency*va_obj.power*torch.numel(psum_dpu)
                     else:
-                        psum_reduction_latency +=rn_obj.get_reduction_latency(torch.numel(psum_dpu),folds)
-                        partial_sum_reduction_energy += rn_obj.get_reduction_latency(torch.numel(psum_dpu),folds)*rn_obj.power 
+                        psum_reduction_latency +=rn_obj.get_reduction_latency(torch.numel(psum_dpu),reduction_folds)
+                        partial_sum_reduction_energy += rn_obj.get_reduction_latency(torch.numel(psum_dpu),reduction_folds)*rn_obj.power 
                       
                 output_access_counter += temp_output_access_counter/folds
                 output_access_latency += (temp_output_access_counter/folds)*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec
@@ -662,7 +661,17 @@ latency_df = pd.DataFrame(tpc_latency_result)
 access_df = pd.DataFrame(tpc_access_result)
 energy_df = pd.DataFrame(tpc_energy_result)
 
-latency_df.to_csv('tpc_latency_result.csv',index=False)
-access_df.to_csv('tpc_access_result.csv',index=False)
-energy_df.to_csv('tpc_energy_result.csv', index=False)
+
+# Get the current date and time
+current_datetime = datetime.datetime.now()
+
+# Convert the date and time to a string format
+datetime_string = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
+
+
+
+# add time log to the output file
+latency_df.to_csv('tpc_latency_result'+datetime_string+'.csv',index=False)
+access_df.to_csv('tpc_access_result'+datetime_string+'.csv',index=False)
+energy_df.to_csv('tpc_energy_result'+datetime_string+'.csv', index=False)
 
