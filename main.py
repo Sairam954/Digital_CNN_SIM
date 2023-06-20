@@ -54,6 +54,7 @@ for tpc in accelerator_list:
     vdp_type = tpc[0][VDP_TYPE]
     acc_type = tpc[0][ACC_TYPE]
     reduction_network_type = tpc[0][REDUCTION_TYPE]
+    print("Architecture ", architecture)
 
     # different latency parameters computed for GeMM execution
     # MRR DPE Latencies
@@ -170,7 +171,6 @@ for tpc in accelerator_list:
             
             # miss ratio for the given dataflow and C, K, D combination 
             miss_ratio = cacheMissRatioDf.loc[(cacheMissRatioDf['C']==C) & (cacheMissRatioDf['D']==D) & (cacheMissRatioDf['K']==K) & (cacheMissRatioDf['dataflow']== dataflow)]
-            print("Miss Ratio", miss_ratio)
             # obj of components needed for calculating latency and energy 
             dpe_obj = MRR_DPE(X,data_rate)
             rn_obj = RN()
@@ -453,7 +453,7 @@ for tpc in accelerator_list:
                         output_access_energy += (min(c+Y,C)-c)*(l1_latency['energy_write(nJ)'].values[0]+l2_latency['energy_write(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J 
                         
                         if reduction_network_type=='PCA':
-                            adc_energy += temp_adc_energy/folds # J
+                            adc_energy += (temp_adc_energy/folds)*adc_obj.energy # J
                             psum_reduction_latency += va_obj.latency
                             partial_sum_reduction_energy += va_obj.latency*va_obj.power*torch.numel(psum_dpu)
                         else:
@@ -532,7 +532,7 @@ for tpc in accelerator_list:
                     if torch.numel(psum_dpu)<folds:
                             reduction_folds=1   
                     if reduction_network_type=='PCA':
-                            adc_energy += temp_adc_energy/folds # J
+                            adc_energy += adc_obj.energy*(temp_adc_energy/folds) # J
                             psum_reduction_latency += va_obj.latency
                             partial_sum_reduction_energy += va_obj.latency*va_obj.power*torch.numel(psum_dpu)
                     else:
@@ -611,7 +611,7 @@ for tpc in accelerator_list:
                     if torch.numel(psum_dpu)<folds:
                             reduction_folds=1 
                     if reduction_network_type=='PCA':
-                            adc_energy += temp_adc_energy/folds # J
+                            adc_energy += adc_obj.energy*(temp_adc_energy/folds) # J
                             psum_reduction_latency += va_obj.latency
                             partial_sum_reduction_energy += va_obj.latency*va_obj.power*torch.numel(psum_dpu)
                     else:
@@ -645,7 +645,9 @@ for tpc in accelerator_list:
         total_latency = dpe_latency+cache_access_latency+psum_reduction_latency
         total_energy = input_actuation_energy+weight_actuation_energy+input_access_energy+weight_access_energy+output_access_energy+psum_access_energy+dac_energy+adc_energy+partial_sum_reduction_energy
         
-        print("Total Latency",total_latency)                  
+        print("Total Latency",total_latency)   
+        print("Total Energy",total_energy)
+        print("Total Access",total_access)               
         
             
 
