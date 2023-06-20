@@ -22,7 +22,7 @@ accelerator_list = [AMM_IS_S_TREE,AMM_WS_S_TREE, AMM_OS_S_TREE, AMM_IS_ST_Tree_A
 model_precision = 8
 
 print("Required Model Precision ", model_precision)
-cnnModelDirectory = "CNNModels//Sample//"
+cnnModelDirectory = "CNNModels//"
 modelList = [f for f in listdir(cnnModelDirectory) if isfile(join(cnnModelDirectory, f))]
 modelList = ['GoogLeNet.csv']
 
@@ -173,7 +173,7 @@ for tpc in accelerator_list:
             miss_ratio = cacheMissRatioDf.loc[(cacheMissRatioDf['C']==C) & (cacheMissRatioDf['D']==D) & (cacheMissRatioDf['K']==K) & (cacheMissRatioDf['dataflow']== dataflow)]
             # obj of components needed for calculating latency and energy 
             dpe_obj = MRR_DPE(X,data_rate)
-            rn_obj = RN()
+            rn_obj = RN(reduction_network_type)
             dac_obj = DAC()
             adc_obj = ADC()
             va_obj = VoltageAdder()
@@ -607,6 +607,7 @@ for tpc in accelerator_list:
                                     psum_access_energy += 0
                                     adc_energy += torch.numel(psum_dpu)*adc_obj.energy # J
                             temp_output_access_counter += (min(d+Y,D)-d)
+                    folds = math.ceil(K/(X*M))
                     reduction_folds = folds
                     if torch.numel(psum_dpu)<folds:
                             reduction_folds=1 
