@@ -54,7 +54,7 @@ for tpc in accelerator_list:
     vdp_type = tpc[0][VDP_TYPE]
     acc_type = tpc[0][ACC_TYPE]
     reduction_network_type = tpc[0][REDUCTION_TYPE]
-    print("Architecture ", architecture)
+    print("Architecture ", architecture, "Dataflow ", dataflow, "Reduction Network", reduction_network_type)
 
     # different latency parameters computed for GeMM execution
     # MRR DPE Latencies
@@ -165,9 +165,9 @@ for tpc in accelerator_list:
             W = torch.randn(K,D)
             O = torch.zeros(C,D)
             
-            print('I', I.shape)
-            print('W', W.shape)
-            print('O', O.shape)
+            # print('I', I.shape)
+            # print('W', W.shape)
+            # print('O', O.shape)
             
             # miss ratio for the given dataflow and C, K, D combination 
             miss_ratio = cacheMissRatioDf.loc[(cacheMissRatioDf['C']==C) & (cacheMissRatioDf['D']==D) & (cacheMissRatioDf['K']==K) & (cacheMissRatioDf['dataflow']== dataflow)]
@@ -660,21 +660,21 @@ for tpc in accelerator_list:
         
         energy_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'psum_access_energy': psum_access_energy,'input_actuation_energy':input_actuation_energy,'weight_actuation_energy':weight_actuation_energy,'input_access_energy':input_access_energy,'weight_access_energy':weight_access_energy,'output_access_energy':output_access_energy, 'psum_reduction_energy': partial_sum_reduction_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'total_energy': total_energy}
         tpc_energy_result.append(energy_dict)
-latency_df = pd.DataFrame(tpc_latency_result)
-access_df = pd.DataFrame(tpc_access_result)
-energy_df = pd.DataFrame(tpc_energy_result)
+        latency_df = pd.DataFrame(tpc_latency_result)
+        access_df = pd.DataFrame(tpc_access_result)
+        energy_df = pd.DataFrame(tpc_energy_result)
 
 
-# Get the current date and time
-current_datetime = datetime.datetime.now()
+        # Get the current date and time
+        # current_datetime = datetime.datetime.now()
 
-# Convert the date and time to a string format
-datetime_string = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
+        # # Convert the date and time to a string format
+        # datetime_string = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
+        datetime_string = "20_6_2023"
 
 
-
-# add time log to the output file
-latency_df.to_csv('tpc_latency_result'+datetime_string+'.csv',index=False)
-access_df.to_csv('tpc_access_result'+datetime_string+'.csv',index=False)
-energy_df.to_csv('tpc_energy_result'+datetime_string+'.csv', index=False)
+        # add time log to the output file
+        latency_df.to_csv('tpc_latency_result'+datetime_string+'.csv',index=False)
+        access_df.to_csv('tpc_access_result'+datetime_string+'.csv',index=False)
+        energy_df.to_csv('tpc_energy_result'+datetime_string+'.csv', index=False)
 
