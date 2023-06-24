@@ -13,8 +13,9 @@ INPUT_DEPTH = "input_depth"
 OUTPUT_HEIGHT = "output_height"
 OUTPUT_WIDTH = "output_width"
 OUTPUT_DEPTH = "output_depth"
-ELEMENT_SIZE = 'element_size'
-ELEMENT_COUNT = 'element_count'
+ELEMENT_SIZE = "element_size"
+ELEMENT_COUNT = "element_count"
+CLUSTER_COUNT = "cluster_count"
 UNITS_COUNT = 'units_count'
 RECONFIG = "reconfig"
 ZERO = 0
@@ -32,70 +33,10 @@ VDP_TYPE = "vdp_type"
 NAME = "name"
 BATCH_SIZE = "batch_size"
 
-TEST_WS_S_TREE =    [{
-    ELEMENT_SIZE: 50,    
-    ELEMENT_COUNT: 50, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "WS",
-    REDUCTION_TYPE: "S_Tree",     
-}]
-
-TEST_IS_S_TREE =    [{
-    ELEMENT_SIZE: 50,    
-    ELEMENT_COUNT: 50, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "IS",
-    REDUCTION_TYPE: "S_Tree",     
-}]
-
-TEST_OS_S_TREE =    [{
-    ELEMENT_SIZE: 50,    
-    ELEMENT_COUNT: 50, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "OS",
-    REDUCTION_TYPE: "S_Tree",     
-}]
-
-TEST_ROS_S_TREE =    [{
-    ELEMENT_SIZE: 50,    
-    ELEMENT_COUNT: 50, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "ROS",
-    REDUCTION_TYPE: "S_Tree",     
-}]
-
-TEST_RWS_S_TREE =    [{
-    ELEMENT_SIZE: 50,    
-    ELEMENT_COUNT: 50, # number of multiplier    
-    UNITS_COUNT: 100, 
+TEST_RWS_S_TREE_L1 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
     RECONFIG: [], 
     VDP_TYPE: "AMM", 
     NAME: "AMM",  
@@ -104,423 +45,14 @@ TEST_RWS_S_TREE =    [{
     BITRATE: 1 , # GHz
     BATCH_SIZE: 1,  
     DATAFLOW: "RWS",
-    REDUCTION_TYPE: "S_Tree",     
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 1 ,   
 }]
 
-TEST_RIS_S_TREE =    [{
-    ELEMENT_SIZE: 50,    
-    ELEMENT_COUNT: 50, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "RIS",
-    REDUCTION_TYPE: "S_Tree",     
-}]
-
-TEST_IS_PCA =    [{
-    ELEMENT_SIZE: 50,    
-    ELEMENT_COUNT: 50, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "IS",
-    REDUCTION_TYPE: "S_Tree",     
-}]
-
-
-
-AMM_WS_S_TREE =    [{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "WS",
-    REDUCTION_TYPE: "S_Tree",     
-}]
-AMM_IS_S_TREE=[{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "IS",
-    REDUCTION_TYPE: "S_Tree",     
-}]
-
-AMM_OS_S_TREE=[{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "OS",
-    REDUCTION_TYPE: "S_Tree",     
-}]
-MAM_WS_S_TREE =    [{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "WS",
-    REDUCTION_TYPE: "S_Tree",     
-}]
-MAM_IS_S_TREE=[{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "IS",
-    REDUCTION_TYPE: "S_Tree",     
-}]
-
-MAM_OS_S_TREE=[{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "OS",
-    REDUCTION_TYPE: "S_Tree",     
-}]
-
-AMM_WS_ST_Tree_Ac =    [{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "WS",
-    REDUCTION_TYPE: "ST_Tree_Ac",     
-}]
-AMM_IS_ST_Tree_Ac=[{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "IS",
-    REDUCTION_TYPE: "ST_Tree_Ac",     
-}]
-
-AMM_OS_ST_Tree_Ac=[{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "OS",
-    REDUCTION_TYPE: "ST_Tree_Ac",     
-}]
-MAM_WS_ST_Tree_Ac =    [{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "WS",
-    REDUCTION_TYPE: "ST_Tree_Ac",     
-}]
-MAM_IS_ST_Tree_Ac=[{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "IS",
-    REDUCTION_TYPE: "ST_Tree_Ac",     
-}]
-
-MAM_OS_ST_Tree_Ac=[{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "OS",
-    REDUCTION_TYPE: "ST_Tree_Ac",     
-}]
-
-AMM_WS_STIFT =    [{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "WS",
-    REDUCTION_TYPE: "STIFT",     
-}]
-AMM_IS_STIFT=[{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "IS",
-    REDUCTION_TYPE: "STIFT",     
-}]
-
-AMM_OS_STIFT=[{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "OS",
-    REDUCTION_TYPE: "STIFT",     
-}]
-MAM_WS_STIFT =    [{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "WS",
-    REDUCTION_TYPE: "STIFT",     
-}]
-MAM_IS_STIFT=[{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "IS",
-    REDUCTION_TYPE: "STIFT",     
-}]
-
-MAM_OS_STIFT=[{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "OS",
-    REDUCTION_TYPE: "STIFT",     
-}]
-
-AMM_WS_PCA =    [{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 10 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "WS",
-    REDUCTION_TYPE: "PCA",     
-}]
-AMM_IS_PCA=[{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 10 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "IS",
-    REDUCTION_TYPE: "PCA",     
-}]
-
-AMM_OS_PCA=[{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 10 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "OS",
-    REDUCTION_TYPE: "PCA",     
-}]
-MAM_WS_PCA =    [{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 10 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "WS",
-    REDUCTION_TYPE: "PCA",     
-}]
-MAM_IS_PCA=[{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 10 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "IS",
-    REDUCTION_TYPE: "PCA",     
-}]
-
-MAM_OS_PCA=[{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 10 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "OS",
-    REDUCTION_TYPE: "PCA",     
-}]
-
-
-AMM_RWS_S_TREE =    [{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "RWS",
-    REDUCTION_TYPE: "S_Tree",     
-}]
-AMM_RIS_S_TREE=[{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "RIS",
-    REDUCTION_TYPE: "S_Tree",     
-}]
-
-AMM_ROS_S_TREE=[{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
+TEST_ROS_S_TREE_L1 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
     RECONFIG: [], 
     VDP_TYPE: "AMM", 
     NAME: "AMM",  
@@ -529,70 +61,14 @@ AMM_ROS_S_TREE=[{
     BITRATE: 1 , # GHz
     BATCH_SIZE: 1,  
     DATAFLOW: "ROS",
-    REDUCTION_TYPE: "S_Tree",     
-}]
-MAM_RWS_S_TREE =    [{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "RWS",
-    REDUCTION_TYPE: "S_Tree",     
-}]
-MAM_RIS_S_TREE=[{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "RIS",
-    REDUCTION_TYPE: "S_Tree",     
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 1 ,   
 }]
 
-MAM_ROS_S_TREE=[{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "ROS",
-    REDUCTION_TYPE: "S_Tree",     
-}]
-
-AMM_RWS_ST_Tree_Ac =    [{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "RWS",
-    REDUCTION_TYPE: "ST_Tree_Ac",     
-}]
-AMM_RIS_ST_Tree_Ac=[{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
+TEST_RIS_S_TREE_L1 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
     RECONFIG: [], 
     VDP_TYPE: "AMM", 
     NAME: "AMM",  
@@ -601,13 +77,30 @@ AMM_RIS_ST_Tree_Ac=[{
     BITRATE: 1 , # GHz
     BATCH_SIZE: 1,  
     DATAFLOW: "RIS",
-    REDUCTION_TYPE: "ST_Tree_Ac",     
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 1 ,   
 }]
 
-AMM_ROS_ST_Tree_Ac=[{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
+TEST_RWS_ST_TREE_AC_L1 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 1 ,   
+}]
+
+TEST_ROS_ST_TREE_AC_L1 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
     RECONFIG: [], 
     VDP_TYPE: "AMM", 
     NAME: "AMM",  
@@ -616,70 +109,14 @@ AMM_ROS_ST_Tree_Ac=[{
     BITRATE: 1 , # GHz
     BATCH_SIZE: 1,  
     DATAFLOW: "ROS",
-    REDUCTION_TYPE: "ST_Tree_Ac",     
-}]
-MAM_RWS_ST_Tree_Ac =    [{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "RWS",
-    REDUCTION_TYPE: "ST_Tree_Ac",     
-}]
-MAM_RIS_ST_Tree_Ac=[{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "RIS",
-    REDUCTION_TYPE: "ST_Tree_Ac",     
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 1 ,   
 }]
 
-MAM_ROS_ST_Tree_Ac=[{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "ROS",
-    REDUCTION_TYPE: "ST_Tree_Ac",     
-}]
-
-AMM_RWS_STIFT =    [{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "AMM", 
-    NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "RWS",
-    REDUCTION_TYPE: "STIFT",     
-}]
-AMM_RIS_STIFT=[{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
+TEST_RIS_ST_TREE_AC_L1 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
     RECONFIG: [], 
     VDP_TYPE: "AMM", 
     NAME: "AMM",  
@@ -688,13 +125,30 @@ AMM_RIS_STIFT=[{
     BITRATE: 1 , # GHz
     BATCH_SIZE: 1,  
     DATAFLOW: "RIS",
-    REDUCTION_TYPE: "STIFT",     
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 1 ,   
 }]
 
-AMM_ROS_STIFT=[{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
+TEST_RWS_STIFT_L1 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 1 ,   
+}]
+
+TEST_ROS_STIFT_L1 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
     RECONFIG: [], 
     VDP_TYPE: "AMM", 
     NAME: "AMM",  
@@ -703,85 +157,46 @@ AMM_ROS_STIFT=[{
     BITRATE: 1 , # GHz
     BATCH_SIZE: 1,  
     DATAFLOW: "ROS",
-    REDUCTION_TYPE: "STIFT",     
-}]
-MAM_RWS_STIFT =    [{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "RWS",
-    REDUCTION_TYPE: "STIFT",     
-}]
-MAM_RIS_STIFT=[{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "RIS",
-    REDUCTION_TYPE: "STIFT",     
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 1 ,   
 }]
 
-MAM_ROS_STIFT=[{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 1 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "ROS",
-    REDUCTION_TYPE: "STIFT",     
-}]
-
-AMM_RWS_PCA =    [{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
+TEST_RIS_STIFT_L1 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
     RECONFIG: [], 
     VDP_TYPE: "AMM", 
     NAME: "AMM",  
     ACC_TYPE: "DIGITAL", 
     PRECISION: 1, 
-    BITRATE: 10 , # GHz
+    BITRATE: 1 , # GHz
     BATCH_SIZE: 1,  
-    DATAFLOW: "RWS",
-    REDUCTION_TYPE: "PCA",     
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 1 ,   
 }]
-AMM_RIS_PCA=[{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
+
+TEST_RWS_PCA_L1 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
     RECONFIG: [], 
     VDP_TYPE: "AMM", 
     NAME: "AMM",  
     ACC_TYPE: "DIGITAL", 
     PRECISION: 1, 
-    BITRATE: 10 , # GHz
+    BITRATE: 1 , # GHz
     BATCH_SIZE: 1,  
-    DATAFLOW: "RIS",
-    REDUCTION_TYPE: "PCA",     
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 1 ,   
 }]
 
-AMM_ROS_PCA=[{
-    ELEMENT_SIZE: 31,    
-    ELEMENT_COUNT: 31, # number of multiplier    
-    UNITS_COUNT: 100, 
+TEST_ROS_PCA_L1 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
     RECONFIG: [], 
     VDP_TYPE: "AMM", 
     NAME: "AMM",  
@@ -790,48 +205,986 @@ AMM_ROS_PCA=[{
     BITRATE: 10 , # GHz
     BATCH_SIZE: 1,  
     DATAFLOW: "ROS",
-    REDUCTION_TYPE: "PCA",     
-}]
-MAM_RWS_PCA =    [{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 10 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "RWS",
-    REDUCTION_TYPE: "PCA",     
-}]
-MAM_RIS_PCA=[{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
-    RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
-    ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
-    BITRATE: 10 , # GHz
-    BATCH_SIZE: 1,  
-    DATAFLOW: "RIS",
-    REDUCTION_TYPE: "PCA",     
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 1 ,   
 }]
 
-MAM_ROS_PCA=[{
-    ELEMENT_SIZE: 44,    
-    ELEMENT_COUNT: 44, # number of multiplier    
-    UNITS_COUNT: 100, 
+TEST_RIS_PCA_L1 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
     RECONFIG: [], 
-    VDP_TYPE: "MAM", 
-    NAME: "MAM",  
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 1 ,   
+}]
+
+
+TEST_RWS_S_TREE_L2 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 2,   
+}]
+
+TEST_ROS_S_TREE_L2 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "ROS",
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 2,   
+}]
+
+TEST_RIS_S_TREE_L2 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 2,   
+}]
+
+TEST_RWS_ST_TREE_AC_L2 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 2,   
+}]
+
+TEST_ROS_ST_TREE_AC_L2 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "ROS",
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 2,   
+}]
+
+TEST_RIS_ST_TREE_AC_L2 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 2,   
+}]
+
+TEST_RWS_STIFT_L2 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 2,   
+}]
+
+TEST_ROS_STIFT_L2 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "ROS",
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 2,   
+}]
+
+TEST_RIS_STIFT_L2 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 2,   
+}]
+
+TEST_RWS_PCA_L2 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 2,   
+}]
+
+TEST_ROS_PCA_L2 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
     ACC_TYPE: "DIGITAL", 
     PRECISION: 1, 
     BITRATE: 10 , # GHz
     BATCH_SIZE: 1,  
     DATAFLOW: "ROS",
-    REDUCTION_TYPE: "PCA",     
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 2,   
+}]
+
+TEST_RIS_PCA_L2 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 2,   
+}]
+
+
+TEST_RWS_S_TREE_L4 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 4,   
+}]
+
+TEST_ROS_S_TREE_L4 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "ROS",
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 4,   
+}]
+
+TEST_RIS_S_TREE_L4 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 4,   
+}]
+
+TEST_RWS_ST_TREE_AC_L4 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 4,   
+}]
+
+TEST_ROS_ST_TREE_AC_L4 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "ROS",
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 4,   
+}]
+
+TEST_RIS_ST_TREE_AC_L4 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 4,   
+}]
+
+TEST_RWS_STIFT_L4 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 4,   
+}]
+
+TEST_ROS_STIFT_L4 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "ROS",
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 4,   
+}]
+
+TEST_RIS_STIFT_L4 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 4,   
+}]
+
+TEST_RWS_PCA_L4 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 4,   
+}]
+
+TEST_ROS_PCA_L4 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 10 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "ROS",
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 4,   
+}]
+
+TEST_RIS_PCA_L4 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 4,   
+}]
+
+
+TEST_RWS_S_TREE_L8 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 8,   
+}]
+
+TEST_ROS_S_TREE_L8 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "ROS",
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 8,   
+}]
+
+TEST_RIS_S_TREE_L8 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 8,   
+}]
+
+TEST_RWS_ST_TREE_AC_L8 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 8,   
+}]
+
+TEST_ROS_ST_TREE_AC_L8 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "ROS",
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 8,   
+}]
+
+TEST_RIS_ST_TREE_AC_L8 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 8,   
+}]
+
+TEST_RWS_STIFT_L8 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 8,   
+}]
+
+TEST_ROS_STIFT_L8 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "ROS",
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 8,   
+}]
+
+TEST_RIS_STIFT_L8 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 8,   
+}]
+
+TEST_RWS_PCA_L8 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 8,   
+}]
+
+TEST_ROS_PCA_L8 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 10 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "ROS",
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 8,   
+}]
+
+TEST_RIS_PCA_L8 =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 8,   
+}]
+
+
+TEST_RWS_S_TREE_LM =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 40,   
+}]
+
+TEST_ROS_S_TREE_LM =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "ROS",
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 40,   
+}]
+
+TEST_RIS_S_TREE_LM =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 40,   
+}]
+
+TEST_RWS_ST_TREE_AC_LM =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 40,   
+}]
+
+TEST_ROS_ST_TREE_AC_LM =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "ROS",
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 40,   
+}]
+
+TEST_RIS_ST_TREE_AC_LM =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 40,   
+}]
+
+TEST_RWS_STIFT_LM =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 40,   
+}]
+
+TEST_ROS_STIFT_LM =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "ROS",
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 40,   
+}]
+
+TEST_RIS_STIFT_LM =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 40,   
+}]
+
+TEST_RWS_PCA_LM =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RWS",
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 40,   
+}]
+
+TEST_ROS_PCA_LM =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 10 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "ROS",
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 40,   
+}]
+
+TEST_RIS_PCA_LM =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "RIS",
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 40,   
+}]
+
+TEST_WS_S_TREE_LS =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "WS",
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 1 ,   
+}]
+
+TEST_OS_S_TREE_LS =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "OS",
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 1 ,   
+}]
+
+TEST_IS_S_TREE_LS =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "IS",
+    REDUCTION_TYPE: "S_Tree", 
+    CLUSTER_COUNT : 1 ,   
+}]
+
+TEST_WS_ST_TREE_AC_LS =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "WS",
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 1 ,   
+}]
+
+TEST_OS_ST_TREE_AC_LS =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "OS",
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 1 ,   
+}]
+
+TEST_IS_ST_TREE_AC_LS =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "IS",
+    REDUCTION_TYPE: "ST_Tree_Ac", 
+    CLUSTER_COUNT : 1 ,   
+}]
+
+TEST_WS_STIFT_LS =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "WS",
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 1 ,   
+}]
+
+TEST_OS_STIFT_LS =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "OS",
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 1 ,   
+}]
+
+TEST_IS_STIFT_LS =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "IS",
+    REDUCTION_TYPE: "STIFT", 
+    CLUSTER_COUNT : 1 ,   
+}]
+
+TEST_WS_PCA_LS =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "WS",
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 1 ,   
+}]
+
+TEST_OS_PCA_LS =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 10 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "OS",
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 1 ,   
+}]
+
+TEST_IS_PCA_LS =    [{
+    ELEMENT_SIZE: 40,    
+    ELEMENT_COUNT: 40, # number of multiplier    
+    UNITS_COUNT: 50, 
+    RECONFIG: [], 
+    VDP_TYPE: "AMM", 
+    NAME: "AMM",  
+    ACC_TYPE: "DIGITAL", 
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "IS",
+    REDUCTION_TYPE: "PCA", 
+    CLUSTER_COUNT : 1 ,   
 }]

@@ -17,18 +17,14 @@ from DAC import *
 from VoltageAdder import VoltageAdder
 
 
-accelerator_list = [TEST_RIS_S_TREE_L1, TEST_RIS_S_TREE_L2, TEST_RIS_S_TREE_L4, TEST_RIS_S_TREE_L8, TEST_RIS_S_TREE_LM,TEST_RWS_S_TREE_L1, TEST_RWS_S_TREE_L2, TEST_RWS_S_TREE_L4, TEST_RWS_S_TREE_L8, TEST_RWS_S_TREE_LM, TEST_ROS_S_TREE_L1, TEST_ROS_S_TREE_L2, TEST_ROS_S_TREE_L4, TEST_ROS_S_TREE_L8, TEST_ROS_S_TREE_LM,
-                    TEST_RIS_ST_TREE_AC_L1, TEST_RIS_ST_TREE_AC_L2, TEST_RIS_ST_TREE_AC_L4, TEST_RIS_ST_TREE_AC_L8, TEST_RIS_ST_TREE_AC_LM,TEST_RWS_ST_TREE_AC_L1, TEST_RWS_ST_TREE_AC_L2, TEST_RWS_ST_TREE_AC_L4, TEST_RWS_ST_TREE_AC_L8, TEST_RWS_ST_TREE_AC_LM, TEST_ROS_ST_TREE_AC_L1, TEST_ROS_ST_TREE_AC_L2, TEST_ROS_ST_TREE_AC_L4, TEST_ROS_ST_TREE_AC_L8, TEST_ROS_ST_TREE_AC_LM,
-                    TEST_RIS_STIFT_L1, TEST_RIS_STIFT_L2, TEST_RIS_STIFT_L4, TEST_RIS_STIFT_L8, TEST_RIS_STIFT_LM,TEST_RWS_STIFT_L1, TEST_RWS_STIFT_L2, TEST_RWS_STIFT_L4, TEST_RWS_STIFT_L8, TEST_RWS_STIFT_LM, TEST_ROS_STIFT_L1, TEST_ROS_STIFT_L2, TEST_ROS_STIFT_L4, TEST_ROS_STIFT_L8, TEST_ROS_STIFT_LM,
-                    TEST_RIS_PCA_L1, TEST_RIS_PCA_L2, TEST_RIS_PCA_L4, TEST_RIS_PCA_L8, TEST_RIS_PCA_LM,TEST_RWS_PCA_L1, TEST_RWS_PCA_L2, TEST_RWS_PCA_L4, TEST_RWS_PCA_L8, TEST_RWS_PCA_LM, TEST_ROS_PCA_L1, TEST_ROS_PCA_L2, TEST_ROS_PCA_L4, TEST_ROS_PCA_L8, TEST_ROS_PCA_LM,
-                    TEST_WS_S_TREE_LS, TEST_OS_S_TREE_LS, TEST_IS_S_TREE_LS, TEST_WS_ST_TREE_AC_LS,TEST_OS_ST_TREE_AC_LS, TEST_IS_ST_TREE_AC_LS, TEST_WS_STIFT_LS, TEST_OS_STIFT_LS, TEST_IS_STIFT_LS, TEST_WS_PCA_LS, TEST_OS_PCA_LS,TEST_IS_PCA_LS ]
+accelerator_list = [AMM_IS_S_TREE,AMM_WS_S_TREE, AMM_OS_S_TREE, AMM_IS_ST_Tree_Ac, AMM_WS_ST_Tree_Ac, AMM_OS_ST_Tree_Ac, AMM_IS_STIFT,AMM_WS_STIFT, AMM_OS_STIFT,AMM_IS_PCA,AMM_WS_PCA, AMM_OS_PCA, MAM_IS_S_TREE,MAM_WS_S_TREE, MAM_OS_S_TREE, MAM_IS_ST_Tree_Ac, MAM_WS_ST_Tree_Ac, MAM_OS_ST_Tree_Ac, MAM_IS_STIFT,MAM_WS_STIFT, MAM_OS_STIFT,MAM_IS_PCA,MAM_WS_PCA, MAM_OS_PCA,AMM_RIS_S_TREE,AMM_RWS_S_TREE, AMM_ROS_S_TREE, AMM_RIS_ST_Tree_Ac, AMM_RWS_ST_Tree_Ac, AMM_ROS_ST_Tree_Ac, AMM_RIS_STIFT,AMM_RWS_STIFT, AMM_ROS_STIFT,AMM_RIS_PCA,AMM_RWS_PCA, AMM_ROS_PCA,MAM_RIS_S_TREE,MAM_RWS_S_TREE, MAM_ROS_S_TREE, MAM_RIS_ST_Tree_Ac, MAM_RWS_ST_Tree_Ac, MAM_ROS_ST_Tree_Ac, MAM_RIS_STIFT,MAM_RWS_STIFT, MAM_ROS_STIFT,MAM_RIS_PCA,MAM_RWS_PCA, MAM_ROS_PCA]
 
 model_precision = 8
 
 print("Required Model Precision ", model_precision)
-cnnModelDirectory = "CNNModels//Sample//"
+cnnModelDirectory = "CNNModels//"
 modelList = [f for f in listdir(cnnModelDirectory) if isfile(join(cnnModelDirectory, f))]
-modelList = ['GoogLeNet.csv']
+modelList = ['MobileNet_V2.csv']
 
 ns_to_sec = 1e-9
 us_to_sec = 1e-6
@@ -58,13 +54,8 @@ for tpc in accelerator_list:
     vdp_type = tpc[0][VDP_TYPE]
     acc_type = tpc[0][ACC_TYPE]
     reduction_network_type = tpc[0][REDUCTION_TYPE]
-    cluster_count = tpc[0][CLUSTER_COUNT]
-    print("Architecture ", architecture, "Dataflow ", dataflow, "Reduction Network", reduction_network_type, "Cluster Count", cluster_count)
+    print("Architecture ", architecture, "Dataflow ", dataflow, "Reduction Network", reduction_network_type)
 
-    if vdp_type == "AMM":
-        DPU_MRR_COUNT = dpe_size*dpe_count*2 # 2 MRR per 1 per weigh and 1 per input 
-    elif vdp_type == "MAM":
-        DPU_MRR_COUNT = (dpe_size*dpe_count+ dpe_count) # one MRR per weight and all inputs are shared among DPEs
     # different latency parameters computed for GeMM execution
     # MRR DPE Latencies
     prop_latency = 0
@@ -102,10 +93,10 @@ for tpc in accelerator_list:
     partial_sum_reduction_energy = 0
     output_access_energy = 0
     
-    # Mrr Utilization
-    used_mrr_counter = 0
-    unused_mrr_counter = 0
-        
+    
+    
+    
+    
 
     # storing metrics
     latency_dict = {}
@@ -169,8 +160,6 @@ for tpc in accelerator_list:
             X = dpe_size
             M = dpe_count
             Y = dpu_count
-            L = cluster_count
-            Z = math.ceil(X/M)
             # create the matrices 
             I = torch.randn(C,K)
             W = torch.randn(K,D)
@@ -182,7 +171,7 @@ for tpc in accelerator_list:
             
             # miss ratio for the given dataflow and C, K, D combination 
             miss_ratio = cacheMissRatioDf.loc[(cacheMissRatioDf['C']==C) & (cacheMissRatioDf['D']==D) & (cacheMissRatioDf['K']==K) & (cacheMissRatioDf['dataflow']== dataflow)]
-            # print('Miss Ratio ', miss_ratio)
+            print('Miss Ratio ', miss_ratio)
             # obj of components needed for calculating latency and energy 
             dpe_obj = MRR_DPE(X,data_rate)
             rn_obj = RN(reduction_network_type)
@@ -219,10 +208,6 @@ for tpc in accelerator_list:
                                 # ! generated psum are sent to the cache and later brought back for accumulation, square mapping has to follow this
                                 # ! Each partial sum belongs to different DPU, therefore it is write and read access 
                                 O[c:c+M,d+dpu_idx] = psum_dpu+O[c:c+M,d+dpu_idx]
-                                
-                                # Mrr Utilzation Counter Update
-                                used_mrr_counter += torch.numel(i_slice)+torch.numel(dpu_w_slice)
-                                unused_mrr_counter += DPU_MRR_COUNT- used_mrr_counter
                                 
                                 if reduction_network_type == 'PCA':
                                     psum_access_counter += 0
@@ -308,10 +293,6 @@ for tpc in accelerator_list:
                                 dpu_w_slice = dpu_w_slice.T.repeat(min(c+M,C)-c,1)
                                 psum_dpu = torch.einsum('ij,ij->i', i_slice, dpu_w_slice)
                                 O[c:c+M,d+dpu_idx] = psum_dpu+O[c:c+M,d+dpu_idx]
-                                 # Mrr Utilzation Counter Update
-                                used_mrr_counter += torch.numel(i_slice)+torch.numel(dpu_w_slice)
-                                unused_mrr_counter += DPU_MRR_COUNT- used_mrr_counter
-                                
                                 if reduction_network_type == 'PCA':
                                     psum_access_counter += 0
                                     psum_access_latency += 0
@@ -367,10 +348,6 @@ for tpc in accelerator_list:
                                 dpu_w_slice = dpu_w_slice.T.repeat(min(c+M,C)-c,1)
                                 psum_dpu = torch.einsum('ij,ij->i', i_slice, dpu_w_slice)
                                 O[c:c+M,d+dpu_idx] = psum_dpu+O[c:c+M,d+dpu_idx]
-                               
-                                # Mrr Utilzation Counter Update
-                                used_mrr_counter += torch.numel(i_slice)+torch.numel(dpu_w_slice)
-                                unused_mrr_counter += DPU_MRR_COUNT- used_mrr_counter
                                 if reduction_network_type == 'PCA':
                                     psum_access_counter += 0
                                     psum_access_latency += 0
@@ -400,12 +377,13 @@ for tpc in accelerator_list:
                 # ! need this variable for PCA case, PCA also requires spatial accumulation but the number of psums required ADC conversion is reduced by factor of folds.
                 temp_adc_energy = 0
                 for c in range(0, C, Y):
-                    for d in range(0, D, L):
-                        for k in range(0, K, X*Z):
-                            i_slice = I[c: min(c+Y,C), k : min(k + X*Z, K)]
-                            i_temp = i_slice
-                            w_slice = W[k : min(k + X*Z, K), d:min(d+L,D)] 
-                            w_temp = w_slice.T
+                    for d in range(0, D):
+                        for k in range(0, K, X*M):
+                            i_slice = I[c: min(c+Y,C), k : min(k + X*M, K)]
+                            
+                            i_temp = i_slice.T
+                            w_slice = W[k : min(k + X*M, K), d]
+                            w_temp = w_slice.repeat(min(c+Y,C)-c,1).T
                             # print("Weight Temp", w_temp.shape)
                             
                             #access counter
@@ -429,32 +407,26 @@ for tpc in accelerator_list:
                             dac_energy += torch.numel(w_slice)*dac_obj.energy # J
                             
                             for dpu_idx in range(min(c+Y,C)-c):
-                                dpu_w_slice = w_temp
-                                dpu_i_slice = i_temp[dpu_idx,:]
-                                dpu_i_slice = dpu_i_slice.repeat(w_temp.shape[0],1)
-                                
-                                # Mrr Utilzation Counter Update Should not be updated after padding 
-                                used_mrr_counter += torch.numel(dpu_i_slice)+torch.numel(dpu_w_slice)
-                                unused_mrr_counter += DPU_MRR_COUNT- used_mrr_counter
-                                
-                                dpu_w_slice = F.pad(dpu_w_slice, (0, max(0, X*Z-dpu_w_slice.shape[1])), mode='constant', value=0)
-                                dpu_i_slice = F.pad(dpu_i_slice, (0, max(0, X*Z-dpu_i_slice.shape[1])), mode='constant', value=0)
-                                
-                                dpu_i_slice = dpu_i_slice.reshape(M,X)
+                                dpu_w_slice = w_temp[:,dpu_idx]
+                                dpu_w_slice = F.pad(dpu_w_slice, (0, max(0, X*M-dpu_w_slice.shape[0])), mode='constant', value=0)
                                 dpu_w_slice = dpu_w_slice.reshape(M,X)
-                                
+
+                                dpu_i_slice = i_temp[:,dpu_idx]
+                                dpu_i_slice = F.pad(dpu_i_slice, (0, max(0, X*M-dpu_i_slice.shape[0])), mode='constant', value=0)
+                                dpu_i_slice = dpu_i_slice.reshape(M,X)
+
+
+                                # PD or spatial reduction
                                 psum_dpu = torch.einsum('ij,ij->i', dpu_i_slice, dpu_w_slice)
-                                cluster_psum_dpu = psum_dpu.unfold(0, Z, Z)
-                                reduced_psum_dpu =  cluster_psum_dpu.sum(dim=1)
-                                O[c+dpu_idx,d:min(d+L,D)] = reduced_psum_dpu+ O[c+dpu_idx,d:min(d+L,D)]
-                                
-                                # ! In rectangular mapping and clustering, Spatial Reduction at DPEs of a DPU is possible, however, S_Tree cannot perform temporal reduction
-                                # ! S_Tree each cluster generates a psum and hence for L clusters L psums are generated
+                                # spatial reduction of psum using Tree based RN
+                                reduced_psum_dpu = sum(psum_dpu)
+                                O[c+dpu_idx,d] = reduced_psum_dpu+O[c+dpu_idx,d]
+                                # ! In rectangular mapping, Spatial Reduction at DPEs of a DPU is possible, however, S_Tree cannot perform tempporal reduction
                                 if reduction_network_type == 'S_Tree':
-                                    psum_access_latency += 2*L*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec
-                                    psum_access_counter += 2*L
-                                    psum_access_energy += L*(l1_latency['energy_read(nJ)'].values[0]+l2_latency['energy_read(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
-                                    psum_access_energy += L*(l1_latency['energy_write(nJ)'].values[0]+l2_latency['energy_write(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
+                                    psum_access_latency += 2*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec
+                                    psum_access_counter += 2
+                                    psum_access_energy += (l1_latency['energy_read(nJ)'].values[0]+l2_latency['energy_read(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
+                                    psum_access_energy += (l1_latency['energy_write(nJ)'].values[0]+l2_latency['energy_write(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
                                     adc_energy += torch.numel(psum_dpu)*adc_obj.energy # J
                                 elif reduction_network_type == 'PCA':
                                     psum_access_latency += 0
@@ -471,15 +443,15 @@ for tpc in accelerator_list:
                                 
                                 
                         # ! Spatial and Temoral reduction happens at DPEs of DPU
-                        folds = math.ceil(K/(X*Z))
+                        folds = math.ceil(K/X)
                         if torch.numel(psum_dpu)<folds:
                             folds=1
                             
                         
-                        output_access_latency += (min(c+Y,C)-c)*(min(d+L,D)-d)*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec 
-                        output_access_counter += (min(c+Y,C)-c)*(min(d+L,D)-d)
+                        output_access_latency += (min(c+Y,C)-c)*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec 
+                        output_access_counter += (min(c+Y,C)-c)
                         
-                        output_access_energy += (min(c+Y,C)-c)*(min(d+L,D)-d)*(l1_latency['energy_write(nJ)'].values[0]+l2_latency['energy_write(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J 
+                        output_access_energy += (min(c+Y,C)-c)*(l1_latency['energy_write(nJ)'].values[0]+l2_latency['energy_write(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J 
                         
                         if reduction_network_type=='PCA':
                             adc_energy += (temp_adc_energy/folds)*adc_obj.energy # J
@@ -492,12 +464,9 @@ for tpc in accelerator_list:
             elif dataflow == 'RWS':
                 temp_output_access_counter  = 0
                 temp_adc_energy = 0
-                for d in range(0,D, L):
-                    for k in range(0, K, X*Z):
-                        w_slice = W[k : min(k + X*Z, K), d:min(d+L,D)] 
-                        w_slice = w_slice.T 
-                        
-                        
+                for d in range(0,D):
+                    for k in range(0, K, X*M):
+                        w_slice = W[k : min(k + X*M, K), d]
                         weight_access_latency += torch.numel(w_slice)*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec
                         weight_actuation_latency += dpe_obj.thermo_optic_tuning_latency*us_to_sec  
                         weight_access_counter += torch.numel(w_slice)  
@@ -509,8 +478,8 @@ for tpc in accelerator_list:
                            
                         for c in range(0,C,Y):
                         
-                            i_slice = I[c: min(c+Y,C), k : min(k + X*Z, K)]
-                            
+                            i_slice = I[c: min(c+Y,C), k : min(k + X*M, K)]
+                            i_slice = i_slice.T # each column will belong to a DPU
                             
                             
                             input_access_latency += torch.numel(i_slice)*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec 
@@ -522,40 +491,30 @@ for tpc in accelerator_list:
                             input_actuation_energy += dpe_obj.input_actuation_power*dpe_obj.input_actuation_latency*ns_to_sec # J
                             
                             
-                            
-                            temp = w_slice
+                            temp = w_slice.repeat(min(c+Y,C)-c,1).T
                             prop_latency +=  dpe_obj.get_prop_latency()
                             for dpu_idx in range(min(c+Y,C)-c):
 
-                                dpu_i_slice = i_slice[dpu_idx, :] 
-                                dpu_w_slice = temp
-                                # Mrr Utilzation Counter Update Should not be updated after padding 
-                                used_mrr_counter += torch.numel(dpu_i_slice)+torch.numel(dpu_w_slice)
-                                unused_mrr_counter += DPU_MRR_COUNT- used_mrr_counter
-                                
-                                
+                                dpu_i_slice = i_slice[:,dpu_idx]
                                 # padding the tensors with zero to use all the DPEs in DPU
-                                dpu_i_slice = F.pad(dpu_i_slice, (0, max(0, X*Z-i_slice.shape[1])), mode='constant', value=0)  
-                                # print(dpu_i_slice.shape)
-                                dpu_i_slice = dpu_i_slice.repeat(w_slice.shape[0],1)
+                                dpu_i_slice = F.pad(dpu_i_slice, (0, max(0, X*M-dpu_i_slice.shape[0])), mode='constant', value=0)
+                                dpu_i_slice = dpu_i_slice.reshape(M,X)
 
 
-                              
-                                dpu_w_slice =  F.pad(dpu_w_slice, (0, max(0, X*Z-w_slice.shape[1])), mode='constant', value=0) 
-                                dpu_i_slice = dpu_i_slice.reshape(w_slice.shape[0]*Z,X)
-                                dpu_w_slice = dpu_w_slice.reshape(w_slice.shape[0]*Z,X)
+                                dpu_w_slice = temp[:,dpu_idx]
+                                dpu_w_slice = F.pad(dpu_w_slice, (0, max(0, X*M-dpu_w_slice.shape[0])), mode='constant', value=0)
+                                dpu_w_slice = dpu_w_slice.reshape(M,X)
 
                                 # PD or spatial reduction
                                 psum_dpu = torch.einsum('ij,ij->i', dpu_i_slice, dpu_w_slice)
-                                cluster_psum_dpu = psum_dpu.unfold(0, Z, Z)
                                 # spatial reduction of psum using Tree based RN
-                                reduced_psum_dpu =  cluster_psum_dpu.sum(dim=1)
-                                O[c+dpu_idx, d:min(d+L,D)] = reduced_psum_dpu + O[c+dpu_idx, d:min(d+L,D)] 
+                                reduced_psum_dpu = sum(psum_dpu)
+                                O[c+dpu_idx,d] = reduced_psum_dpu+O[c+dpu_idx,d]
                                 if reduction_network_type == 'S_Tree':
-                                    psum_access_latency += 2*L*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec
-                                    psum_access_counter += 2*L
-                                    psum_access_energy += L*(l1_latency['energy_read(nJ)'].values[0]+l2_latency['energy_read(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
-                                    psum_access_energy += L*(l1_latency['energy_write(nJ)'].values[0]+l2_latency['energy_write(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
+                                    psum_access_latency += 2*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec
+                                    psum_access_counter += 2
+                                    psum_access_energy += (l1_latency['energy_read(nJ)'].values[0]+l2_latency['energy_read(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
+                                    psum_access_energy += (l1_latency['energy_write(nJ)'].values[0]+l2_latency['energy_write(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
                                     adc_energy += torch.numel(psum_dpu)*adc_obj.energy # J
                                 elif reduction_network_type == 'PCA':
                                     psum_access_latency += 0
@@ -568,8 +527,8 @@ for tpc in accelerator_list:
                                     psum_access_counter += 0
                                     psum_access_energy += 0
                                     adc_energy += torch.numel(psum_dpu)*adc_obj.energy # J
-                            temp_output_access_counter += (min(c+Y,C)-c)*(min(d+L,D)-d)
-                    folds = math.ceil(K/(X*Z))
+                            temp_output_access_counter += (min(c+Y,C)-c)
+                    folds = math.ceil(K/(X*M))
                     reduction_folds = folds
                     if torch.numel(psum_dpu)<folds:
                             reduction_folds=1   
@@ -590,9 +549,9 @@ for tpc in accelerator_list:
             elif dataflow == 'RIS':
                 temp_output_access_counter = 0
                 temp_adc_energy = 0
-                for c in range(0,C, L):
-                    for k in range(0, K, X*Z):
-                        i_slice = I[c:min(c+L,C), k : min(k + X*Z, K)]
+                for c in range(0,C):
+                    for k in range(0, K, X*M):
+                        i_slice = I[c, k : min(k + X*M, K)]
                         
                         input_access_latency += torch.numel(i_slice)*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec 
                         input_access_counter += torch.numel(i_slice)
@@ -604,47 +563,38 @@ for tpc in accelerator_list:
                             
                         
                         for d in range(0, D, Y):
-                            w_slice = W[k : min(k + X*Z, K), d:min(d+Y,D)]
-                            w_slice = w_slice.T
-                            temp = i_slice
+                            w_slice = W[k : min(k + X*M, K), d:min(d+Y,D)]
                             
                             weight_access_latency += torch.numel(w_slice)*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec
                             weight_actuation_latency += dpe_obj.thermo_optic_tuning_latency*us_to_sec  
                             weight_access_counter += torch.numel(w_slice)     
                             prop_latency +=  dpe_obj.get_prop_latency()
-                             
+                            temp = i_slice.repeat(min(d+Y,D)-d,1).T
                             
                             weight_access_energy += torch.numel(w_slice)*(l1_latency['energy_read(nJ)'].values[0]+l2_latency['energy_read(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J 
                             weight_actuation_energy += dpe_obj.weight_actuation_power*dpe_obj.thermo_optic_tuning_latency*us_to_sec # J
                             dac_energy += torch.numel(w_slice)*dac_obj.energy # J
                             
                             for dpu_idx in range(min(d+Y,D)-d):
-                                dpu_w_slice = w_slice[dpu_idx,:]
-                                dpu_i_slice = temp
-                                # Mrr Utilzation Counter Update Should not be updated after padding 
-                                used_mrr_counter += torch.numel(dpu_i_slice)+torch.numel(dpu_w_slice)
-                                unused_mrr_counter += DPU_MRR_COUNT- used_mrr_counter
-                               
+                                dpu_w_slice = w_slice[:,dpu_idx]
                                 # padding the tensors with zero to use all the DPEs in DPU
-                                dpu_w_slice = F.pad(dpu_w_slice, (0, max(0, X*Z-w_slice.shape[1])), mode='constant', value=0)
-                                dpu_i_slice = F.pad(dpu_i_slice, (0, max(0, X*Z-i_slice.shape[1])), mode='constant', value=0)
-                                
-                                
-                                dpu_i_slice = dpu_i_slice.reshape(i_slice.shape[0]*Z,X)
-                                dpu_w_slice = dpu_w_slice.reshape(i_slice.shape[0]*Z,X)
+                                dpu_w_slice = F.pad(dpu_w_slice, (0, max(0, X*M-dpu_w_slice.shape[0])), mode='constant', value=0)
+                                dpu_w_slice = dpu_w_slice.reshape(M,X)
 
-                                #Each DPE Generates Psum
+                                dpu_i_slice = temp[:,dpu_idx]
+                                dpu_i_slice = F.pad(dpu_i_slice, (0, max(0, X*M-dpu_i_slice.shape[0])), mode='constant', value=0)
+                                dpu_i_slice = dpu_i_slice.reshape(M,X)
+                                # Spatial reduction at PD
                                 psum_dpu = torch.einsum('ij,ij->i', dpu_i_slice, dpu_w_slice)
-                                # Psums belonging to cluster are grouped together for reduction
-                                cluster_psum_dpu = psum_dpu.unfold(0, Z, Z)
-                                # Spatial Reduction is performed 
-                                reduced_psum_dpu =  cluster_psum_dpu.sum(dim=1)
-                                O[c:min(c+L,C), d+dpu_idx] = reduced_psum_dpu + O[c:min(c+L,C), d+dpu_idx]
+
+                                # spatial reduction of psum using Tree based RN
+                                reduced_psum_dpu = sum(psum_dpu)
+                                O[c,d+dpu_idx] = reduced_psum_dpu+O[c,d+dpu_idx]
                                 if reduction_network_type == 'S_Tree':
-                                    psum_access_latency += 2*L*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec
-                                    psum_access_counter += 2*L
-                                    psum_access_energy += L*(l1_latency['energy_read(nJ)'].values[0]+l2_latency['energy_read(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
-                                    psum_access_energy += L*(l1_latency['energy_write(nJ)'].values[0]+l2_latency['energy_write(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
+                                    psum_access_latency += 2*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec
+                                    psum_access_counter += 2
+                                    psum_access_energy += (l1_latency['energy_read(nJ)'].values[0]+l2_latency['energy_read(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
+                                    psum_access_energy += (l1_latency['energy_write(nJ)'].values[0]+l2_latency['energy_write(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
                                     adc_energy += torch.numel(psum_dpu)*adc_obj.energy # J
                                 elif reduction_network_type == 'PCA':
                                     psum_access_latency += 0
@@ -657,8 +607,8 @@ for tpc in accelerator_list:
                                     psum_access_counter += 0
                                     psum_access_energy += 0
                                     adc_energy += torch.numel(psum_dpu)*adc_obj.energy # J
-                            temp_output_access_counter += (min(d+Y,D)-d)*(min(c+L,C)-c)
-                    folds = math.ceil(K/(X*Z))
+                            temp_output_access_counter += (min(d+Y,D)-d)
+                    folds = math.ceil(K/(X*M))
                     reduction_folds = folds
                     if torch.numel(psum_dpu)<folds:
                             reduction_folds=1 
@@ -703,13 +653,13 @@ for tpc in accelerator_list:
         
             
 
-        latency_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'cluster_count': cluster_count,'propagation_latency':prop_latency, 'input_actuation_latency':input_actuation_latency, 'weight_actuation_latency':weight_actuation_latency, 'psum_access_latency':psum_access_latency, 'input_access_latency':input_access_latency, 'weight_access_latency':weight_access_latency, 'output_access_latency':output_access_latency, 'psum_reduction_latency':psum_reduction_latency, 'total_latency':total_latency}
+        latency_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'propagation_latency':prop_latency, 'input_actuation_latency':input_actuation_latency, 'weight_actuation_latency':weight_actuation_latency, 'psum_access_latency':psum_access_latency, 'input_access_latency':input_access_latency, 'weight_access_latency':weight_access_latency, 'output_access_latency':output_access_latency, 'psum_reduction_latency':psum_reduction_latency, 'total_latency':total_latency}
         tpc_latency_result.append(latency_dict)
         
-        access_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'cluster_count': cluster_count,'psum_access_counter':psum_access_counter, 'input_access_counter':input_access_counter, 'weight_access_counter':weight_access_counter, 'output_access_counter':output_access_counter, 'total_access':total_access, 'used_mrr_counter':used_mrr_counter, 'unused_mrr_counter': unused_mrr_counter}
+        access_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'psum_access_counter':psum_access_counter, 'input_access_counter':input_access_counter, 'weight_access_counter':weight_access_counter, 'output_access_counter':output_access_counter, 'total_access':total_access}
         tpc_access_result.append(access_dict)
         
-        energy_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'cluster_count': cluster_count,'psum_access_energy': psum_access_energy,'input_actuation_energy':input_actuation_energy,'weight_actuation_energy':weight_actuation_energy,'input_access_energy':input_access_energy,'weight_access_energy':weight_access_energy,'output_access_energy':output_access_energy, 'psum_reduction_energy': partial_sum_reduction_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'total_energy': total_energy}
+        energy_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'psum_access_energy': psum_access_energy,'input_actuation_energy':input_actuation_energy,'weight_actuation_energy':weight_actuation_energy,'input_access_energy':input_access_energy,'weight_access_energy':weight_access_energy,'output_access_energy':output_access_energy, 'psum_reduction_energy': partial_sum_reduction_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'total_energy': total_energy}
         tpc_energy_result.append(energy_dict)
         latency_df = pd.DataFrame(tpc_latency_result)
         access_df = pd.DataFrame(tpc_access_result)
@@ -721,7 +671,7 @@ for tpc in accelerator_list:
 
         # # Convert the date and time to a string format
         # datetime_string = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
-        datetime_string = "24_6_2023_Sample"
+        datetime_string = "22_6_2023_MobileNet"
 
 
         # add time log to the output file
