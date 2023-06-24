@@ -23,6 +23,7 @@ accelerator_list = [TEST_RIS_S_TREE_L1, TEST_RIS_S_TREE_L2, TEST_RIS_S_TREE_L4, 
                     TEST_RIS_PCA_L1, TEST_RIS_PCA_L2, TEST_RIS_PCA_L4, TEST_RIS_PCA_L8, TEST_RIS_PCA_LM,TEST_RWS_PCA_L1, TEST_RWS_PCA_L2, TEST_RWS_PCA_L4, TEST_RWS_PCA_L8, TEST_RWS_PCA_LM, TEST_ROS_PCA_L1, TEST_ROS_PCA_L2, TEST_ROS_PCA_L4, TEST_ROS_PCA_L8, TEST_ROS_PCA_LM,
                     TEST_WS_S_TREE_LS, TEST_OS_S_TREE_LS, TEST_IS_S_TREE_LS, TEST_WS_ST_TREE_AC_LS,TEST_OS_ST_TREE_AC_LS, TEST_IS_ST_TREE_AC_LS, TEST_WS_STIFT_LS, TEST_OS_STIFT_LS, TEST_IS_STIFT_LS, TEST_WS_PCA_LS, TEST_OS_PCA_LS,TEST_IS_PCA_LS ]
 
+accelerator_list = [TEST_ROS_S_TREE_L1]
 model_precision = 8
 
 print("Required Model Precision ", model_precision)
@@ -170,7 +171,7 @@ for tpc in accelerator_list:
             M = dpe_count
             Y = dpu_count
             L = cluster_count
-            Z = math.ceil(X/M)
+            Z = math.ceil(M/L)
             # create the matrices 
             I = torch.randn(C,K)
             W = torch.randn(K,D)
@@ -446,7 +447,9 @@ for tpc in accelerator_list:
                                 psum_dpu = torch.einsum('ij,ij->i', dpu_i_slice, dpu_w_slice)
                                 cluster_psum_dpu = psum_dpu.unfold(0, Z, Z)
                                 reduced_psum_dpu =  cluster_psum_dpu.sum(dim=1)
-                                O[c+dpu_idx,d:min(d+L,D)] = reduced_psum_dpu+ O[c+dpu_idx,d:min(d+L,D)]
+                                O[c+dpu_idx,d:min(d+L,D)] = reduced_psum_dpu + O[c+dpu_idx,d:min(d+L,D)]
+                
+                
                                 
                                 # ! In rectangular mapping and clustering, Spatial Reduction at DPEs of a DPU is possible, however, S_Tree cannot perform temporal reduction
                                 # ! S_Tree each cluster generates a psum and hence for L clusters L psums are generated
@@ -628,7 +631,7 @@ for tpc in accelerator_list:
                                 # padding the tensors with zero to use all the DPEs in DPU
                                 dpu_w_slice = F.pad(dpu_w_slice, (0, max(0, X*Z-w_slice.shape[1])), mode='constant', value=0)
                                 dpu_i_slice = F.pad(dpu_i_slice, (0, max(0, X*Z-i_slice.shape[1])), mode='constant', value=0)
-                                
+                                dpu_w_slice = dpu_w_slice.repeat(i_slice.shape[0],1)
                                 
                                 dpu_i_slice = dpu_i_slice.reshape(i_slice.shape[0]*Z,X)
                                 dpu_w_slice = dpu_w_slice.reshape(i_slice.shape[0]*Z,X)
