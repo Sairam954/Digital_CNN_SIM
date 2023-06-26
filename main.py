@@ -572,10 +572,19 @@ for tpc in accelerator_list:
                                     temp_adc_energy += torch.numel(psum_dpu)*adc_obj.energy        
                                 else:
                                 # ! S_Tree_Acc and STIFT can perform temporal reduction at DPEs of a DPU so psum is not send and accessed from cache
-                                    psum_access_latency += 0
-                                    psum_access_counter += 0
-                                    psum_access_energy += 0
-                                    adc_energy += torch.numel(psum_dpu)*adc_obj.energy # J
+                                # ! when clustering is equal to 1, these RNs can employ temporal reduction, but when it L is geater than 1 then
+                                # ! S_Tree_Acc and STIFT cannot use temporal reduction in case of RWS and RIS
+                                    if L ==1 :  
+                                        psum_access_latency += 0
+                                        psum_access_counter += 0
+                                        psum_access_energy += 0
+                                        adc_energy += torch.numel(psum_dpu)*adc_obj.energy # J
+                                    else:
+                                        psum_access_latency += 2*L*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec
+                                        psum_access_counter += 2*L
+                                        psum_access_energy += L*(l1_latency['energy_read(nJ)'].values[0]+l2_latency['energy_read(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
+                                        psum_access_energy += L*(l1_latency['energy_write(nJ)'].values[0]+l2_latency['energy_write(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
+                                        adc_energy += torch.numel(psum_dpu)*adc_obj.energy # J
                             temp_output_access_counter += (min(c+Y,C)-c)*(min(d+L,D)-d)
                     folds = math.ceil(K/(X*Z))
                     reduction_folds = folds
@@ -662,10 +671,19 @@ for tpc in accelerator_list:
                                     temp_adc_energy += torch.numel(psum_dpu)*adc_obj.energy        
                                 else:
                                 # ! S_Tree_Acc and STIFT can perform temporal reduction at DPEs of a DPU so psum is not send and accessed from cache
-                                    psum_access_latency += 0
-                                    psum_access_counter += 0
-                                    psum_access_energy += 0
-                                    adc_energy += torch.numel(psum_dpu)*adc_obj.energy # J
+                                # ! when clustering is equal to 1, these RNs can employ temporal reduction, but when it L is geater than 1 then
+                                # ! S_Tree_Acc and STIFT cannot use temporal reduction in case of RWS and RIS
+                                    if L ==1 :  
+                                        psum_access_latency += 0
+                                        psum_access_counter += 0
+                                        psum_access_energy += 0
+                                        adc_energy += torch.numel(psum_dpu)*adc_obj.energy # J
+                                    else:
+                                        psum_access_latency += 2*L*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec
+                                        psum_access_counter += 2*L
+                                        psum_access_energy += L*(l1_latency['energy_read(nJ)'].values[0]+l2_latency['energy_read(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
+                                        psum_access_energy += L*(l1_latency['energy_write(nJ)'].values[0]+l2_latency['energy_write(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
+                                        adc_energy += torch.numel(psum_dpu)*adc_obj.energy # J
                             temp_output_access_counter += (min(d+Y,D)-d)*(min(c+L,C)-c)
                     folds = math.ceil(K/(X*Z))
                     reduction_folds = folds
