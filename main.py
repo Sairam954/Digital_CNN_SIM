@@ -22,14 +22,12 @@ accelerator_list = [TEST_RIS_S_TREE_L1, TEST_RIS_S_TREE_L2, TEST_RIS_S_TREE_L4, 
                     TEST_RIS_STIFT_L1, TEST_RIS_STIFT_L2, TEST_RIS_STIFT_L4, TEST_RIS_STIFT_L8, TEST_RIS_STIFT_LM,TEST_RWS_STIFT_L1, TEST_RWS_STIFT_L2, TEST_RWS_STIFT_L4, TEST_RWS_STIFT_L8, TEST_RWS_STIFT_LM, TEST_ROS_STIFT_L1, TEST_ROS_STIFT_L2, TEST_ROS_STIFT_L4, TEST_ROS_STIFT_L8, TEST_ROS_STIFT_LM,
                     TEST_RIS_PCA_L1, TEST_RIS_PCA_L2, TEST_RIS_PCA_L4, TEST_RIS_PCA_L8, TEST_RIS_PCA_LM,TEST_RWS_PCA_L1, TEST_RWS_PCA_L2, TEST_RWS_PCA_L4, TEST_RWS_PCA_L8, TEST_RWS_PCA_LM, TEST_ROS_PCA_L1, TEST_ROS_PCA_L2, TEST_ROS_PCA_L4, TEST_ROS_PCA_L8, TEST_ROS_PCA_LM,
                     TEST_WS_S_TREE_LS, TEST_OS_S_TREE_LS, TEST_IS_S_TREE_LS, TEST_WS_ST_TREE_AC_LS,TEST_OS_ST_TREE_AC_LS, TEST_IS_ST_TREE_AC_LS, TEST_WS_STIFT_LS, TEST_OS_STIFT_LS, TEST_IS_STIFT_LS, TEST_WS_PCA_LS, TEST_OS_PCA_LS,TEST_IS_PCA_LS ]
-
-accelerator_list = [TEST_ROS_S_TREE_L1]
 model_precision = 8
 
 print("Required Model Precision ", model_precision)
-cnnModelDirectory = "CNNModels//Sample//"
+cnnModelDirectory = "CNNModels//"
 modelList = [f for f in listdir(cnnModelDirectory) if isfile(join(cnnModelDirectory, f))]
-modelList = ['GoogLeNet.csv']
+modelList = ['ShuffleNet_V2.csv']
 
 ns_to_sec = 1e-9
 us_to_sec = 1e-6
@@ -177,9 +175,9 @@ for tpc in accelerator_list:
             W = torch.randn(K,D)
             O = torch.zeros(C,D)
             
-            print('I', I.shape)
-            print('W', W.shape)
-            print('O', O.shape)
+            # print('I', I.shape)
+            # print('W', W.shape)
+            # print('O', O.shape)
             
             # miss ratio for the given dataflow and C, K, D combination 
             miss_ratio = cacheMissRatioDf.loc[(cacheMissRatioDf['C']==C) & (cacheMissRatioDf['D']==D) & (cacheMissRatioDf['K']==K) & (cacheMissRatioDf['dataflow']== dataflow)]
@@ -222,8 +220,9 @@ for tpc in accelerator_list:
                                 O[c:c+M,d+dpu_idx] = psum_dpu+O[c:c+M,d+dpu_idx]
                                 
                                 # Mrr Utilzation Counter Update
-                                used_mrr_counter += torch.numel(i_slice)+torch.numel(dpu_w_slice)
-                                unused_mrr_counter += DPU_MRR_COUNT- used_mrr_counter
+                                local_used_mrr_counter  = torch.numel(dpu_w_slice)+torch.numel(dpu_w_slice)
+                                used_mrr_counter += local_used_mrr_counter
+                                unused_mrr_counter += DPU_MRR_COUNT- local_used_mrr_counter
                                 
                                 if reduction_network_type == 'PCA':
                                     psum_access_counter += 0
@@ -307,11 +306,13 @@ for tpc in accelerator_list:
                             for dpu_idx in range(min(d+Y,D)-d):
                                 dpu_w_slice = w_slice[:,dpu_idx]
                                 dpu_w_slice = dpu_w_slice.T.repeat(min(c+M,C)-c,1)
-                                psum_dpu = torch.einsum('ij,ij->i', i_slice, dpu_w_slice)
+                                dpu_i_slice = i_slice
+                                psum_dpu = torch.einsum('ij,ij->i', dpu_i_slice, dpu_w_slice)
                                 O[c:c+M,d+dpu_idx] = psum_dpu+O[c:c+M,d+dpu_idx]
                                  # Mrr Utilzation Counter Update
-                                used_mrr_counter += torch.numel(i_slice)+torch.numel(dpu_w_slice)
-                                unused_mrr_counter += DPU_MRR_COUNT- used_mrr_counter
+                                local_used_mrr_counter  = torch.numel(dpu_i_slice)+torch.numel(dpu_w_slice)
+                                used_mrr_counter += local_used_mrr_counter
+                                unused_mrr_counter += DPU_MRR_COUNT- local_used_mrr_counter
                                 
                                 if reduction_network_type == 'PCA':
                                     psum_access_counter += 0
@@ -366,12 +367,14 @@ for tpc in accelerator_list:
                             for dpu_idx in range(min(d+Y,D)-d):
                                 dpu_w_slice = w_slice[:,dpu_idx]
                                 dpu_w_slice = dpu_w_slice.T.repeat(min(c+M,C)-c,1)
+                                dpu_i_slice = i_slice
                                 psum_dpu = torch.einsum('ij,ij->i', i_slice, dpu_w_slice)
                                 O[c:c+M,d+dpu_idx] = psum_dpu+O[c:c+M,d+dpu_idx]
                                
-                                # Mrr Utilzation Counter Update
-                                used_mrr_counter += torch.numel(i_slice)+torch.numel(dpu_w_slice)
-                                unused_mrr_counter += DPU_MRR_COUNT- used_mrr_counter
+                                 # Mrr Utilzation Counter Update
+                                local_used_mrr_counter  = torch.numel(dpu_i_slice)+torch.numel(dpu_w_slice)
+                                used_mrr_counter += local_used_mrr_counter
+                                unused_mrr_counter += DPU_MRR_COUNT- local_used_mrr_counter
                                 if reduction_network_type == 'PCA':
                                     psum_access_counter += 0
                                     psum_access_latency += 0
@@ -434,15 +437,16 @@ for tpc in accelerator_list:
                                 dpu_i_slice = i_temp[dpu_idx,:]
                                 dpu_i_slice = dpu_i_slice.repeat(w_temp.shape[0],1)
                                 
-                                # Mrr Utilzation Counter Update Should not be updated after padding 
-                                used_mrr_counter += torch.numel(dpu_i_slice)+torch.numel(dpu_w_slice)
-                                unused_mrr_counter += DPU_MRR_COUNT- used_mrr_counter
+                               # Mrr Utilzation Counter Update
+                                local_used_mrr_counter  = torch.numel(dpu_i_slice)+torch.numel(dpu_w_slice)
+                                used_mrr_counter += local_used_mrr_counter
+                                unused_mrr_counter += DPU_MRR_COUNT- local_used_mrr_counter
                                 
                                 dpu_w_slice = F.pad(dpu_w_slice, (0, max(0, X*Z-dpu_w_slice.shape[1])), mode='constant', value=0)
                                 dpu_i_slice = F.pad(dpu_i_slice, (0, max(0, X*Z-dpu_i_slice.shape[1])), mode='constant', value=0)
                                 
-                                dpu_i_slice = dpu_i_slice.reshape(M,X)
-                                dpu_w_slice = dpu_w_slice.reshape(M,X)
+                                dpu_i_slice = dpu_i_slice.reshape(dpu_w_slice.shape[0]*Z,X)
+                                dpu_w_slice = dpu_w_slice.reshape(dpu_w_slice.shape[0]*Z,X)
                                 
                                 psum_dpu = torch.einsum('ij,ij->i', dpu_i_slice, dpu_w_slice)
                                 cluster_psum_dpu = psum_dpu.unfold(0, Z, Z)
@@ -532,9 +536,10 @@ for tpc in accelerator_list:
 
                                 dpu_i_slice = i_slice[dpu_idx, :] 
                                 dpu_w_slice = temp
-                                # Mrr Utilzation Counter Update Should not be updated after padding 
-                                used_mrr_counter += torch.numel(dpu_i_slice)+torch.numel(dpu_w_slice)
-                                unused_mrr_counter += DPU_MRR_COUNT- used_mrr_counter
+                                # Mrr Utilzation Counter Update
+                                local_used_mrr_counter  = torch.numel(dpu_i_slice)+torch.numel(dpu_w_slice)
+                                used_mrr_counter += local_used_mrr_counter
+                                unused_mrr_counter += DPU_MRR_COUNT- local_used_mrr_counter
                                 
                                 
                                 # padding the tensors with zero to use all the DPEs in DPU
@@ -624,9 +629,10 @@ for tpc in accelerator_list:
                             for dpu_idx in range(min(d+Y,D)-d):
                                 dpu_w_slice = w_slice[dpu_idx,:]
                                 dpu_i_slice = temp
-                                # Mrr Utilzation Counter Update Should not be updated after padding 
-                                used_mrr_counter += torch.numel(dpu_i_slice)+torch.numel(dpu_w_slice)
-                                unused_mrr_counter += DPU_MRR_COUNT- used_mrr_counter
+                                # Mrr Utilzation Counter Update
+                                local_used_mrr_counter  = torch.numel(dpu_i_slice)+torch.numel(dpu_w_slice)
+                                used_mrr_counter += local_used_mrr_counter
+                                unused_mrr_counter += DPU_MRR_COUNT- local_used_mrr_counter
                                
                                 # padding the tensors with zero to use all the DPEs in DPU
                                 dpu_w_slice = F.pad(dpu_w_slice, (0, max(0, X*Z-w_slice.shape[1])), mode='constant', value=0)
@@ -724,7 +730,7 @@ for tpc in accelerator_list:
 
         # # Convert the date and time to a string format
         # datetime_string = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
-        datetime_string = "24_6_2023_Sample"
+        datetime_string = "26_6_2023_ShuffleNet_V2"
 
 
         # add time log to the output file
