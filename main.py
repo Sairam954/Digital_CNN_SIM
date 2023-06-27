@@ -104,7 +104,9 @@ for tpc in accelerator_list:
     # Mrr Utilization
     used_mrr_counter = 0
     unused_mrr_counter = 0
-        
+
+    # Reduction Folds counter: To know how many times temporal reduction is used by a DPU        
+    folds_counter = 0
 
     # storing metrics
     latency_dict = {}
@@ -492,14 +494,14 @@ for tpc in accelerator_list:
                             adc_energy += (temp_adc_energy/folds)*adc_obj.energy # J
                             psum_reduction_latency += va_obj.latency
                             partial_sum_reduction_energy += va_obj.latency*va_obj.power*torch.numel(psum_dpu)
-                        else:
+                        else:    
                             psum_reduction_latency +=rn_obj.get_reduction_latency(torch.numel(psum_dpu),folds)
                             partial_sum_reduction_energy += rn_obj.get_reduction_latency(torch.numel(psum_dpu),folds)*rn_obj.power
                             
             elif dataflow == 'RWS':
                 temp_output_access_counter  = 0
                 temp_adc_energy = 0
-                for d in range(0,D, L):
+                for d in range(0, D, L):
                     for k in range(0, K, X*Z):
                         w_slice = W[k : min(k + X*Z, K), d:min(d+L,D)] 
                         w_slice = w_slice.T 
@@ -513,13 +515,8 @@ for tpc in accelerator_list:
                         weight_actuation_energy += dpe_obj.weight_actuation_power*dpe_obj.thermo_optic_tuning_latency*us_to_sec # J
                         dac_energy += torch.numel(w_slice)*dac_obj.energy # J
                         
-                           
                         for c in range(0,C,Y):
-                        
                             i_slice = I[c: min(c+Y,C), k : min(k + X*Z, K)]
-                            
-                            
-                            
                             input_access_latency += torch.numel(i_slice)*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec 
                             input_access_counter += torch.numel(i_slice)
                             input_actuation_latency += dpe_obj.input_actuation_latency*ns_to_sec
@@ -587,23 +584,18 @@ for tpc in accelerator_list:
                                         adc_energy += torch.numel(psum_dpu)*adc_obj.energy # J
                             temp_output_access_counter += (min(c+Y,C)-c)*(min(d+L,D)-d)
                     folds = math.ceil(K/(X*Z))
-                    reduction_folds = folds
-                    if torch.numel(psum_dpu)<folds:
-                            reduction_folds=1   
                     if reduction_network_type=='PCA':
                             adc_energy += adc_obj.energy*(temp_adc_energy/folds) # J
                             psum_reduction_latency += va_obj.latency
                             partial_sum_reduction_energy += va_obj.latency*va_obj.power*torch.numel(psum_dpu)
                     else:
-                        psum_reduction_latency +=rn_obj.get_reduction_latency(torch.numel(psum_dpu),reduction_folds)
-                        partial_sum_reduction_energy += rn_obj.get_reduction_latency(torch.numel(psum_dpu),reduction_folds)*rn_obj.power
+                        psum_reduction_latency +=rn_obj.get_reduction_latency(torch.numel(psum_dpu)*folds,1)
+                        partial_sum_reduction_energy += rn_obj.get_reduction_latency(torch.numel(psum_dpu)*folds,1)*rn_obj.power 
                             
                 output_access_counter += (temp_output_access_counter/folds)
                 output_access_latency += (temp_output_access_counter/folds)*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec
                 
                 output_access_energy +=(temp_output_access_counter/folds)*(l1_latency['energy_write(nJ)'].values[0]+l2_latency['energy_write(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J 
-                       
-           
             elif dataflow == 'RIS':
                 temp_output_access_counter = 0
                 temp_adc_energy = 0
@@ -686,16 +678,16 @@ for tpc in accelerator_list:
                                         adc_energy += torch.numel(psum_dpu)*adc_obj.energy # J
                             temp_output_access_counter += (min(d+Y,D)-d)*(min(c+L,C)-c)
                     folds = math.ceil(K/(X*Z))
-                    reduction_folds = folds
-                    if torch.numel(psum_dpu)<folds:
-                            reduction_folds=1 
+                    # ! Update 27/06/2023 Electronic reduction networks cannot use temporal reduction with RIS and RWS as each cluster will generate output corresponding to different 
+                    # ! different output pixels in iteration 
                     if reduction_network_type=='PCA':
-                            adc_energy += adc_obj.energy*(temp_adc_energy/folds) # J
-                            psum_reduction_latency += va_obj.latency
-                            partial_sum_reduction_energy += va_obj.latency*va_obj.power*torch.numel(psum_dpu)
+                        adc_energy += adc_obj.energy*(temp_adc_energy/folds) # J
+                        psum_reduction_latency += va_obj.latency
+                        partial_sum_reduction_energy += va_obj.latency*va_obj.power*torch.numel(psum_dpu)
                     else:
-                        psum_reduction_latency +=rn_obj.get_reduction_latency(torch.numel(psum_dpu),reduction_folds)
-                        partial_sum_reduction_energy += rn_obj.get_reduction_latency(torch.numel(psum_dpu),reduction_folds)*rn_obj.power 
+                        psum_reduction_latency +=rn_obj.get_reduction_latency(torch.numel(psum_dpu)*folds,1)
+                        partial_sum_reduction_energy += rn_obj.get_reduction_latency(torch.numel(psum_dpu)*folds,1)*rn_obj.power 
+                    
                       
                 output_access_counter += temp_output_access_counter/folds
                 output_access_latency += (temp_output_access_counter/folds)*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec
@@ -748,7 +740,7 @@ for tpc in accelerator_list:
 
         # # Convert the date and time to a string format
         # datetime_string = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
-        datetime_string = "26_6_2023_ShuffleNet_V2"
+        datetime_string = "27_6_2023_ShuffleNet_X"
 
 
         # add time log to the output file

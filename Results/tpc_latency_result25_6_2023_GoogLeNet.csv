@@ -1,0 +1,5 @@
+DPU,reduction_network,dataflow,cluster_count,propagation_latency,input_actuation_latency,weight_actuation_latency,psum_access_latency,input_access_latency,weight_access_latency,output_access_latency,psum_reduction_latency,total_latency
+AMM,S_Tree,RIS,1,4.92E-07,5.91E-05,0.99668,0.023830052,0.029245236,4.467811327,0.010218003,0.002064777,5.529908963
+,,,,,,,,,,,,
+DPU,reduction_network,dataflow,cluster_count,propagation_latency,input_actuation_latency,weight_actuation_latency,psum_access_latency,input_access_latency,weight_access_latency,output_access_latency,psum_reduction_latency,total_latency
+AMM,S_Tree,RIS,40,1.15E-07,1.64E-05,0.233872,0.246481706,0.029245236,0.118384486,0.010218003,4.94E-05,0.638267399
