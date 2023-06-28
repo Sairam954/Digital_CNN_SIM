@@ -740,7 +740,7 @@ for tpc in accelerator_list:
 
         # # Convert the date and time to a string format
         # datetime_string = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
-        datetime_string = "27_6_2023_ShuffleNet_X"
+        datetime_string = "28_6_2023_ShuffleNet_X"
 
 
         # add time log to the output file
