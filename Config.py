@@ -1009,7 +1009,7 @@ TEST_RWS_S_TREE_LM =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "RWS",
     REDUCTION_TYPE: "S_Tree", 
-    CLUSTER_COUNT : 40,   
+    CLUSTER_COUNT : 32,   
 }]
 
 TEST_ROS_S_TREE_LM =    [{
@@ -1025,7 +1025,7 @@ TEST_ROS_S_TREE_LM =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "ROS",
     REDUCTION_TYPE: "S_Tree", 
-    CLUSTER_COUNT : 40,   
+    CLUSTER_COUNT : 32,   
 }]
 
 TEST_RIS_S_TREE_LM =    [{
@@ -1041,7 +1041,7 @@ TEST_RIS_S_TREE_LM =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "RIS",
     REDUCTION_TYPE: "S_Tree", 
-    CLUSTER_COUNT : 40,   
+    CLUSTER_COUNT : 32,   
 }]
 
 TEST_RWS_ST_TREE_AC_LM =    [{
@@ -1057,7 +1057,7 @@ TEST_RWS_ST_TREE_AC_LM =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "RWS",
     REDUCTION_TYPE: "ST_Tree_Ac", 
-    CLUSTER_COUNT : 40,   
+    CLUSTER_COUNT : 32,   
 }]
 
 TEST_ROS_ST_TREE_AC_LM =    [{
@@ -1073,7 +1073,7 @@ TEST_ROS_ST_TREE_AC_LM =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "ROS",
     REDUCTION_TYPE: "ST_Tree_Ac", 
-    CLUSTER_COUNT : 40,   
+    CLUSTER_COUNT : 32,   
 }]
 
 TEST_RIS_ST_TREE_AC_LM =    [{
@@ -1089,7 +1089,7 @@ TEST_RIS_ST_TREE_AC_LM =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "RIS",
     REDUCTION_TYPE: "ST_Tree_Ac", 
-    CLUSTER_COUNT : 40,   
+    CLUSTER_COUNT : 32,   
 }]
 
 TEST_RWS_STIFT_LM =    [{
@@ -1105,7 +1105,7 @@ TEST_RWS_STIFT_LM =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "RWS",
     REDUCTION_TYPE: "STIFT", 
-    CLUSTER_COUNT : 40,   
+    CLUSTER_COUNT : 32,   
 }]
 
 TEST_ROS_STIFT_LM =    [{
@@ -1121,7 +1121,7 @@ TEST_ROS_STIFT_LM =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "ROS",
     REDUCTION_TYPE: "STIFT", 
-    CLUSTER_COUNT : 40,   
+    CLUSTER_COUNT : 32,   
 }]
 
 TEST_RIS_STIFT_LM =    [{
@@ -1137,7 +1137,7 @@ TEST_RIS_STIFT_LM =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "RIS",
     REDUCTION_TYPE: "STIFT", 
-    CLUSTER_COUNT : 40,   
+    CLUSTER_COUNT : 32,   
 }]
 
 TEST_RWS_PCA_LM =    [{
@@ -1153,7 +1153,7 @@ TEST_RWS_PCA_LM =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "RWS",
     REDUCTION_TYPE: "PCA", 
-    CLUSTER_COUNT : 40,   
+    CLUSTER_COUNT : 32,   
 }]
 
 TEST_ROS_PCA_LM =    [{
@@ -1169,7 +1169,7 @@ TEST_ROS_PCA_LM =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "ROS",
     REDUCTION_TYPE: "PCA", 
-    CLUSTER_COUNT : 40,   
+    CLUSTER_COUNT : 32,   
 }]
 
 TEST_RIS_PCA_LM =    [{
@@ -1185,7 +1185,7 @@ TEST_RIS_PCA_LM =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "RIS",
     REDUCTION_TYPE: "PCA", 
-    CLUSTER_COUNT : 40,   
+    CLUSTER_COUNT : 32,   
 }]
 
 

@@ -59,6 +59,11 @@ for tpc in accelerator_list:
     reduction_network_type = tpc[0][REDUCTION_TYPE]
     cluster_count = tpc[0][CLUSTER_COUNT]
     print("Architecture ", architecture, "Dataflow ", dataflow, "Reduction Network", reduction_network_type, "Cluster Count", cluster_count)
+    
+    #! Assertions to Ensure that the input configuration is valid
+    assert (dpe_count%cluster_count == 0), "Each Cluster should have equal number of DPEs"
+    assert (cluster_count<=dpe_count), "Each Cluster should have equal number of DPEs"
+            
 
     if vdp_type == "AMM":
         DPU_MRR_COUNT = dpe_size*dpe_count*2 # 2 MRR per 1 per weigh and 1 per input 
