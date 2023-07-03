@@ -1202,7 +1202,7 @@ TEST_WS_S_TREE_LS =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "WS",
     REDUCTION_TYPE: "S_Tree", 
-    CLUSTER_COUNT : 40 ,   
+    CLUSTER_COUNT : 32 ,   
 }]
 
 TEST_OS_S_TREE_LS =    [{
@@ -1218,7 +1218,7 @@ TEST_OS_S_TREE_LS =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "OS",
     REDUCTION_TYPE: "S_Tree", 
-    CLUSTER_COUNT : 40 ,   
+    CLUSTER_COUNT : 32 ,   
 }]
 
 TEST_IS_S_TREE_LS =    [{
@@ -1234,7 +1234,7 @@ TEST_IS_S_TREE_LS =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "IS",
     REDUCTION_TYPE: "S_Tree", 
-    CLUSTER_COUNT : 40 ,   
+    CLUSTER_COUNT : 32 ,   
 }]
 
 TEST_WS_ST_TREE_AC_LS =    [{
@@ -1250,7 +1250,7 @@ TEST_WS_ST_TREE_AC_LS =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "WS",
     REDUCTION_TYPE: "ST_Tree_Ac", 
-    CLUSTER_COUNT : 40 ,   
+    CLUSTER_COUNT : 32 ,   
 }]
 
 TEST_OS_ST_TREE_AC_LS =    [{
@@ -1266,7 +1266,7 @@ TEST_OS_ST_TREE_AC_LS =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "OS",
     REDUCTION_TYPE: "ST_Tree_Ac", 
-    CLUSTER_COUNT : 40 ,   
+    CLUSTER_COUNT : 32 ,   
 }]
 
 TEST_IS_ST_TREE_AC_LS =    [{
@@ -1282,7 +1282,7 @@ TEST_IS_ST_TREE_AC_LS =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "IS",
     REDUCTION_TYPE: "ST_Tree_Ac", 
-    CLUSTER_COUNT : 40 ,   
+    CLUSTER_COUNT : 32 ,   
 }]
 
 TEST_WS_STIFT_LS =    [{
@@ -1298,7 +1298,7 @@ TEST_WS_STIFT_LS =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "WS",
     REDUCTION_TYPE: "STIFT", 
-    CLUSTER_COUNT : 40 ,   
+    CLUSTER_COUNT : 32 ,   
 }]
 
 TEST_OS_STIFT_LS =    [{
@@ -1314,7 +1314,7 @@ TEST_OS_STIFT_LS =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "OS",
     REDUCTION_TYPE: "STIFT", 
-    CLUSTER_COUNT : 40 ,   
+    CLUSTER_COUNT : 32 ,   
 }]
 
 TEST_IS_STIFT_LS =    [{
@@ -1330,7 +1330,7 @@ TEST_IS_STIFT_LS =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "IS",
     REDUCTION_TYPE: "STIFT", 
-    CLUSTER_COUNT : 40 ,   
+    CLUSTER_COUNT : 32 ,   
 }]
 
 TEST_WS_PCA_LS =    [{
@@ -1346,7 +1346,7 @@ TEST_WS_PCA_LS =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "WS",
     REDUCTION_TYPE: "PCA", 
-    CLUSTER_COUNT : 40 ,   
+    CLUSTER_COUNT : 32 ,   
 }]
 
 TEST_OS_PCA_LS =    [{
@@ -1362,7 +1362,7 @@ TEST_OS_PCA_LS =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "OS",
     REDUCTION_TYPE: "PCA", 
-    CLUSTER_COUNT : 40 ,   
+    CLUSTER_COUNT : 32 ,   
 }]
 
 TEST_IS_PCA_LS =    [{
@@ -1378,5 +1378,5 @@ TEST_IS_PCA_LS =    [{
     BATCH_SIZE: 1,  
     DATAFLOW: "IS",
     REDUCTION_TYPE: "PCA", 
-    CLUSTER_COUNT : 40 ,   
+    CLUSTER_COUNT : 32 ,   
 }]
