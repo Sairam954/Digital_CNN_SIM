@@ -92,8 +92,8 @@ def HQNNA_Conv_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_netw
     sup_act_precision = 4
     B = 4  # Here B is the number of DPEs to support different bit shifted numbers
     #! Intra DPU Sharing
-    print("Input ", I)
-    print("Weight ", W)
+    # print("Input ", I)
+    # print("Weight ", W)
     num_of_bit_slice = math.ceil(act_precision/sup_act_precision)
     data_rate = 1
     miss_ratio = cacheMissRatioDf.loc[(cacheMissRatioDf['C']==C) & (cacheMissRatioDf['D']==D) & (cacheMissRatioDf['K']==K) & (cacheMissRatioDf['dataflow']== 'OS')]
@@ -143,7 +143,6 @@ def HQNNA_Conv_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_netw
                                  
                 
                   size = (M,min(k + N, K)-k)
-                  print('Size ', size)
                   for dpu_idx in range(min(c+Y,C)-c):
                     dpu_i_slice = i_slice[dpu_idx,:]
                     

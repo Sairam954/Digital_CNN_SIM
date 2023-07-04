@@ -1,0 +1,2 @@
+DPU,reduction_network,dataflow,psum_access_energy,input_actuation_energy,weight_actuation_energy,input_access_energy,weight_access_energy,output_access_energy,psum_reduction_energy,dac_energy,adc_energy,total_energy
+HQNNA,S_Tree,RWS,0.008604372834457467,4.030149561650414e-06,2.8028441099513355,0,0,0,13.104041622571746,0.0011174986020224932,0.005567716560006902,15.92219628451617

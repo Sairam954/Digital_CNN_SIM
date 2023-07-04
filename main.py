@@ -4,7 +4,7 @@ import pandas as pd
 import torch 
 import math
 import matplotlib.pyplot as plt
-from ADC import ADC
+from ADC.ADC import ADC
 from Config import *
 import torch.nn.functional as F
 import datetime
@@ -19,9 +19,8 @@ from DAC import *
 from VoltageAdder import VoltageAdder
 
 
-accelerator_list = [TEST_RIS_S_TREE_L1]
+accelerator_list = [TEST_HQNNA]
 
-print("Required Model Precision ", model_precision)
 cnnModelDirectory = "CNNModels//Sample//"
 modelList = [f for f in listdir(cnnModelDirectory) if isfile(join(cnnModelDirectory, f))]
 modelList = ['GoogLeNet.csv']
@@ -38,10 +37,17 @@ for tpc in accelerator_list:
     dpe_size = tpc[0][ELEMENT_SIZE]
     dpe_count = tpc[0][ELEMENT_COUNT]
     dpu_count = tpc[0][UNITS_COUNT]
+    conv_dpe_size = tpc[0][CONV_ELEMENT_SIZE]
+    conv_dpe_count = tpc[0][CONV_ELEMENT_COUNT]
+    conv_dpu_count = tpc[0][CONV_UNITS_COUNT]
+    fc_dpe_size = tpc[0][FC_ELEMENT_SIZE]
+    fc_dpe_count = tpc[0][FC_ELEMENT_COUNT]
+    fc_dpu_count = tpc[0][FC_UNITS_COUNT]
+    
     vdp_type = tpc[0][VDP_TYPE]
     acc_type = tpc[0][ACC_TYPE]
     reduction_network_type = tpc[0][REDUCTION_TYPE]
-    print("Architecture ", architecture, "Dataflow ", dataflow, "Reduction Network", reduction_network_type, "Cluster Count", cluster_count)
+    print("Architecture ", architecture, "Dataflow ", dataflow, "Reduction Network", reduction_network_type)
     
     #! Assertions to Ensure that the input configuration is valid
     if vdp_type == "HQNNA":
@@ -163,8 +169,15 @@ for tpc in accelerator_list:
             
             if vdp_type == 'HQNNA':
                 if layer_type == 'Conv2D' or layer_type=='PointWiseConv':
+                    N = conv_dpe_size
+                    M = conv_dpe_count
+                    Y = conv_dpu_count
                     latency_dict, energy_dict = HQNNA_Conv_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_type)
+                    print('latency_dict', latency_dict)
                 elif layer_type == 'Dense':
+                    N = fc_dpe_size
+                    M = fc_dpe_count
+                    Y = fc_dpu_count
                     latency_dict, energy_dict = HQNNA_FC_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_type)
                 # update global latency and energy
                 prop_latency += latency_dict['propagation_latency']
@@ -226,14 +239,10 @@ for tpc in accelerator_list:
 
         latency_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'propagation_latency':prop_latency, 'input_actuation_latency':input_actuation_latency, 'weight_actuation_latency':weight_actuation_latency, 'psum_access_latency':psum_access_latency, 'input_access_latency':input_access_latency, 'weight_access_latency':weight_access_latency, 'output_access_latency':output_access_latency, 'psum_reduction_latency':psum_reduction_latency, 'total_latency':total_latency}
         tpc_latency_result.append(latency_dict)
-        
-        access_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'psum_access_counter':psum_access_counter, 'input_access_counter':input_access_counter, 'weight_access_counter':weight_access_counter, 'output_access_counter':output_access_counter, 'total_access':total_access, 'used_mrr_counter':used_mrr_counter, 'unused_mrr_counter': unused_mrr_counter}
-        tpc_access_result.append(access_dict)
-        
-        energy_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'psum_access_energy': psum_access_energy,'input_actuation_energy':input_actuation_energy,'weight_actuation_energy':weight_actuation_energy,'input_access_energy':input_access_energy,'weight_access_energy':weight_access_energy,'output_access_energy':output_access_energy, 'psum_reduction_energy': partial_sum_reduction_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'total_energy': total_energy}
+    
+        energy_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'psum_access_energy': psum_access_energy,'input_actuation_energy':input_actuation_energy,'weight_actuation_energy':weight_actuation_energy,'input_access_energy':input_access_energy,'weight_access_energy':weight_access_energy,'output_access_energy':output_access_energy, 'psum_reduction_energy': psum_reduction_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'total_energy': total_energy}
         tpc_energy_result.append(energy_dict)
         latency_df = pd.DataFrame(tpc_latency_result)
-        access_df = pd.DataFrame(tpc_access_result)
         energy_df = pd.DataFrame(tpc_energy_result)
 
 

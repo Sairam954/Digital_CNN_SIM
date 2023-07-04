@@ -4,7 +4,7 @@ import pandas as pd
 import torch 
 import math
 import matplotlib.pyplot as plt
-from ADC import ADC
+from ADC.ADC import ADC
 from Config import *
 import torch.nn.functional as F
 import datetime

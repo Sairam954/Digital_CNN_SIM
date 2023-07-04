@@ -1,4 +1,4 @@
-from ADC import ADC
+from ADC.ADC import ADC
 from Config import *
 from DAC import DAC
 from MRR_DPE import *
