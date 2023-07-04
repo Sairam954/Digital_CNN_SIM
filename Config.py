@@ -53,12 +53,73 @@ TEST_HQNNA =    [{
     FC_UNITS_COUNT: 200,
     RECONFIG: [], 
     VDP_TYPE: "HQNNA", 
+    NAME: "HQNNA",  
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "OS",
+    REDUCTION_TYPE: "S_Tree",   
+}]
+
+TEST_ROBIN_EO =    [{
+    ELEMENT_SIZE: 10,    
+    ELEMENT_COUNT: 10,
+    CONV_ELEMENT_SIZE : 20,   # number of multiplier   
+    CONV_ELEMENT_COUNT : 20,
+    FC_ELEMENT_SIZE : 50,   # number of multiplier   
+    FC_ELEMENT_COUNT : 50,
+    UNITS_COUNT: 50, 
+    CONV_UNITS_COUNT: 100,
+    FC_UNITS_COUNT: 200,
+    RECONFIG: [], 
+    VDP_TYPE: "ROBIN", 
+    NAME: "ROBIN_EO",  
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "OS",
+    REDUCTION_TYPE: "S_Tree", 
+}]
+
+TEST_ROBIN_PO =    [{
+    ELEMENT_SIZE: 50,    
+    ELEMENT_COUNT: 10,
+    CONV_ELEMENT_SIZE : 20,   # number of multiplier   
+    CONV_ELEMENT_COUNT : 20,
+    FC_ELEMENT_SIZE : 50,   # number of multiplier   
+    FC_ELEMENT_COUNT : 50,
+    UNITS_COUNT: 200, 
+    CONV_UNITS_COUNT: 100,
+    FC_UNITS_COUNT: 200,
+    RECONFIG: [], 
+    VDP_TYPE: "ROBIN", 
+    NAME: "ROBIN_PO",  
+    PRECISION: 1, 
+    BITRATE: 1 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "OS",
+    REDUCTION_TYPE: "S_Tree", 
+}]
+
+
+TEST_OXBNN =    [{
+    ELEMENT_SIZE: 50,    
+    ELEMENT_COUNT: 10,
+    CONV_ELEMENT_SIZE : 20,   # number of multiplier   
+    CONV_ELEMENT_COUNT : 20,
+    FC_ELEMENT_SIZE : 50,   # number of multiplier   
+    FC_ELEMENT_COUNT : 50,
+    UNITS_COUNT: 200, 
+    CONV_UNITS_COUNT: 100,
+    FC_UNITS_COUNT: 200,
+    RECONFIG: [], 
+    VDP_TYPE: "OXBNN", 
     NAME: "AMM",  
     ACC_TYPE: "DIGITAL", 
     PRECISION: 1, 
     BITRATE: 1 , # GHz
     BATCH_SIZE: 1,  
-    DATAFLOW: "RWS",
-    REDUCTION_TYPE: "S_Tree", 
-    CLUSTER_COUNT : 1 ,   
+    DATAFLOW: "OS",
+    REDUCTION_TYPE: "PCA", 
 }]
+

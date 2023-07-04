@@ -19,7 +19,7 @@ import pandas as pd
 random_seed = 1
 torch.manual_seed(random_seed)
 
-def ROBIN(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_type):
+def ROBIN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_type):
     # cacha latency parameters
     cacheMissRatioDf = pd.read_csv('C:\\Users\\SSR226\\Desktop\\MRRCNNSIM\\CacheUtils\\Miss_Ratio_Analysis1.csv')
     cacheParameters = pd.read_csv('C:\\Users\\SSR226\\Desktop\\DataflowTesting\\CacheUtils\\Cache_Parameters.csv')
@@ -81,12 +81,12 @@ def ROBIN(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_type)
     energy_dict = {}
 
 
-    C = 4
-    D = 4
-    K = 4
-    N = 4 # size of DPE
-    M = 4 # Number of DPEs in a DPU
-    Y = 10 # Number of DPUs
+    # C = 4
+    # D = 4
+    # K = 4
+    # N = 4 # size of DPE
+    # M = 4 # Number of DPEs in a DPU
+    # Y = 10 # Number of DPUs
     I = torch.randn(C,K)
     W = torch.randn(K,D)
     O = torch.zeros(C,D)
@@ -170,7 +170,7 @@ def ROBIN(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_type)
                         psum_access_energy += torch.numel(psum_dpu)*(l1_latency['energy_write(nJ)'].values[0]+l2_latency['energy_write(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
                 psum_reduction_latency += rn_obj.get_reduction_latency(temp_partial_sum_counter,1)          
                 partial_sum_reduction_energy += rn_obj.get_reduction_latency(temp_partial_sum_counter,1)*rn_obj.power 
-                partial_sum_reduction_energy += shifter_obj.energy*temp_partial_sum_counter
+                partial_sum_reduction_energy += shifter_obj.energy*fJ_to_J*temp_partial_sum_counter
 
     total_latency = dac_latency + input_actuation_latency + weight_actuation_latency + prop_latency + vcsel_energy + pd_latency + adc_latency + psum_access_latency + psum_reduction_latency
     total_energy = dac_energy + input_actuation_energy + weight_actuation_energy + vcsel_energy + pd_energy + adc_energy + psum_access_energy + partial_sum_reduction_energy

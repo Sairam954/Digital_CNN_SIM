@@ -14,12 +14,14 @@ import datetime
 from MRR_DPE import *
 from Mapper.HQNNA_Conv import HQNNA_Conv_run
 from Mapper.HQNNA_FC import HQNNA_FC_run
+from Mapper.OXBNN import OXBNN_run
+from Mapper.ROBIN import ROBIN_run
 from ReductionNetwork import *
 from DAC import *
 from VoltageAdder import VoltageAdder
 
 
-accelerator_list = [TEST_HQNNA]
+accelerator_list = [TEST_HQNNA, TEST_OXBNN, TEST_ROBIN_EO, TEST_ROBIN_PO]
 
 cnnModelDirectory = "CNNModels//Sample//"
 modelList = [f for f in listdir(cnnModelDirectory) if isfile(join(cnnModelDirectory, f))]
@@ -43,9 +45,7 @@ for tpc in accelerator_list:
     fc_dpe_size = tpc[0][FC_ELEMENT_SIZE]
     fc_dpe_count = tpc[0][FC_ELEMENT_COUNT]
     fc_dpu_count = tpc[0][FC_UNITS_COUNT]
-    
     vdp_type = tpc[0][VDP_TYPE]
-    acc_type = tpc[0][ACC_TYPE]
     reduction_network_type = tpc[0][REDUCTION_TYPE]
     print("Architecture ", architecture, "Dataflow ", dataflow, "Reduction Network", reduction_network_type)
     
@@ -206,11 +206,11 @@ for tpc in accelerator_list:
                 output_access_energy += 0
                 
             elif vdp_type == 'ROBIN':
-                pass
+                latency_dict, energy_dict = ROBIN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_type)
             elif vdp_type == 'LIGHTBULB':
                 pass
             elif vdp_type == 'OXBNN':
-                pass
+                latency_dict, energy_dict = OXBNN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_type)
             elif vdp_type == 'SCONNA':
                 pass
             

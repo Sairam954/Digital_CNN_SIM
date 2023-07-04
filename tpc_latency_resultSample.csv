@@ -1,2 +1,2 @@
 DPU,reduction_network,dataflow,propagation_latency,input_actuation_latency,weight_actuation_latency,psum_access_latency,input_access_latency,weight_access_latency,output_access_latency,psum_reduction_latency,total_latency
-HQNNA,S_Tree,RWS,1.4257011175995786e-08,1.3656000000001839e-05,0.05462399999998592,0.05754943766780474,0,0,0,0.00011824594241948244,0.11251191179202134
+HQNNA,S_Tree,OS,1.4257011175995786e-08,1.3656000000001839e-05,0.05462399999998592,0.05754943766780474,0,0,0,0.00011824594241948244,0.11251188659202134
