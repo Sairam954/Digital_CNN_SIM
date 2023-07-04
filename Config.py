@@ -32,6 +32,8 @@ REDUCTION_TYPE = "reduction_type"
 VDP_TYPE = "vdp_type"
 NAME = "name"
 BATCH_SIZE = "batch_size"
+ACT_PRECISION = "act_precision"
+WT_PRECISION = "wt_precision"
 
 TEST_RWS_S_TREE_L1 =    [{
     ELEMENT_SIZE: 27,    
