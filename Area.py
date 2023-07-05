@@ -1,5 +1,6 @@
 from ADC.ADC_16bit import ADC_16b
 from ADC.ADC_8bit import ADC_8b
+from BtoSConverter import BToSConverter
 from Config import *
 import math
 from DAC.DAC_1bit import DAC_1b
@@ -75,6 +76,8 @@ for tpc in accelerator_list:
         adc_obj = ADC_8b()
         soa_obj = SOA()
         pd_obj = PD()
+        BtoS_obj = BToSConverter()
+        
         
         # sconna unit area
         osm_bank_mrrs = dpe_count*dpe_size
@@ -84,7 +87,7 @@ for tpc in accelerator_list:
         no_of_soas = 0
         no_of_pds = dpe_count
         no_of_adc = dpe_count 
-        sconna_unit_area = dpe_obj.area*osm_bank_mrrs + dac_obj.area*no_of_dacs + adc_obj.area*no_of_adc  + pd_obj.area*no_of_pds
+        sconna_unit_area = dpe_obj.area*osm_bank_mrrs + dac_obj.area*no_of_dacs + adc_obj.area*no_of_adc  + pd_obj.area*no_of_pds + BtoS_obj.area*dpu_count
         print('SCONNA Unit area', sconna_unit_area)
         total_sconna_unit_area = sconna_unit_area*dpe_count 
         total_area = total_sconna_unit_area*dpu_count
@@ -112,3 +115,23 @@ for tpc in accelerator_list:
         total_robin_unit_area = robin_unit_area*dpu_count 
         total_area = total_robin_unit_area
         print("ROBIN area", total_area, "mm2")
+    elif vdp_type =="OXBNN":
+        dpe_obj = MRR_DPE(conv_dpe_size,data_rate)
+        rn_obj = RN(reduction_network_type)
+        dac_obj = DAC_1b()
+        adc_obj = ADC_8b()
+        pd_obj = PD()
+        
+        
+        # sconna unit area
+        
+        no_of_mrrs = dpe_count*dpe_size
+        no_of_dacs = no_of_mrrs*2
+        no_of_soas = 0
+        no_of_pds = dpe_count
+        no_of_adc = dpe_count 
+        oxbnn_unit_area = dpe_obj.area*no_of_mrrs + dac_obj.area*no_of_dacs + adc_obj.area*no_of_adc  + pd_obj.area*no_of_pds 
+        print('OXBNN Unit area', oxbnn_unit_area)
+        total_oxbnn_unit_area = oxbnn_unit_area*dpe_count 
+        total_area = total_oxbnn_unit_area*dpu_count
+        print("OXBNN area", total_area, "mm2")

@@ -1,5 +1,6 @@
 from ADC.ADC_16bit import ADC_16b
 from ADC.ADC_8bit import ADC_8b
+from BtoSConverter import BToSConverter
 from Config import *
 import math
 from DAC.DAC_1bit import DAC_1b
@@ -74,6 +75,7 @@ for tpc in accelerator_list:
         adc_obj = ADC_8b()
         soa_obj = SOA()
         pd_obj = PD()
+        BtoS_obj = BToSConverter()
         
         # sconna unit static power
         osm_bank_mrrs = dpe_count*dpe_size
@@ -84,7 +86,7 @@ for tpc in accelerator_list:
         no_of_pds = dpe_count
         no_of_adc = dpe_count  
         laser_power = laser_power_per_wavelength*dpe_size
-        sconna_unit_power = dpe_obj.weight_actuation_power*osm_bank_mrrs + dac_obj.power*no_of_dacs*mW_to_W + adc_obj.power*no_of_adc*mW_to_W + soa_obj.power*no_of_soas*mW_to_W + pd_obj.power*no_of_pds*mW_to_W + laser_power
+        sconna_unit_power = dpe_obj.weight_actuation_power*osm_bank_mrrs + dac_obj.power*no_of_dacs*mW_to_W + adc_obj.power*no_of_adc*mW_to_W + soa_obj.power*no_of_soas*mW_to_W + pd_obj.power*no_of_pds*mW_to_W + laser_power + BtoS_obj.power*dpu_count
         print('SCONNA Unit Power', sconna_unit_power)
         total_sconna_unit_power = sconna_unit_power*dpu_count 
         total_power = total_sconna_unit_power
