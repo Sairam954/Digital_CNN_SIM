@@ -46,11 +46,11 @@ TEST_HQNNA =    [{
     ELEMENT_COUNT: 0,
     CONV_ELEMENT_SIZE : 20,   # number of multiplier   
     CONV_ELEMENT_COUNT : 20,
-    FC_ELEMENT_SIZE : 50,   # number of multiplier   
+    FC_ELEMENT_SIZE :  50,   # number of multiplier   
     FC_ELEMENT_COUNT : 50,
-    UNITS_COUNT: 100, 
-    CONV_UNITS_COUNT: 100,
-    FC_UNITS_COUNT: 200,
+    UNITS_COUNT: 0, 
+    CONV_UNITS_COUNT: 1,
+    FC_UNITS_COUNT: 1,
     RECONFIG: [], 
     VDP_TYPE: "HQNNA", 
     NAME: "HQNNA",  
@@ -64,13 +64,13 @@ TEST_HQNNA =    [{
 TEST_ROBIN_EO =    [{
     ELEMENT_SIZE: 10,    
     ELEMENT_COUNT: 10,
-    CONV_ELEMENT_SIZE : 20,   # number of multiplier   
-    CONV_ELEMENT_COUNT : 20,
-    FC_ELEMENT_SIZE : 50,   # number of multiplier   
-    FC_ELEMENT_COUNT : 50,
-    UNITS_COUNT: 50, 
-    CONV_UNITS_COUNT: 100,
-    FC_UNITS_COUNT: 200,
+    CONV_ELEMENT_SIZE : 0,   # number of multiplier   
+    CONV_ELEMENT_COUNT : 0,
+    FC_ELEMENT_SIZE : 0,   # number of multiplier   
+    FC_ELEMENT_COUNT : 0,
+    UNITS_COUNT: 1, 
+    CONV_UNITS_COUNT: 0,
+    FC_UNITS_COUNT: 0,
     RECONFIG: [], 
     VDP_TYPE: "ROBIN", 
     NAME: "ROBIN_EO",  
@@ -84,13 +84,13 @@ TEST_ROBIN_EO =    [{
 TEST_ROBIN_PO =    [{
     ELEMENT_SIZE: 50,    
     ELEMENT_COUNT: 10,
-    CONV_ELEMENT_SIZE : 20,   # number of multiplier   
-    CONV_ELEMENT_COUNT : 20,
-    FC_ELEMENT_SIZE : 50,   # number of multiplier   
-    FC_ELEMENT_COUNT : 50,
-    UNITS_COUNT: 200, 
-    CONV_UNITS_COUNT: 100,
-    FC_UNITS_COUNT: 200,
+    CONV_ELEMENT_SIZE : 0,   # number of multiplier   
+    CONV_ELEMENT_COUNT : 0,
+    FC_ELEMENT_SIZE : 0,   # number of multiplier   
+    FC_ELEMENT_COUNT : 0,
+    UNITS_COUNT: 1, 
+    CONV_UNITS_COUNT: 0,
+    FC_UNITS_COUNT: 0,
     RECONFIG: [], 
     VDP_TYPE: "ROBIN", 
     NAME: "ROBIN_PO",  
@@ -103,21 +103,40 @@ TEST_ROBIN_PO =    [{
 
 
 TEST_OXBNN =    [{
-    ELEMENT_SIZE: 50,    
-    ELEMENT_COUNT: 10,
-    CONV_ELEMENT_SIZE : 20,   # number of multiplier   
-    CONV_ELEMENT_COUNT : 20,
-    FC_ELEMENT_SIZE : 50,   # number of multiplier   
-    FC_ELEMENT_COUNT : 50,
-    UNITS_COUNT: 200, 
-    CONV_UNITS_COUNT: 100,
-    FC_UNITS_COUNT: 200,
+    ELEMENT_SIZE: 53,    
+    ELEMENT_COUNT: 53,
+    CONV_ELEMENT_SIZE : 0,   # number of multiplier   
+    CONV_ELEMENT_COUNT : 0,
+    FC_ELEMENT_SIZE : 0,   # number of multiplier   
+    FC_ELEMENT_COUNT : 0,
+    UNITS_COUNT: 1, 
+    CONV_UNITS_COUNT: 0,
+    FC_UNITS_COUNT: 0,
     RECONFIG: [], 
     VDP_TYPE: "OXBNN", 
     NAME: "AMM",  
-    ACC_TYPE: "DIGITAL", 
     PRECISION: 1, 
-    BITRATE: 1 , # GHz
+    BITRATE: 5 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "OS",
+    REDUCTION_TYPE: "PCA", 
+}]
+
+TEST_HSCONNA =    [{
+    ELEMENT_SIZE: 176,    
+    ELEMENT_COUNT: 176,
+    CONV_ELEMENT_SIZE : 0,   # number of multiplier   
+    CONV_ELEMENT_COUNT : 0,
+    FC_ELEMENT_SIZE : 0,   # number of multiplier   
+    FC_ELEMENT_COUNT : 0,
+    UNITS_COUNT: 1, 
+    CONV_UNITS_COUNT: 0,
+    FC_UNITS_COUNT: 0,
+    RECONFIG: [], 
+    VDP_TYPE: "HSCONNA", 
+    NAME: "HSCONNA",   
+    PRECISION: 1, 
+    BITRATE: 30 , # GHz
     BATCH_SIZE: 1,  
     DATAFLOW: "OS",
     REDUCTION_TYPE: "PCA", 

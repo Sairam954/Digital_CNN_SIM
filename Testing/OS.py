@@ -3,8 +3,8 @@ import numpy as np
 random_seed = 1
 torch.manual_seed(random_seed)
 
-C = 10
-D = 10
+C = 4
+D = 4
 K = 3
 N = 2 # size of DPE
 M = 2 # Number of DPEs in a DPU
@@ -20,7 +20,7 @@ print("Weight ", W)
 for c in range(0, C, M):
     for d in range(0, D, Y):
         for k in range(0, K, N):
-            i_slice = I[c: min(c+Y,C), k : min(k + N, K)]
+            i_slice = I[d: min(d+Y,D), k : min(k + N, K)]
             w_slice = W[k : min(k + N, K), d:min(d+M,D)]
             w_slice = w_slice.T
             for dpu_idx in range(min(d+Y,D)-d):

@@ -30,10 +30,11 @@ def HQNNA_FC_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_networ
     input_actuation_latency = 0
     weight_actuation_latency = 0
     dpe_latency = 0 # sum of prop, input_actuation and weight_actuation latency
-    soa_latency = 0
     adc_latency = 0
     pd_latency = 0
-
+    soa_latency = 0
+    
+    
     # cache access latencies 
     psum_access_latency = 0
     input_access_latency = 0
@@ -58,6 +59,7 @@ def HQNNA_FC_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_networ
     pd_energy = 0
     dac_energy = 0
     adc_energy = 0
+    soa_energy = 0
 
     # cache access energy
     weight_access_energy = 0
@@ -160,15 +162,16 @@ def HQNNA_FC_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_networ
                         psum_access_latency += 2*torch.numel(psum_dpu)*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec
                         psum_access_energy += torch.numel(psum_dpu)*(l1_latency['energy_read(nJ)'].values[0]+l2_latency['energy_read(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
                         psum_access_energy += torch.numel(psum_dpu)*(l1_latency['energy_write(nJ)'].values[0]+l2_latency['energy_write(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
-                psum_reduction_latency += rn_obj.get_reduction_latency(temp_partial_sum_counter,1)          
+                psum_reduction_latency += rn_obj.get_reduction_latency(temp_partial_sum_counter,1) 
+                psum_reduction_latency += shifter_obj.latency*ps_to_sec*temp_partial_sum_counter        
                 partial_sum_reduction_energy += rn_obj.get_reduction_latency(temp_partial_sum_counter,1)*rn_obj.power 
                 partial_sum_reduction_energy += shifter_obj.energy*fJ_to_J*temp_partial_sum_counter
 
-    total_latency = dac_latency + input_actuation_latency + weight_actuation_latency + prop_latency + soa_latency + pd_latency + adc_latency + psum_access_latency + psum_reduction_latency
+    total_latency = dac_latency + input_actuation_latency + weight_actuation_latency + prop_latency +  pd_latency + adc_latency + psum_access_latency + psum_reduction_latency
     total_energy = dac_energy + input_actuation_energy + weight_actuation_energy + soa_energy + pd_energy + adc_energy + psum_access_energy + partial_sum_reduction_energy
 
-    latency_dict = {'reduction_network':reduction_network_type,'dataflow':'OS','propagation_latency':prop_latency, 'input_actuation_latency':input_actuation_latency, 'weight_actuation_latency':weight_actuation_latency,'dac_latency': dac_latency, 'pd_latency': pd_latency ,'soa_latency':soa_latency, 'adc_latency':adc_latency,'psum_access_latency':psum_access_latency, 'input_access_latency':input_access_latency, 'weight_access_latency':weight_access_latency, 'output_access_latency':output_access_latency, 'psum_reduction_latency':psum_reduction_latency, 'total_latency':total_latency}
+    latency_dict = {'reduction_network':reduction_network_type,'dataflow':'OS','propagation_latency':prop_latency, 'input_actuation_latency':input_actuation_latency, 'weight_actuation_latency':weight_actuation_latency,'dac_latency': dac_latency, 'pd_latency': pd_latency , 'adc_latency':adc_latency,'psum_access_latency':psum_access_latency, 'input_access_latency':input_access_latency, 'weight_access_latency':weight_access_latency, 'output_access_latency':output_access_latency,'soa_latency': soa_latency ,'psum_reduction_latency':psum_reduction_latency, 'total_latency':total_latency}
 
-    energy_dict = {'reduction_network':reduction_network_type,'dataflow':'OS','psum_access_energy': psum_access_energy,'input_actuation_energy':input_actuation_energy,'weight_actuation_energy':weight_actuation_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'soa_energy':soa_energy, 'pd_energy': pd_energy ,'psum_reduction_energy': partial_sum_reduction_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'total_energy': total_energy}
+    energy_dict = {'reduction_network':reduction_network_type,'dataflow':'OS','psum_access_energy': psum_access_energy,'input_actuation_energy':input_actuation_energy,'weight_actuation_energy':weight_actuation_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'soa_energy':soa_energy, 'pd_energy': pd_energy ,'psum_reduction_energy': partial_sum_reduction_energy,'soa_energy': soa_energy , 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'total_energy': total_energy}
   
     return latency_dict, energy_dict

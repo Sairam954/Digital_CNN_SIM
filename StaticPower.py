@@ -11,7 +11,7 @@ from ReductionNetwork import RN
 from SOA import SOA
 from VCSEL import VCSEL
 
-accelerator_list = [TEST_HQNNA, TEST_HSCONNA, TEST_ROBIN_PO, TEST_ROBIN_EO, TEST_OXBNN]
+accelerator_list = [TEST_HQNNA,TEST_HSCONNA,TEST_ROBIN_PO]
 
 for tpc in accelerator_list:
     architecture = tpc[0][NAME]
@@ -31,6 +31,7 @@ for tpc in accelerator_list:
     reduction_network_type = tpc[0][REDUCTION_TYPE]
     print("Architecture ", architecture, "Dataflow ", dataflow, "Reduction Network", reduction_network_type)
     mW_to_W = 1e-3
+    laser_power_per_wavelength = 1.274274986e-3 # W
     if vdp_type=='HQNNA':
         dpe_obj = MRR_DPE(conv_dpe_size,data_rate)
         rn_obj = RN(reduction_network_type)
@@ -38,7 +39,7 @@ for tpc in accelerator_list:
         adc_obj = ADC_16b()
         soa_obj = SOA()
         pd_obj = PD()
-        # conv unit area (MAM Architecture)
+        # conv unit static power (MAM Architecture)
         weight_bank_mrrs = conv_dpe_count*conv_dpe_size
         input_bank_mrrs = conv_dpe_size
         no_of_mrrs = input_bank_mrrs+weight_bank_mrrs
@@ -46,12 +47,12 @@ for tpc in accelerator_list:
         no_of_soas = conv_dpe_count
         no_of_pds = conv_dpe_count
         no_of_adc = math.ceil(conv_dpe_count/4)  
+        laser_power = laser_power_per_wavelength*conv_dpe_size
         no_of_rn = 1
-        conv_unit_area = no_of_rn*rn_obj.area+ dpe_obj.area*no_of_mrrs + dac_obj.area*no_of_dacs+ adc_obj.area*no_of_adc + soa_obj.area*no_of_soas + pd_obj.area*no_of_pds
-        total_conv_unit_area = conv_unit_area*conv_dpu_count 
-        print("MRR AREA", dpe_obj.area*no_of_mrrs)
-        print('HQNNA Conv Unit', conv_unit_area)
-        # fc unit area
+        conv_unit_power = no_of_rn*rn_obj.power*mW_to_W+ dpe_obj.weight_actuation_power*no_of_mrrs + dac_obj.power*no_of_dacs*mW_to_W + adc_obj.power*no_of_adc*mW_to_W + soa_obj.power*no_of_soas*mW_to_W + pd_obj.power*no_of_pds*mW_to_W + laser_power
+        total_conv_unit_power = conv_unit_power*conv_dpu_count 
+        print('HQNNA Conv Unit', conv_unit_power)
+        # fc unit static power
         weight_bank_mrrs = fc_dpe_count*fc_dpe_size
         input_bank_mrrs = fc_dpe_size
         no_of_mrrs = input_bank_mrrs+weight_bank_mrrs
@@ -59,15 +60,13 @@ for tpc in accelerator_list:
         no_of_soas = 0
         no_of_pds = fc_dpe_count
         no_of_adc = fc_dpe_count  
-        
+        laser_power = laser_power_per_wavelength*fc_dpe_size
         no_of_rn = 1
-        fc_unit_area = no_of_rn*rn_obj.area+dpe_obj.area*no_of_mrrs + dac_obj.area*no_of_dacs + adc_obj.area*no_of_adc + soa_obj.area*no_of_soas + pd_obj.area*no_of_pds 
-        total_fc_unit_area = fc_unit_area*fc_dpu_count
-        print("MRR AREA", dpe_obj.area*no_of_mrrs)
-        
-        print('FC Unit', total_fc_unit_area)
-        total_area = total_conv_unit_area + total_fc_unit_area
-        print("HQNNA Area", total_area, "mm2")
+        fc_unit_power = no_of_rn*rn_obj.power*mW_to_W+dpe_obj.weight_actuation_power*no_of_mrrs + dac_obj.power*no_of_dacs*mW_to_W + adc_obj.power*no_of_adc*mW_to_W + soa_obj.power*no_of_soas*mW_to_W + pd_obj.power*no_of_pds*mW_to_W + laser_power
+        total_fc_unit_power = fc_unit_power*fc_dpu_count 
+        print('FC Unit', fc_unit_power)
+        total_power = total_conv_unit_power + total_fc_unit_power
+        print("HQNNA Power", total_power*1e3, "mW")
     elif vdp_type =="HSCONNA":
         dpe_obj = MRR_DPE(conv_dpe_size,data_rate)
         rn_obj = RN(reduction_network_type)
@@ -76,19 +75,20 @@ for tpc in accelerator_list:
         soa_obj = SOA()
         pd_obj = PD()
         
-        # sconna unit area
+        # sconna unit static power
         osm_bank_mrrs = dpe_count*dpe_size
         filter_bank_mrrs = dpe_count*dpe_size
         no_of_mrrs = filter_bank_mrrs+osm_bank_mrrs
         no_of_dacs = osm_bank_mrrs
         no_of_soas = 0
         no_of_pds = dpe_count
-        no_of_adc = dpe_count 
-        sconna_unit_area = dpe_obj.area*osm_bank_mrrs + dac_obj.area*no_of_dacs + adc_obj.area*no_of_adc  + pd_obj.area*no_of_pds
-        print('SCONNA Unit area', sconna_unit_area)
-        total_sconna_unit_area = sconna_unit_area*dpe_count 
-        total_area = total_sconna_unit_area*dpu_count
-        print("HSCONNA area", total_area, "mm2")
+        no_of_adc = dpe_count  
+        laser_power = laser_power_per_wavelength*dpe_size
+        sconna_unit_power = dpe_obj.weight_actuation_power*osm_bank_mrrs + dac_obj.power*no_of_dacs*mW_to_W + adc_obj.power*no_of_adc*mW_to_W + soa_obj.power*no_of_soas*mW_to_W + pd_obj.power*no_of_pds*mW_to_W + laser_power
+        print('SCONNA Unit Power', sconna_unit_power)
+        total_sconna_unit_power = sconna_unit_power*dpu_count 
+        total_power = total_sconna_unit_power
+        print("HSCONNA Power", total_power*1e3, "mW")
     elif vdp_type =="ROBIN":
         dpe_obj = MRR_DPE(conv_dpe_size,data_rate)
         rn_obj = RN(reduction_network_type)
@@ -99,16 +99,17 @@ for tpc in accelerator_list:
         vcsel_obj = VCSEL()
         pd_obj = PD()
         
-        # ROBIN unit area
+        # ROBIN unit static power
         weight_bank_mrrs = dpe_count*dpe_size
         input_bank_mrrs = dpe_count*dpe_size
         no_of_mrrs = weight_bank_mrrs+input_bank_mrrs
         no_of_vcsel = dpe_count
         no_of_pds = dpe_count
         no_of_adc = dpe_count  
+        laser_power = laser_power_per_wavelength*dpe_size
         no_of_rn = 1
-        robin_unit_area = no_of_rn*rn_obj.area+dpe_obj.area*no_of_mrrs + wgt_dac_obj.area*weight_bank_mrrs + act_dac_obj.area*input_bank_mrrs + adc_obj.area*no_of_adc + vcsel_obj.area*no_of_vcsel+ pd_obj.area*no_of_pds
-        print('ROBIN Unit area', robin_unit_area)
-        total_robin_unit_area = robin_unit_area*dpu_count 
-        total_area = total_robin_unit_area
-        print("ROBIN area", total_area, "mm2")
+        robin_unit_power = no_of_rn*rn_obj.power*mW_to_W+dpe_obj.weight_actuation_power*no_of_mrrs + wgt_dac_obj.power*weight_bank_mrrs*mW_to_W + act_dac_obj.power*input_bank_mrrs*mW_to_W + adc_obj.power*no_of_adc*mW_to_W + vcsel_obj.power*no_of_vcsel*mW_to_W + pd_obj.power*no_of_pds*mW_to_W + laser_power
+        print('ROBIN Unit Power', robin_unit_power)
+        total_robin_unit_power = robin_unit_power*dpu_count 
+        total_power = total_robin_unit_power
+        print("ROBIN Power", total_power*1e3, "mW")

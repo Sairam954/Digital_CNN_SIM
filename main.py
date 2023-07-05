@@ -14,6 +14,7 @@ import datetime
 from MRR_DPE import *
 from Mapper.HQNNA_Conv import HQNNA_Conv_run
 from Mapper.HQNNA_FC import HQNNA_FC_run
+from Mapper.HSCONNA import HSCONNA_run
 from Mapper.OXBNN import OXBNN_run
 from Mapper.ROBIN import ROBIN_run
 from ReductionNetwork import *
@@ -62,6 +63,8 @@ for tpc in accelerator_list:
     soa_latency = 0
     adc_latency = 0
     pd_latency = 0
+    vcsel_latency = 0
+    b_to_s_latency = 0
 
     # cache access latencies 
     psum_access_latency = 0
@@ -87,6 +90,8 @@ for tpc in accelerator_list:
     pd_energy = 0
     dac_energy = 0
     adc_energy = 0
+    vcsel_energy = 0
+    b_to_s_energy = 0
 
     # cache access energy
     weight_access_energy = 0
@@ -173,7 +178,7 @@ for tpc in accelerator_list:
                     M = conv_dpe_count
                     Y = conv_dpu_count
                     latency_dict, energy_dict = HQNNA_Conv_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_type)
-                    print('latency_dict', latency_dict)
+                
                 elif layer_type == 'Dense':
                     N = fc_dpe_size
                     M = fc_dpe_count
@@ -189,9 +194,9 @@ for tpc in accelerator_list:
                 soa_latency += latency_dict['soa_latency']
                 psum_access_latency += latency_dict['psum_access_latency']
                 psum_reduction_latency += latency_dict['psum_reduction_latency']
-                input_access_latency += latency_dict['input_access_latency']
-                weight_access_latency += latency_dict['weight_access_latency']
-                output_access_latency += latency_dict['output_access_latency']
+                input_access_latency += 0
+                weight_access_latency += 0
+                output_access_latency += 0
                 
                 psum_access_energy += energy_dict['psum_access_energy']
                 input_actuation_energy += energy_dict['input_actuation_energy']
@@ -207,13 +212,87 @@ for tpc in accelerator_list:
                 
             elif vdp_type == 'ROBIN':
                 latency_dict, energy_dict = ROBIN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_type)
+                # update global latency and energy
+                prop_latency += latency_dict['propagation_latency']
+                input_actuation_latency += latency_dict['input_actuation_latency']
+                weight_actuation_latency += latency_dict['weight_actuation_latency']
+                dac_latency += latency_dict['dac_latency']
+                adc_latency += latency_dict['adc_latency']
+                pd_latency += latency_dict['pd_latency']
+                vcsel_latency += latency_dict['vcsel_latency']
+                psum_access_latency += latency_dict['psum_access_latency']
+                psum_reduction_latency += latency_dict['psum_reduction_latency']
+                input_access_latency += 0
+                weight_access_latency += 0
+                output_access_latency += 0
+                
+                psum_access_energy += energy_dict['psum_access_energy']
+                input_actuation_energy += energy_dict['input_actuation_energy']
+                weight_actuation_energy += energy_dict['weight_actuation_energy']
+                dac_energy += energy_dict['dac_energy']
+                adc_energy += energy_dict['adc_energy']
+                vcsel_energy += energy_dict['vcsel_energy']
+                psum_reduction_energy += energy_dict['psum_reduction_energy']
+                psum_access_energy += energy_dict['psum_access_energy']
+                input_access_energy += 0
+                weight_access_energy += 0
+                output_access_energy += 0
+                
+                
             elif vdp_type == 'LIGHTBULB':
                 pass
             elif vdp_type == 'OXBNN':
                 latency_dict, energy_dict = OXBNN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_type)
+                prop_latency += latency_dict['propagation_latency']
+                input_actuation_latency += latency_dict['input_actuation_latency']
+                weight_actuation_latency += latency_dict['weight_actuation_latency']
+                dac_latency += latency_dict['dac_latency']
+                adc_latency += latency_dict['adc_latency']
+                pd_latency += latency_dict['pd_latency']
+                psum_access_latency += latency_dict['psum_access_latency']
+                psum_reduction_latency += latency_dict['psum_reduction_latency']
+                input_access_latency += 0
+                weight_access_latency += 0
+                output_access_latency += 0
+                
+                psum_access_energy += energy_dict['psum_access_energy']
+                input_actuation_energy += energy_dict['input_actuation_energy']
+                weight_actuation_energy += energy_dict['weight_actuation_energy']
+                dac_energy += energy_dict['dac_energy']
+                adc_energy += energy_dict['adc_energy']
+                psum_reduction_energy += energy_dict['psum_reduction_energy']
+                psum_access_energy += energy_dict['psum_access_energy']
+                input_access_energy += 0
+                weight_access_energy += 0
+                output_access_energy += 0
             elif vdp_type == 'SCONNA':
-                pass
+                latency_dict, energy_dict = HSCONNA_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_type)
+                prop_latency += latency_dict['propagation_latency']
+                input_actuation_latency += latency_dict['input_actuation_latency']
+                weight_actuation_latency += latency_dict['weight_actuation_latency']
+                b_to_s_latency += latency_dict['b_to_s_latency']
+                dac_latency += latency_dict['dac_latency']
+                adc_latency += latency_dict['adc_latency']
+                pd_latency += latency_dict['pd_latency']
+                psum_access_latency += latency_dict['psum_access_latency']
+                psum_reduction_latency += latency_dict['psum_reduction_latency']
+                input_access_latency += 0
+                weight_access_latency += 0
+                output_access_latency += 0
+                
+                psum_access_energy += energy_dict['psum_access_energy']
+                input_actuation_energy += energy_dict['input_actuation_energy']
+                weight_actuation_energy += energy_dict['weight_actuation_energy']
+                b_to_s_energy += energy_dict['b_to_s_energy']
+                dac_energy += energy_dict['dac_energy']
+                adc_energy += energy_dict['adc_energy']
+                psum_reduction_energy += energy_dict['psum_reduction_energy']
+                psum_access_energy += energy_dict['psum_access_energy']
+                input_access_energy += 0
+                weight_access_energy += 0
+                output_access_energy += 0
             
+                
                    
         # print all the latency parameters
         # MRR DPE Latencies
@@ -231,16 +310,23 @@ for tpc in accelerator_list:
         print("Psum Reduction Latency",psum_reduction_latency)
         
         
-        total_latency = dac_latency + input_actuation_latency + weight_actuation_latency + prop_latency + soa_latency + pd_latency + adc_latency + psum_access_latency + psum_reduction_latency
-        total_energy = dac_energy + input_actuation_energy + weight_actuation_energy + soa_energy + pd_energy + adc_energy + psum_access_energy + psum_reduction_energy
+        total_latency = dac_latency + input_actuation_latency + weight_actuation_latency + prop_latency + soa_latency + b_to_s_latency + vcsel_latency+ pd_latency + adc_latency + psum_access_latency + psum_reduction_latency
+        total_energy = dac_energy + input_actuation_energy + weight_actuation_energy + soa_energy + b_to_s_energy + vcsel_energy + pd_energy + adc_energy + psum_access_energy + psum_reduction_energy
 
         print("Total Latency",total_latency)   
         print("Total Energy",total_energy)
 
-        latency_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'propagation_latency':prop_latency, 'input_actuation_latency':input_actuation_latency, 'weight_actuation_latency':weight_actuation_latency, 'psum_access_latency':psum_access_latency, 'input_access_latency':input_access_latency, 'weight_access_latency':weight_access_latency, 'output_access_latency':output_access_latency, 'psum_reduction_latency':psum_reduction_latency, 'total_latency':total_latency}
+        latency_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'propagation_latency':prop_latency, 'input_actuation_latency':input_actuation_latency,
+                        'weight_actuation_latency':weight_actuation_latency, 'psum_access_latency':psum_access_latency,'input_access_latency':input_access_latency, 
+                        'weight_access_latency':weight_access_latency, 'output_access_latency':output_access_latency, 'psum_reduction_latency':psum_reduction_latency,'soa_latency':soa_latency, 
+                        'b_to_s_latency': b_to_s_latency,'vcsel_latency':vcsel_latency,'total_latency':total_latency}
         tpc_latency_result.append(latency_dict)
     
-        energy_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'psum_access_energy': psum_access_energy,'input_actuation_energy':input_actuation_energy,'weight_actuation_energy':weight_actuation_energy,'input_access_energy':input_access_energy,'weight_access_energy':weight_access_energy,'output_access_energy':output_access_energy, 'psum_reduction_energy': psum_reduction_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'total_energy': total_energy}
+        energy_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'psum_access_energy': psum_access_energy,'input_actuation_energy':input_actuation_energy,
+                       'weight_actuation_energy':weight_actuation_energy,'input_access_energy':input_access_energy,'weight_access_energy':weight_access_energy,
+                       'output_access_energy':output_access_energy, 'psum_reduction_energy': psum_reduction_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 
+                       'soa_energy':soa_energy, 'b_to_s_energy': b_to_s_energy,'vcsel_energy':vcsel_energy,
+                       'total_energy': total_energy}
         tpc_energy_result.append(energy_dict)
         latency_df = pd.DataFrame(tpc_latency_result)
         energy_df = pd.DataFrame(tpc_energy_result)

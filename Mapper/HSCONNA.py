@@ -20,7 +20,7 @@ import pandas as pd
 random_seed = 1
 torch.manual_seed(random_seed)
 
-def OXBNN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_type):
+def HSCONNA_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_type):
     # cacha latency parameters
     cacheMissRatioDf = pd.read_csv('C:\\Users\\SSR226\\Desktop\\MRRCNNSIM\\CacheUtils\\Miss_Ratio_Analysis1.csv')
     cacheParameters = pd.read_csv('C:\\Users\\SSR226\\Desktop\\DataflowTesting\\CacheUtils\\Cache_Parameters.csv')
@@ -37,6 +37,7 @@ def OXBNN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_t
     adc_latency = 0
     pd_latency = 0
     b_to_s_latency = 0
+    soa_latency = 0
 
     # cache access latencies 
     psum_access_latency = 0
@@ -101,7 +102,7 @@ def OXBNN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_t
     # print("Weight ", W)
     stochastic_bit_stream_len = 2**act_precision if act_precision>wt_precision else 2**wt_precision 
   
-    data_rate = 5
+    data_rate = 30
     miss_ratio = cacheMissRatioDf.loc[(cacheMissRatioDf['C']==C) & (cacheMissRatioDf['D']==D) & (cacheMissRatioDf['K']==K) & (cacheMissRatioDf['dataflow']== 'OS')]
     # components 
     dpe_obj = MRR_DPE(N,data_rate)
@@ -130,8 +131,8 @@ def OXBNN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_t
   
 
     
-    for c in range(0, C, M):
-        for d in range(0, D, Y):
+    for c in range(0, C, Y):
+        for d in range(0, D, M):
             temp_partial_sum_counter = 0
             for k in range(0, K, N):
                 i_slice = I[c: min(c+Y,C), k : min(k + N, K)]
@@ -163,7 +164,7 @@ def OXBNN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_t
                         dpu_w_slice = w_slice
                         psum_dpu = torch.einsum('ij,ij->i', dpu_i_slice, dpu_w_slice)    
                         if bit == (stochastic_bit_stream_len-1):
-                            O[c+dpu_idx,d:d+M] = psum_dpu+O[c+dpu_idx,d:d+M]
+                            O[c+dpu_idx,d:min(d+M,D)] = psum_dpu+O[c+dpu_idx,d:min(d+M,D)]
                         
                         # ! No partial sums are generated due to PCA based reduction
                         psum_access_latency += 0
@@ -175,11 +176,11 @@ def OXBNN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_t
             partial_sum_reduction_energy += 0
                 
 
-    total_latency = dac_latency + input_actuation_latency + weight_actuation_latency + prop_latency + vcsel_energy + pd_latency + adc_latency + psum_access_latency + psum_reduction_latency
-    total_energy = dac_energy + input_actuation_energy + weight_actuation_energy + vcsel_energy + pd_energy + adc_energy + psum_access_energy + partial_sum_reduction_energy
+    total_latency = dac_latency + input_actuation_latency + weight_actuation_latency + prop_latency + b_to_s_latency + pd_latency + adc_latency + psum_access_latency + psum_reduction_latency
+    total_energy = dac_energy + input_actuation_energy + weight_actuation_energy + b_to_s_energy + pd_energy + adc_energy + psum_access_energy + partial_sum_reduction_energy
 
-    latency_dict = {'reduction_network':reduction_network_type,'dataflow':'OS','propagation_latency':prop_latency, 'input_actuation_latency':input_actuation_latency, 'weight_actuation_latency':weight_actuation_latency,'dac_latency': dac_latency, 'pd_latency': pd_latency ,'vcsel_latency':vcsel_latency, 'adc_latency':adc_latency,'psum_access_latency':psum_access_latency, 'input_access_latency':input_access_latency, 'weight_access_latency':weight_access_latency, 'output_access_latency':output_access_latency, 'psum_reduction_latency':psum_reduction_latency, 'total_latency':total_latency}
+    latency_dict = {'reduction_network':reduction_network_type,'dataflow':'OS', 'b_to_s_latency':b_to_s_latency,'propagation_latency':prop_latency,'input_actuation_latency':input_actuation_latency, 'weight_actuation_latency':weight_actuation_latency,'dac_latency': dac_latency, 'pd_latency': pd_latency ,'adc_latency':adc_latency,'psum_access_latency':psum_access_latency, 'input_access_latency':input_access_latency, 'weight_access_latency':weight_access_latency, 'output_access_latency':output_access_latency, 'psum_reduction_latency':psum_reduction_latency, 'total_latency':total_latency}
 
-    energy_dict = {'reduction_network':reduction_network_type,'dataflow':'OS','psum_access_energy': psum_access_energy,'input_actuation_energy':input_actuation_energy,'weight_actuation_energy':weight_actuation_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'vcsel_energy':vcsel_energy, 'pd_energy': pd_energy ,'psum_reduction_energy': partial_sum_reduction_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'total_energy': total_energy}
+    energy_dict = {'reduction_network':reduction_network_type,'dataflow':'OS','b_to_s_energy':b_to_s_energy, 'psum_access_energy':psum_access_energy,'input_actuation_energy':input_actuation_energy,'weight_actuation_energy':weight_actuation_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'pd_energy': pd_energy ,'psum_reduction_energy': partial_sum_reduction_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'total_energy': total_energy}
   
     return latency_dict, energy_dict

@@ -11,6 +11,8 @@ class MRR_DPE:
         self.input_actuation_power = 1.6e-6 # W electro optic tuning
         self.weight_actuation_power = 1.375e-3 # W thermo optic tuning
         self.area = 3.14*(self.radius**2)*1e-6 # mm^2
+        self.sconna_xnor_power = 2.3e-3 # W
+        self.sconna_and_power = 3.52e-3 # W
         
     def get_prop_latency(self):
         path_distance = self.radius*2*3.143 + self.num_of_weight_bank_mrr*(self.radius*2+self.pitch)

@@ -65,6 +65,8 @@ def HQNNA_Conv_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_netw
     pd_energy = 0
     dac_energy = 0
     adc_energy = 0
+    
+    
 
     # cache access energy
     weight_access_energy = 0
@@ -147,10 +149,10 @@ def HQNNA_Conv_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_netw
                     dpu_i_slice = i_slice[dpu_idx,:]
                     
                     
-                    dac_energy += dac_obj.energy*pJ_to_J*torch.numel(i_slice)
-                    dac_energy += dac_obj.energy*pJ_to_J*torch.numel(w_slice)*B*math.ceil(wt_precision/16)
+                    dac_energy += dac_obj.energy*pJ_to_J*torch.numel(dpu_i_slice)
+                    dac_energy += dac_obj.energy*pJ_to_J*torch.numel(w_slice)*B*(wt_precision/16)
                     input_actuation_energy += dpe_obj.input_actuation_power*dpe_obj.input_actuation_latency*ns_to_sec*torch.numel(i_slice) # J
-                    weight_actuation_energy += dpe_obj.weight_actuation_power*dpe_obj.thermo_optic_tuning_latency*us_to_sec*torch.numel(w_slice)*B*math.ceil(wt_precision/16) # J
+                    weight_actuation_energy += dpe_obj.weight_actuation_power*dpe_obj.thermo_optic_tuning_latency*us_to_sec*torch.numel(w_slice)*B*(wt_precision/16) # J
                     
                     dpu_i_slice = dpu_i_slice.T.repeat(M,1)
                     dpu_w_slice = w_slice
@@ -160,8 +162,8 @@ def HQNNA_Conv_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_netw
                     dpu_w_slice.index_add_(0, zero_index_list, w_slice)
                     psum_dpu = torch.einsum('ij,ij->i', dpu_i_slice, dpu_w_slice)
                     
-                    soa_energy += soa_obj.energy*pJ_to_J*w_slice.shape[0]*B*math.ceil(wt_precision/16)
-                    pd_energy += pd_obj.energy*fJ_to_J*w_slice.shape[0]*B*math.ceil(wt_precision/16)
+                    soa_energy += soa_obj.energy*pJ_to_J*w_slice.shape[0]*B*(wt_precision/16)
+                    pd_energy += pd_obj.energy*fJ_to_J*w_slice.shape[0]*B*(wt_precision/16)
                     
                     
                     cluster_psum_dpu = psum_dpu.reshape(math.ceil(M/B),B)

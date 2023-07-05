@@ -109,7 +109,7 @@ def ROBIN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_t
     adc_obj = ADC_16b()
     pd_obj = PD()
     shifter_obj = Shifter()
-    vsce_obj = VCSEL()
+    vcsel_obj = VCSEL()
 
     ps_to_sec = 1e-12
     ns_to_sec = 1e-9
@@ -129,8 +129,8 @@ def ROBIN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_t
 
     for bit_slice in range(num_of_act_bit_slice*num_of_wt_bit_slice): 
         O = torch.zeros(C,D)
-        for c in range(0, C, M):
-            for d in range(0, D, Y):
+        for c in range(0, C, Y):
+            for d in range(0, D, M):
                 temp_partial_sum_counter = 0
                 for k in range(0, K, N):
                     i_slice = I[c: min(c+Y,C), k : min(k + N, K)]
@@ -142,7 +142,7 @@ def ROBIN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_t
                     weight_actuation_latency += dpe_obj.thermo_optic_tuning_latency*us_to_sec
                     input_actuation_latency += dpe_obj.input_actuation_latency*ns_to_sec
                     prop_latency +=  dpe_obj.get_prop_latency()
-                    vcsel_latency += vsce_obj.latency*ns_to_sec
+                    vcsel_latency += vcsel_obj.latency*ns_to_sec
                     pd_latency += pd_obj.latency*ps_to_sec
                     adc_latency += adc_obj.latency*ns_to_sec
                     
@@ -161,14 +161,15 @@ def ROBIN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_t
                         dpu_w_slice = w_slice
                         psum_dpu = torch.einsum('ij,ij->i', dpu_i_slice, dpu_w_slice)    
                         adc_energy += adc_obj.energy*pJ_to_J*torch.numel(psum_dpu)
-                        vcsel_energy += vsce_obj.energy*pJ_to_J*torch.numel(psum_dpu)
-                        O[c+dpu_idx,d:d+M] = psum_dpu+O[c+dpu_idx,d:d+M]
+                        vcsel_energy += vcsel_obj.energy*pJ_to_J*torch.numel(psum_dpu)
+                        O[c+dpu_idx,d:min(d+M,D)] = psum_dpu+O[c+dpu_idx,d:min(d+M,D)]
                         
                         temp_partial_sum_counter += torch.numel(psum_dpu)
                         psum_access_latency += 2*torch.numel(psum_dpu)*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec
                         psum_access_energy += torch.numel(psum_dpu)*(l1_latency['energy_read(nJ)'].values[0]+l2_latency['energy_read(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
                         psum_access_energy += torch.numel(psum_dpu)*(l1_latency['energy_write(nJ)'].values[0]+l2_latency['energy_write(nJ)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*nJ_to_J
                 psum_reduction_latency += rn_obj.get_reduction_latency(temp_partial_sum_counter,1)          
+                psum_reduction_latency += shifter_obj.latency*ps_to_sec*temp_partial_sum_counter
                 partial_sum_reduction_energy += rn_obj.get_reduction_latency(temp_partial_sum_counter,1)*rn_obj.power 
                 partial_sum_reduction_energy += shifter_obj.energy*fJ_to_J*temp_partial_sum_counter
 
