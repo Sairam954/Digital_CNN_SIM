@@ -23,14 +23,14 @@ accelerator_list = [TEST_RIS_S_TREE_L1, TEST_RIS_S_TREE_L2, TEST_RIS_S_TREE_L4, 
                     TEST_RIS_PCA_L1, TEST_RIS_PCA_L2, TEST_RIS_PCA_L4, TEST_RIS_PCA_L8, TEST_RIS_PCA_L16,TEST_RIS_PCA_LM,TEST_RWS_PCA_L1, TEST_RWS_PCA_L2, TEST_RWS_PCA_L4, TEST_RWS_PCA_L8, TEST_RWS_PCA_L16, TEST_RWS_PCA_LM, TEST_ROS_PCA_L1, TEST_ROS_PCA_L2, TEST_ROS_PCA_L4, TEST_ROS_PCA_L8,TEST_ROS_PCA_L16, TEST_ROS_PCA_LM,
                     TEST_WS_S_TREE_LS, TEST_OS_S_TREE_LS, TEST_IS_S_TREE_LS, TEST_WS_ST_TREE_AC_LS,TEST_OS_ST_TREE_AC_LS, TEST_IS_ST_TREE_AC_LS, TEST_WS_STIFT_LS, TEST_OS_STIFT_LS, TEST_IS_STIFT_LS, TEST_WS_PCA_LS, TEST_OS_PCA_LS,TEST_IS_PCA_LS ]
 
-# accelerator_list = [TEST_WS_S_TREE_LS, TEST_OS_S_TREE_LS, TEST_IS_S_TREE_LS, TEST_WS_ST_TREE_AC_LS,TEST_OS_ST_TREE_AC_LS, TEST_IS_ST_TREE_AC_LS, TEST_WS_STIFT_LS, TEST_OS_STIFT_LS, TEST_IS_STIFT_LS, TEST_WS_PCA_LS, TEST_OS_PCA_LS,TEST_IS_PCA_LS ]
+accelerator_list = [TEST_WS_S_TREE_LS, TEST_OS_S_TREE_LS, TEST_IS_S_TREE_LS, TEST_WS_ST_TREE_AC_LS,TEST_OS_ST_TREE_AC_LS, TEST_IS_ST_TREE_AC_LS, TEST_WS_STIFT_LS, TEST_OS_STIFT_LS, TEST_IS_STIFT_LS, TEST_WS_PCA_LS, TEST_OS_PCA_LS,TEST_IS_PCA_LS ]
 
 model_precision = 8
 
 print("Required Model Precision ", model_precision)
 cnnModelDirectory = "CNNModels//"
 modelList = [f for f in listdir(cnnModelDirectory) if isfile(join(cnnModelDirectory, f))]
-modelList = ['ShuffleNet_V2.csv']
+modelList = ['GoogLeNet.csv']
 
 ns_to_sec = 1e-9
 us_to_sec = 1e-6
@@ -751,7 +751,7 @@ for tpc in accelerator_list:
 
         # # Convert the date and time to a string format
         # datetime_string = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
-        datetime_string = "3_7_2023_ShuffleNet_V2"
+        datetime_string = "3_7_2023_GoogLeNet_part_2"
 
         # add time log to the output file
         latency_df.to_csv('tpc_latency_result'+datetime_string+'.csv',index=False)
