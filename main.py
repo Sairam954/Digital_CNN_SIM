@@ -119,7 +119,7 @@ PCA_ACC_Count = 1
 
 def run(modelName, cnnModelDirectory, accelerator_config, required_precision=8):
 
-    print("The Model being Processed---->", modelName)
+    print("The Model being Processed---->", modelName, "---------------------------------------------------------------------------------")
     print("Simulator Excution Begin")
     print("Start Creating Accelerator")
 
@@ -250,11 +250,12 @@ def run(modelName, cnnModelDirectory, accelerator_config, required_precision=8):
     # print("VDP size", vdp_sizes)
     # print("Latency  =",total_latency)
     total_latency = metrics.get_total_latency(total_latency,accelerator)
+     
     # hardware_utilization = metrics.get_hardware_utilization(
     #     controller.utilized_rings, controller.idle_rings)
     dynamic_energy_w = metrics.get_dynamic_energy(
-        accelerator, controller.utilized_rings)
-    static_power_w = metrics.get_static_power(accelerator)
+        accelerator, controller.utilized_rings, reduction_type, total_latency)
+    static_power_w = metrics.get_static_power(accelerator, reduction_type)
     fps = (1/total_latency)
     power = (dynamic_energy_w/total_latency)+static_power_w
     fps_per_w = fps/power
@@ -287,17 +288,17 @@ def run(modelName, cnnModelDirectory, accelerator_config, required_precision=8):
         area += metrics.get_total_area(accelearator_config[UNITS_COUNT], accelearator_config[ELEMENT_COUNT])
         # print("Area_pre", area)
     fps_per_w_area = fps_per_w/area
-    print("Area :", area)
+    #print("Area :", area)
     print("Total Latency ->", total_latency)
-    print("FPS ->", fps)
+    #print("FPS ->", fps)
     print("FPS/W  ->", fps_per_w)
-    print("FPS/W/Area  ->", fps_per_w_area)
-    print("Cache Writes", cache_writes)
-    print("Cache Reads", cache_reads)
-    print("Psum Writes", psum_writes)
-    print("Psum Reads", psum_reads)
-    print("Total Reads", total_reads)
-    print("Total Writes", total_writes)
+    #print("FPS/W/Area  ->", fps_per_w_area)
+    #print("Cache Writes", cache_writes)
+    #print("Cache Reads", cache_reads)
+    #print("Psum Writes", psum_writes)
+    #print("Psum Reads", psum_reads)
+    #print("Total Reads", total_reads)
+    #print("Total Writes", total_writes)
     
     result[NAME] = accelerator_config[0][NAME]
     result['Model_Name'] = modelName.replace(".csv", "")
@@ -305,10 +306,13 @@ def run(modelName, cnnModelDirectory, accelerator_config, required_precision=8):
     result[TOTAL_LATENCY] = total_latency
     result[FPS] = fps
     result[TOTAL_DYNAMIC_ENERGY] = dynamic_energy_w
+    #print("Dynamic Energy", dynamic_energy_w)
     result[TOTAL_STATIC_POWER] = static_power_w
+    #print("Static Power", static_power_w)
+    print("Total Power", power)
     result[FPS_PER_W] = fps_per_w
     result[AREA] = area
-    print("Area", area)
+    #print("Area", area)
     result[FPS_PER_W_PER_AREA] = fps_per_w_area
     result["Total_Cache_Reads"] = total_reads
     result["Total_Cache_Writes"] = total_writes
@@ -326,17 +330,17 @@ accelerator_required_precision = 1
 
 ACCELERATOR_TEST =    [{
     ELEMENT_SIZE: 1,    
-    ELEMENT_COUNT: 256, # number of multiplier    
-    UNITS_COUNT: 1, 
+    ELEMENT_COUNT: 128, # number of multiplier/Cluster size
+    UNITS_COUNT: 2,  # number of clusters
     RECONFIG: [], 
     VDP_TYPE: "AMM", 
     NAME: "Test",  
     ACC_TYPE: "DIGITAL", 
-    PRECISION: 1, 
+    PRECISION: 8, 
     BITRATE: 1 , # GHz
     BATCH_SIZE: 1,  
     DATAFLOW: "OS",
-    REDUCTION_TYPE: "STIFT", 
+    REDUCTION_TYPE: "Photonic_RN", 
 }]
 
 
@@ -347,8 +351,9 @@ print("Required Precision ", accelerator_required_precision)
 cnnModelDirectory = "./CNNModels/"
 modelList = [f for f in listdir(
     cnnModelDirectory) if isfile(join(cnnModelDirectory, f))]
-# modelList = ['GoogLeNet.csv']
-modelList = ['GoogLeNet.csv']
+#modelList = ['GoogLeNet.csv', 'ResNet50.csv', 'VGG16.csv', 'MobileNet_V2.csv', 'VGG19.csv', 'DenseNet121.csv']
+modelList = ['ResNet50.csv', 'MobileNet_V2.csv', 'GoogLeNet.csv', 'DenseNet121.csv']
+#modelList = ['ResNet50.csv']
 
 system_level_results = []
 for tpc in tpc_list:

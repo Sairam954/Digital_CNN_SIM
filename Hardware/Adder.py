@@ -68,14 +68,12 @@ class Adder(Pheripheral):
                 return self.latency*number_of_clocks
         """
         number_of_clocks = 0
-        if self.reduction_type == "PT" or self.reduction_type == "ST_Linear":
-            number_of_clocks = psums
-        elif self.reduction_type == "S_Tree":
+        if self.reduction_type == "S_Tree":
             adder_level = math.log2(psums)
             number_of_clocks = (folds+adder_level)*math.log2(psums/folds)
-        elif self.reduction_type == "ST_Tree_Ac" or self.reduction_type == "STIFT":
+        elif self.reduction_type == "ST_Tree_AC" or self.reduction_type == "STIFT":
             number_of_clocks = (folds)*math.log2(psums/folds)
-        elif self.reduction_type == "Photonic_RN":
+        elif self.reduction_type == "Photonic_RN_Tunable":
             number_of_clocks = folds   
                 
         # print("Partial Sum Request Count :", request_count)
