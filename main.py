@@ -8,6 +8,7 @@ from ADC import ADC
 from Config import *
 import torch.nn.functional as F
 import datetime
+from ConfigHEANA import *
 
 
 # Components import
@@ -17,20 +18,20 @@ from DAC import *
 from VoltageAdder import VoltageAdder
 
 
-accelerator_list = [TEST_RIS_S_TREE_L1, TEST_RIS_S_TREE_L2, TEST_RIS_S_TREE_L4, TEST_RIS_S_TREE_L8,TEST_RIS_S_TREE_L16, TEST_RIS_S_TREE_LM,TEST_RWS_S_TREE_L1, TEST_RWS_S_TREE_L2, TEST_RWS_S_TREE_L4, TEST_RWS_S_TREE_L8, TEST_RWS_S_TREE_L16,TEST_RWS_S_TREE_LM, TEST_ROS_S_TREE_L1, TEST_ROS_S_TREE_L2, TEST_ROS_S_TREE_L4, TEST_ROS_S_TREE_L8,TEST_ROS_S_TREE_L16, TEST_ROS_S_TREE_LM,
-                    TEST_RIS_ST_TREE_AC_L1, TEST_RIS_ST_TREE_AC_L2, TEST_RIS_ST_TREE_AC_L4, TEST_RIS_ST_TREE_AC_L8,TEST_RIS_ST_TREE_AC_L16, TEST_RIS_ST_TREE_AC_LM,TEST_RWS_ST_TREE_AC_L1, TEST_RWS_ST_TREE_AC_L2, TEST_RWS_ST_TREE_AC_L4, TEST_RWS_ST_TREE_AC_L8, TEST_RWS_ST_TREE_AC_L16, TEST_RWS_ST_TREE_AC_LM, TEST_ROS_ST_TREE_AC_L1, TEST_ROS_ST_TREE_AC_L2, TEST_ROS_ST_TREE_AC_L4, TEST_ROS_ST_TREE_AC_L8, TEST_ROS_ST_TREE_AC_L16,TEST_ROS_ST_TREE_AC_LM,
-                    TEST_RIS_STIFT_L1, TEST_RIS_STIFT_L2, TEST_RIS_STIFT_L4, TEST_RIS_STIFT_L8, TEST_RIS_STIFT_L16,TEST_RIS_STIFT_LM,TEST_RWS_STIFT_L1, TEST_RWS_STIFT_L2, TEST_RWS_STIFT_L4, TEST_RWS_STIFT_L8, TEST_RWS_STIFT_L16,TEST_RWS_STIFT_LM, TEST_ROS_STIFT_L1, TEST_ROS_STIFT_L2, TEST_ROS_STIFT_L4, TEST_ROS_STIFT_L8, TEST_ROS_STIFT_L16,TEST_ROS_STIFT_LM,
-                    TEST_RIS_PCA_L1, TEST_RIS_PCA_L2, TEST_RIS_PCA_L4, TEST_RIS_PCA_L8, TEST_RIS_PCA_L16,TEST_RIS_PCA_LM,TEST_RWS_PCA_L1, TEST_RWS_PCA_L2, TEST_RWS_PCA_L4, TEST_RWS_PCA_L8, TEST_RWS_PCA_L16, TEST_RWS_PCA_LM, TEST_ROS_PCA_L1, TEST_ROS_PCA_L2, TEST_ROS_PCA_L4, TEST_ROS_PCA_L8,TEST_ROS_PCA_L16, TEST_ROS_PCA_LM,
-                    TEST_WS_S_TREE_LS, TEST_OS_S_TREE_LS, TEST_IS_S_TREE_LS, TEST_WS_ST_TREE_AC_LS,TEST_OS_ST_TREE_AC_LS, TEST_IS_ST_TREE_AC_LS, TEST_WS_STIFT_LS, TEST_OS_STIFT_LS, TEST_IS_STIFT_LS, TEST_WS_PCA_LS, TEST_OS_PCA_LS,TEST_IS_PCA_LS ]
+# accelerator_list = [TEST_RIS_S_TREE_L1, TEST_RIS_S_TREE_L2, TEST_RIS_S_TREE_L4, TEST_RIS_S_TREE_L8,TEST_RIS_S_TREE_L16, TEST_RIS_S_TREE_LM,TEST_RWS_S_TREE_L1, TEST_RWS_S_TREE_L2, TEST_RWS_S_TREE_L4, TEST_RWS_S_TREE_L8, TEST_RWS_S_TREE_L16,TEST_RWS_S_TREE_LM, TEST_ROS_S_TREE_L1, TEST_ROS_S_TREE_L2, TEST_ROS_S_TREE_L4, TEST_ROS_S_TREE_L8,TEST_ROS_S_TREE_L16, TEST_ROS_S_TREE_LM,
+#                     TEST_RIS_ST_TREE_AC_L1, TEST_RIS_ST_TREE_AC_L2, TEST_RIS_ST_TREE_AC_L4, TEST_RIS_ST_TREE_AC_L8,TEST_RIS_ST_TREE_AC_L16, TEST_RIS_ST_TREE_AC_LM,TEST_RWS_ST_TREE_AC_L1, TEST_RWS_ST_TREE_AC_L2, TEST_RWS_ST_TREE_AC_L4, TEST_RWS_ST_TREE_AC_L8, TEST_RWS_ST_TREE_AC_L16, TEST_RWS_ST_TREE_AC_LM, TEST_ROS_ST_TREE_AC_L1, TEST_ROS_ST_TREE_AC_L2, TEST_ROS_ST_TREE_AC_L4, TEST_ROS_ST_TREE_AC_L8, TEST_ROS_ST_TREE_AC_L16,TEST_ROS_ST_TREE_AC_LM,
+#                     TEST_RIS_STIFT_L1, TEST_RIS_STIFT_L2, TEST_RIS_STIFT_L4, TEST_RIS_STIFT_L8, TEST_RIS_STIFT_L16,TEST_RIS_STIFT_LM,TEST_RWS_STIFT_L1, TEST_RWS_STIFT_L2, TEST_RWS_STIFT_L4, TEST_RWS_STIFT_L8, TEST_RWS_STIFT_L16,TEST_RWS_STIFT_LM, TEST_ROS_STIFT_L1, TEST_ROS_STIFT_L2, TEST_ROS_STIFT_L4, TEST_ROS_STIFT_L8, TEST_ROS_STIFT_L16,TEST_ROS_STIFT_LM,
+#                     TEST_RIS_PCA_L1, TEST_RIS_PCA_L2, TEST_RIS_PCA_L4, TEST_RIS_PCA_L8, TEST_RIS_PCA_L16,TEST_RIS_PCA_LM,TEST_RWS_PCA_L1, TEST_RWS_PCA_L2, TEST_RWS_PCA_L4, TEST_RWS_PCA_L8, TEST_RWS_PCA_L16, TEST_RWS_PCA_LM, TEST_ROS_PCA_L1, TEST_ROS_PCA_L2, TEST_ROS_PCA_L4, TEST_ROS_PCA_L8,TEST_ROS_PCA_L16, TEST_ROS_PCA_LM,
+#                     TEST_WS_S_TREE_LS, TEST_OS_S_TREE_LS, TEST_IS_S_TREE_LS, TEST_WS_ST_TREE_AC_LS,TEST_OS_ST_TREE_AC_LS, TEST_IS_ST_TREE_AC_LS, TEST_WS_STIFT_LS, TEST_OS_STIFT_LS, TEST_IS_STIFT_LS, TEST_WS_PCA_LS, TEST_OS_PCA_LS,TEST_IS_PCA_LS ]
 
-accelerator_list = [TEST_WS_S_TREE_LS, TEST_OS_S_TREE_LS, TEST_IS_S_TREE_LS, TEST_WS_ST_TREE_AC_LS,TEST_OS_ST_TREE_AC_LS, TEST_IS_ST_TREE_AC_LS, TEST_WS_STIFT_LS, TEST_OS_STIFT_LS, TEST_IS_STIFT_LS, TEST_WS_PCA_LS, TEST_OS_PCA_LS,TEST_IS_PCA_LS ]
-
+# accelerator_list = [TEST_WS_S_TREE_LS, TEST_OS_S_TREE_LS, TEST_IS_S_TREE_LS, TEST_WS_ST_TREE_AC_LS,TEST_OS_ST_TREE_AC_LS, TEST_IS_ST_TREE_AC_LS, TEST_WS_STIFT_LS, TEST_OS_STIFT_LS, TEST_IS_STIFT_LS, TEST_WS_PCA_LS, TEST_OS_PCA_LS,TEST_IS_PCA_LS ]
+accelerator_list = [AMW_IS_S_TREE_LS, MAW_IS_S_TREE_LS, HEANA_IS_PCA_LS, AMW5_IS_S_TREE_LS,MAW5_IS_S_TREE_LS,HEANA5_IS_PCA_LS, AMW10_IS_S_TREE_LS, MAW10_IS_S_TREE_LS, HEANA10_IS_PCA_LS]
 model_precision = 8
 
 print("Required Model Precision ", model_precision)
 cnnModelDirectory = "CNNModels//"
 modelList = [f for f in listdir(cnnModelDirectory) if isfile(join(cnnModelDirectory, f))]
-modelList = ['GoogLeNet.csv']
+modelList = ['GoogLeNet.csv','ResNet50.csv','ShuffleNet_V2.csv']
 
 ns_to_sec = 1e-9
 us_to_sec = 1e-6
@@ -196,7 +197,7 @@ for tpc in accelerator_list:
             dpe_obj = MRR_DPE(X,data_rate)
             rn_obj = RN(reduction_network_type)
             dac_obj = DAC()
-            adc_obj = ADC()
+            adc_obj = ADC(data_rate)
             va_obj = VoltageAdder()
            
            
@@ -733,13 +734,13 @@ for tpc in accelerator_list:
         
             
 
-        latency_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'cluster_count': cluster_count,'propagation_latency':prop_latency, 'input_actuation_latency':input_actuation_latency, 'weight_actuation_latency':weight_actuation_latency, 'psum_access_latency':psum_access_latency, 'input_access_latency':input_access_latency, 'weight_access_latency':weight_access_latency, 'output_access_latency':output_access_latency, 'psum_reduction_latency':psum_reduction_latency, 'total_latency':total_latency}
+        latency_dict = {'DPU':architecture,'CNNModel':model_name,'reduction_network':reduction_network_type,'dataflow':dataflow,'cluster_count': cluster_count,'propagation_latency':prop_latency, 'input_actuation_latency':input_actuation_latency, 'weight_actuation_latency':weight_actuation_latency, 'psum_access_latency':psum_access_latency, 'input_access_latency':input_access_latency, 'weight_access_latency':weight_access_latency, 'output_access_latency':output_access_latency, 'psum_reduction_latency':psum_reduction_latency, 'total_latency':total_latency}
         tpc_latency_result.append(latency_dict)
         
-        access_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'cluster_count': cluster_count,'psum_access_counter':psum_access_counter, 'input_access_counter':input_access_counter, 'weight_access_counter':weight_access_counter, 'output_access_counter':output_access_counter, 'total_access':total_access, 'used_mrr_counter':used_mrr_counter, 'unused_mrr_counter': unused_mrr_counter}
+        access_dict = {'DPU':architecture,'CNNModel':model_name,'reduction_network':reduction_network_type,'dataflow':dataflow,'cluster_count': cluster_count,'psum_access_counter':psum_access_counter, 'input_access_counter':input_access_counter, 'weight_access_counter':weight_access_counter, 'output_access_counter':output_access_counter, 'total_access':total_access, 'used_mrr_counter':used_mrr_counter, 'unused_mrr_counter': unused_mrr_counter}
         tpc_access_result.append(access_dict)
         
-        energy_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'cluster_count': cluster_count,'psum_access_energy': psum_access_energy,'input_actuation_energy':input_actuation_energy,'weight_actuation_energy':weight_actuation_energy,'input_access_energy':input_access_energy,'weight_access_energy':weight_access_energy,'output_access_energy':output_access_energy, 'psum_reduction_energy': partial_sum_reduction_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'total_energy': total_energy}
+        energy_dict = {'DPU':architecture,'CNNModel':model_name,'reduction_network':reduction_network_type,'dataflow':dataflow,'cluster_count': cluster_count,'psum_access_energy': psum_access_energy,'input_actuation_energy':input_actuation_energy,'weight_actuation_energy':weight_actuation_energy,'input_access_energy':input_access_energy,'weight_access_energy':weight_access_energy,'output_access_energy':output_access_energy, 'psum_reduction_energy': partial_sum_reduction_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 'total_energy': total_energy}
         tpc_energy_result.append(energy_dict)
         latency_df = pd.DataFrame(tpc_latency_result)
         access_df = pd.DataFrame(tpc_access_result)
@@ -751,7 +752,7 @@ for tpc in accelerator_list:
 
         # # Convert the date and time to a string format
         # datetime_string = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
-        datetime_string = "3_7_2023_GoogLeNet_part_2"
+        datetime_string = "HEANA_ALL_BRS_IS"
 
         # add time log to the output file
         latency_df.to_csv('tpc_latency_result'+datetime_string+'.csv',index=False)

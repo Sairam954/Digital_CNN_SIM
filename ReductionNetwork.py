@@ -5,6 +5,7 @@ class RN:
     
     def __init__(self, RN_TYPE='S_Tree'):
         self.reduction_type = RN_TYPE
+        self.size = 64
         self.latency = 1/(800*1e6)  #s # STIFT paper clock speed is 800 MHz then each cycle will be 1/800 MHz
         if RN_TYPE == 'S_Tree':
             self.area = 0.172E-06
@@ -19,6 +20,8 @@ class RN:
              self.area = 0
              self.power = 0
     def get_reduction_latency(self, psums, folds):
+        # ! if the count of partial sums is alarger than size of the reduction network, then the reduction network will be used multiple times
+        folds = math.ceil(psums/self.size)*folds
              
         if self.reduction_type == "S_Tree":
             adder_level = math.log2(psums)
