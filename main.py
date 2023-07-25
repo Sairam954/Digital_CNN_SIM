@@ -42,7 +42,7 @@ mW_to_W = 1e-3
 
 
 # cacha latency parameters
-cacheParameters = pd.read_csv('C:\\Users\\SSR226\\Desktop\\DataflowTesting\\CacheUtils\\Cache_Parameters.csv')
+cacheParameters = pd.read_csv('CacheUtils\\Cache_Parameters.csv')
 l1_latency = cacheParameters[cacheParameters['cache']=='l1']
 l2_latency = cacheParameters[cacheParameters['cache']=='l2']
 dram_latency = cacheParameters[cacheParameters['cache']=='dram']  
@@ -130,7 +130,7 @@ for tpc in accelerator_list:
                              'output_shape': str, 'tensor_shape': str,	'input_height': int,	'input_width': int, 'input_depth': int, 'output_height': int, 'output_width': int, 'output_depth': int})
         nnModel = pd.concat([nnModel]*batch_size, ignore_index=True)
         
-        cacheMissRatioDf = pd.read_csv('C:\\Users\\SSR226\\Desktop\\MRRCNNSIM\\CacheUtils\\Miss_Ratio_Analysis1.csv')
+        cacheMissRatioDf = pd.read_csv('CacheUtils\\Miss_Ratio_Analysis1.csv')
         for idx in nnModel.index:
             layer_type = nnModel[LAYER_TYPE][idx]
             model_name = nnModel[MODEL_NAME][idx]
