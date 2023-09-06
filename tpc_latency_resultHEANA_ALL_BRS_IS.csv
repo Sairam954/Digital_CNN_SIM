@@ -1,2 +1,0 @@
-DPU,CNNModel,reduction_network,dataflow,cluster_count,propagation_latency,input_actuation_latency,weight_actuation_latency,psum_access_latency,input_access_latency,weight_access_latency,output_access_latency,psum_reduction_latency,total_latency
-AMM,GoogLeNet,S_Tree,IS,36,4.603824361798575e-08,2.144199999999529e-05,0.10303200000002043,0.2540416905373397,0.029245235884936344,0.13786890581353464,0.010218003293904883,0.07802856460447269,0.6124558881724523

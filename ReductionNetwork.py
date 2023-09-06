@@ -3,9 +3,9 @@ import math
 
 class RN:
     
-    def __init__(self, RN_TYPE='S_Tree'):
+    def __init__(self,  M, RN_TYPE='S_Tree'):
         self.reduction_type = RN_TYPE
-        self.size = 64
+        self.size = M
         self.latency = 1/(800*1e6)  #s # STIFT paper clock speed is 800 MHz then each cycle will be 1/800 MHz
         if RN_TYPE == 'S_Tree':
             self.area = 0.172E-06

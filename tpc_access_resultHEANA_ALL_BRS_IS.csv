@@ -1,2 +1,0 @@
-DPU,CNNModel,reduction_network,dataflow,cluster_count,psum_access_counter,input_access_counter,weight_access_counter,output_access_counter,total_access,used_mrr_counter,unused_mrr_counter
-AMM,GoogLeNet,S_Tree,IS,36,213287714,23644760,114268531,9584937,360785942,7470198920,969472312

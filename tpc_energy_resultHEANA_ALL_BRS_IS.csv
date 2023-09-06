@@ -1,2 +1,0 @@
-DPU,CNNModel,reduction_network,dataflow,cluster_count,psum_access_energy,input_actuation_energy,weight_actuation_energy,input_access_energy,weight_access_energy,output_access_energy,psum_reduction_energy,dac_energy,adc_energy,total_energy
-AMM,GoogLeNet,S_Tree,IS,36,0.020303790032210115,3.430719999999227e-11,0.00014166900000006551,0.001958310724781058,0.008987822901426704,0.0009069533395238533,0.02746605474077414,0.00016756464856496986,0.00021328771400987007,0.06014545313559797

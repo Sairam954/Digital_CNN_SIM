@@ -16,7 +16,8 @@ O = torch.zeros(C,D)
 #! Intra DPU Sharing 
 print("Input ", I)
 print("Weight ", W)
-
+L = M
+Z = M/L
 for c in range(0, C, M):
     for d in range(0, D, Y):
         for k in range(0, K, N):

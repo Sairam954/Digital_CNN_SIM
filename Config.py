@@ -33,7 +33,8 @@ VDP_TYPE = "vdp_type"
 NAME = "name"
 BATCH_SIZE = "batch_size"
 
-TEST_RWS_S_TREE_L1 =    [{
+
+RWS_S_TREE_L1 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -49,7 +50,7 @@ TEST_RWS_S_TREE_L1 =    [{
     CLUSTER_COUNT : 1 ,   
 }]
 
-TEST_ROS_S_TREE_L1 =    [{
+ROS_S_TREE_L1 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -65,7 +66,7 @@ TEST_ROS_S_TREE_L1 =    [{
     CLUSTER_COUNT : 1 ,   
 }]
 
-TEST_RIS_S_TREE_L1 =    [{
+RIS_S_TREE_L1 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -81,7 +82,7 @@ TEST_RIS_S_TREE_L1 =    [{
     CLUSTER_COUNT : 1 ,   
 }]
 
-TEST_RWS_ST_TREE_AC_L1 =    [{
+RWS_ST_TREE_AC_L1 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -97,7 +98,7 @@ TEST_RWS_ST_TREE_AC_L1 =    [{
     CLUSTER_COUNT : 1 ,   
 }]
 
-TEST_ROS_ST_TREE_AC_L1 =    [{
+ROS_ST_TREE_AC_L1 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -113,7 +114,7 @@ TEST_ROS_ST_TREE_AC_L1 =    [{
     CLUSTER_COUNT : 1 ,   
 }]
 
-TEST_RIS_ST_TREE_AC_L1 =    [{
+RIS_ST_TREE_AC_L1 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -129,7 +130,7 @@ TEST_RIS_ST_TREE_AC_L1 =    [{
     CLUSTER_COUNT : 1 ,   
 }]
 
-TEST_RWS_STIFT_L1 =    [{
+RWS_STIFT_L1 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -145,7 +146,7 @@ TEST_RWS_STIFT_L1 =    [{
     CLUSTER_COUNT : 1 ,   
 }]
 
-TEST_ROS_STIFT_L1 =    [{
+ROS_STIFT_L1 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -161,7 +162,7 @@ TEST_ROS_STIFT_L1 =    [{
     CLUSTER_COUNT : 1 ,   
 }]
 
-TEST_RIS_STIFT_L1 =    [{
+RIS_STIFT_L1 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -177,7 +178,7 @@ TEST_RIS_STIFT_L1 =    [{
     CLUSTER_COUNT : 1 ,   
 }]
 
-TEST_RWS_PCA_L1 =    [{
+RWS_PCA_L1 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -193,7 +194,7 @@ TEST_RWS_PCA_L1 =    [{
     CLUSTER_COUNT : 1 ,   
 }]
 
-TEST_ROS_PCA_L1 =    [{
+ROS_PCA_L1 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -209,7 +210,7 @@ TEST_ROS_PCA_L1 =    [{
     CLUSTER_COUNT : 1 ,   
 }]
 
-TEST_RIS_PCA_L1 =    [{
+RIS_PCA_L1 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -226,7 +227,7 @@ TEST_RIS_PCA_L1 =    [{
 }]
 
 
-TEST_RWS_S_TREE_L2 =    [{
+RWS_S_TREE_L2 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -242,7 +243,7 @@ TEST_RWS_S_TREE_L2 =    [{
     CLUSTER_COUNT : 2,   
 }]
 
-TEST_ROS_S_TREE_L2 =    [{
+ROS_S_TREE_L2 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -258,7 +259,7 @@ TEST_ROS_S_TREE_L2 =    [{
     CLUSTER_COUNT : 2,   
 }]
 
-TEST_RIS_S_TREE_L2 =    [{
+RIS_S_TREE_L2 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -274,7 +275,7 @@ TEST_RIS_S_TREE_L2 =    [{
     CLUSTER_COUNT : 2,   
 }]
 
-TEST_RWS_ST_TREE_AC_L2 =    [{
+RWS_ST_TREE_AC_L2 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -290,7 +291,7 @@ TEST_RWS_ST_TREE_AC_L2 =    [{
     CLUSTER_COUNT : 2,   
 }]
 
-TEST_ROS_ST_TREE_AC_L2 =    [{
+ROS_ST_TREE_AC_L2 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -306,7 +307,7 @@ TEST_ROS_ST_TREE_AC_L2 =    [{
     CLUSTER_COUNT : 2,   
 }]
 
-TEST_RIS_ST_TREE_AC_L2 =    [{
+RIS_ST_TREE_AC_L2 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -322,7 +323,7 @@ TEST_RIS_ST_TREE_AC_L2 =    [{
     CLUSTER_COUNT : 2,   
 }]
 
-TEST_RWS_STIFT_L2 =    [{
+RWS_STIFT_L2 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -338,7 +339,7 @@ TEST_RWS_STIFT_L2 =    [{
     CLUSTER_COUNT : 2,   
 }]
 
-TEST_ROS_STIFT_L2 =    [{
+ROS_STIFT_L2 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -354,7 +355,7 @@ TEST_ROS_STIFT_L2 =    [{
     CLUSTER_COUNT : 2,   
 }]
 
-TEST_RIS_STIFT_L2 =    [{
+RIS_STIFT_L2 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -370,7 +371,7 @@ TEST_RIS_STIFT_L2 =    [{
     CLUSTER_COUNT : 2,   
 }]
 
-TEST_RWS_PCA_L2 =    [{
+RWS_PCA_L2 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -386,7 +387,7 @@ TEST_RWS_PCA_L2 =    [{
     CLUSTER_COUNT : 2,   
 }]
 
-TEST_ROS_PCA_L2 =    [{
+ROS_PCA_L2 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -402,7 +403,7 @@ TEST_ROS_PCA_L2 =    [{
     CLUSTER_COUNT : 2,   
 }]
 
-TEST_RIS_PCA_L2 =    [{
+RIS_PCA_L2 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -419,7 +420,7 @@ TEST_RIS_PCA_L2 =    [{
 }]
 
 
-TEST_RWS_S_TREE_L4 =    [{
+RWS_S_TREE_L4 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -435,7 +436,7 @@ TEST_RWS_S_TREE_L4 =    [{
     CLUSTER_COUNT : 4,   
 }]
 
-TEST_ROS_S_TREE_L4 =    [{
+ROS_S_TREE_L4 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -451,7 +452,7 @@ TEST_ROS_S_TREE_L4 =    [{
     CLUSTER_COUNT : 4,   
 }]
 
-TEST_RIS_S_TREE_L4 =    [{
+RIS_S_TREE_L4 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -467,7 +468,7 @@ TEST_RIS_S_TREE_L4 =    [{
     CLUSTER_COUNT : 4,   
 }]
 
-TEST_RWS_ST_TREE_AC_L4 =    [{
+RWS_ST_TREE_AC_L4 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -483,7 +484,7 @@ TEST_RWS_ST_TREE_AC_L4 =    [{
     CLUSTER_COUNT : 4,   
 }]
 
-TEST_ROS_ST_TREE_AC_L4 =    [{
+ROS_ST_TREE_AC_L4 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -499,7 +500,7 @@ TEST_ROS_ST_TREE_AC_L4 =    [{
     CLUSTER_COUNT : 4,   
 }]
 
-TEST_RIS_ST_TREE_AC_L4 =    [{
+RIS_ST_TREE_AC_L4 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -515,7 +516,7 @@ TEST_RIS_ST_TREE_AC_L4 =    [{
     CLUSTER_COUNT : 4,   
 }]
 
-TEST_RWS_STIFT_L4 =    [{
+RWS_STIFT_L4 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -531,7 +532,7 @@ TEST_RWS_STIFT_L4 =    [{
     CLUSTER_COUNT : 4,   
 }]
 
-TEST_ROS_STIFT_L4 =    [{
+ROS_STIFT_L4 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -547,7 +548,7 @@ TEST_ROS_STIFT_L4 =    [{
     CLUSTER_COUNT : 4,   
 }]
 
-TEST_RIS_STIFT_L4 =    [{
+RIS_STIFT_L4 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -563,7 +564,7 @@ TEST_RIS_STIFT_L4 =    [{
     CLUSTER_COUNT : 4,   
 }]
 
-TEST_RWS_PCA_L4 =    [{
+RWS_PCA_L4 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -579,7 +580,7 @@ TEST_RWS_PCA_L4 =    [{
     CLUSTER_COUNT : 4,   
 }]
 
-TEST_ROS_PCA_L4 =    [{
+ROS_PCA_L4 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -595,7 +596,7 @@ TEST_ROS_PCA_L4 =    [{
     CLUSTER_COUNT : 4,   
 }]
 
-TEST_RIS_PCA_L4 =    [{
+RIS_PCA_L4 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -612,7 +613,7 @@ TEST_RIS_PCA_L4 =    [{
 }]
 
 
-TEST_RWS_S_TREE_L8 =    [{
+RWS_S_TREE_L8 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -628,7 +629,7 @@ TEST_RWS_S_TREE_L8 =    [{
     CLUSTER_COUNT : 8,   
 }]
 
-TEST_ROS_S_TREE_L8 =    [{
+ROS_S_TREE_L8 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -644,7 +645,7 @@ TEST_ROS_S_TREE_L8 =    [{
     CLUSTER_COUNT : 8,   
 }]
 
-TEST_RIS_S_TREE_L8 =    [{
+RIS_S_TREE_L8 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -660,7 +661,7 @@ TEST_RIS_S_TREE_L8 =    [{
     CLUSTER_COUNT : 8,   
 }]
 
-TEST_RWS_ST_TREE_AC_L8 =    [{
+RWS_ST_TREE_AC_L8 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -676,7 +677,7 @@ TEST_RWS_ST_TREE_AC_L8 =    [{
     CLUSTER_COUNT : 8,   
 }]
 
-TEST_ROS_ST_TREE_AC_L8 =    [{
+ROS_ST_TREE_AC_L8 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -692,7 +693,7 @@ TEST_ROS_ST_TREE_AC_L8 =    [{
     CLUSTER_COUNT : 8,   
 }]
 
-TEST_RIS_ST_TREE_AC_L8 =    [{
+RIS_ST_TREE_AC_L8 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -708,7 +709,7 @@ TEST_RIS_ST_TREE_AC_L8 =    [{
     CLUSTER_COUNT : 8,   
 }]
 
-TEST_RWS_STIFT_L8 =    [{
+RWS_STIFT_L8 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -724,7 +725,7 @@ TEST_RWS_STIFT_L8 =    [{
     CLUSTER_COUNT : 8,   
 }]
 
-TEST_ROS_STIFT_L8 =    [{
+ROS_STIFT_L8 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -740,7 +741,7 @@ TEST_ROS_STIFT_L8 =    [{
     CLUSTER_COUNT : 8,   
 }]
 
-TEST_RIS_STIFT_L8 =    [{
+RIS_STIFT_L8 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -756,7 +757,7 @@ TEST_RIS_STIFT_L8 =    [{
     CLUSTER_COUNT : 8,   
 }]
 
-TEST_RWS_PCA_L8 =    [{
+RWS_PCA_L8 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -772,7 +773,7 @@ TEST_RWS_PCA_L8 =    [{
     CLUSTER_COUNT : 8,   
 }]
 
-TEST_ROS_PCA_L8 =    [{
+ROS_PCA_L8 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -788,7 +789,7 @@ TEST_ROS_PCA_L8 =    [{
     CLUSTER_COUNT : 8,   
 }]
 
-TEST_RIS_PCA_L8 =    [{
+RIS_PCA_L8 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -803,7 +804,7 @@ TEST_RIS_PCA_L8 =    [{
     REDUCTION_TYPE: "PCA", 
     CLUSTER_COUNT : 8,   
 }]
-TEST_RWS_S_TREE_L16 =    [{
+RWS_S_TREE_L16 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -819,7 +820,7 @@ TEST_RWS_S_TREE_L16 =    [{
     CLUSTER_COUNT : 16 ,   
 }]
 
-TEST_ROS_S_TREE_L16 =    [{
+ROS_S_TREE_L16 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -835,7 +836,7 @@ TEST_ROS_S_TREE_L16 =    [{
     CLUSTER_COUNT : 16 ,   
 }]
 
-TEST_RIS_S_TREE_L16 =    [{
+RIS_S_TREE_L16 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -851,7 +852,7 @@ TEST_RIS_S_TREE_L16 =    [{
     CLUSTER_COUNT : 16 ,   
 }]
 
-TEST_RWS_ST_TREE_AC_L16 =    [{
+RWS_ST_TREE_AC_L16 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -867,7 +868,7 @@ TEST_RWS_ST_TREE_AC_L16 =    [{
     CLUSTER_COUNT : 16 ,   
 }]
 
-TEST_ROS_ST_TREE_AC_L16 =    [{
+ROS_ST_TREE_AC_L16 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -883,7 +884,7 @@ TEST_ROS_ST_TREE_AC_L16 =    [{
     CLUSTER_COUNT : 16 ,   
 }]
 
-TEST_RIS_ST_TREE_AC_L16 =    [{
+RIS_ST_TREE_AC_L16 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -899,7 +900,7 @@ TEST_RIS_ST_TREE_AC_L16 =    [{
     CLUSTER_COUNT : 16 ,   
 }]
 
-TEST_RWS_STIFT_L16 =    [{
+RWS_STIFT_L16 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -915,7 +916,7 @@ TEST_RWS_STIFT_L16 =    [{
     CLUSTER_COUNT : 16 ,   
 }]
 
-TEST_ROS_STIFT_L16 =    [{
+ROS_STIFT_L16 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -931,7 +932,7 @@ TEST_ROS_STIFT_L16 =    [{
     CLUSTER_COUNT : 16 ,   
 }]
 
-TEST_RIS_STIFT_L16 =    [{
+RIS_STIFT_L16 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -947,7 +948,7 @@ TEST_RIS_STIFT_L16 =    [{
     CLUSTER_COUNT : 16 ,   
 }]
 
-TEST_RWS_PCA_L16 =    [{
+RWS_PCA_L16 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -963,7 +964,7 @@ TEST_RWS_PCA_L16 =    [{
     CLUSTER_COUNT : 16 ,   
 }]
 
-TEST_ROS_PCA_L16 =    [{
+ROS_PCA_L16 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -979,7 +980,7 @@ TEST_ROS_PCA_L16 =    [{
     CLUSTER_COUNT : 16 ,   
 }]
 
-TEST_RIS_PCA_L16 =    [{
+RIS_PCA_L16 =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -996,7 +997,7 @@ TEST_RIS_PCA_L16 =    [{
 }]
 
 
-TEST_RWS_S_TREE_LM =    [{
+RWS_S_TREE_LM =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1012,7 +1013,7 @@ TEST_RWS_S_TREE_LM =    [{
     CLUSTER_COUNT : 32,   
 }]
 
-TEST_ROS_S_TREE_LM =    [{
+ROS_S_TREE_LM =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1028,7 +1029,7 @@ TEST_ROS_S_TREE_LM =    [{
     CLUSTER_COUNT : 32,   
 }]
 
-TEST_RIS_S_TREE_LM =    [{
+RIS_S_TREE_LM =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1044,7 +1045,7 @@ TEST_RIS_S_TREE_LM =    [{
     CLUSTER_COUNT : 32,   
 }]
 
-TEST_RWS_ST_TREE_AC_LM =    [{
+RWS_ST_TREE_AC_LM =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1060,7 +1061,7 @@ TEST_RWS_ST_TREE_AC_LM =    [{
     CLUSTER_COUNT : 32,   
 }]
 
-TEST_ROS_ST_TREE_AC_LM =    [{
+ROS_ST_TREE_AC_LM =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1076,7 +1077,7 @@ TEST_ROS_ST_TREE_AC_LM =    [{
     CLUSTER_COUNT : 32,   
 }]
 
-TEST_RIS_ST_TREE_AC_LM =    [{
+RIS_ST_TREE_AC_LM =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1092,7 +1093,7 @@ TEST_RIS_ST_TREE_AC_LM =    [{
     CLUSTER_COUNT : 32,   
 }]
 
-TEST_RWS_STIFT_LM =    [{
+RWS_STIFT_LM =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1108,7 +1109,7 @@ TEST_RWS_STIFT_LM =    [{
     CLUSTER_COUNT : 32,   
 }]
 
-TEST_ROS_STIFT_LM =    [{
+ROS_STIFT_LM =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1124,7 +1125,7 @@ TEST_ROS_STIFT_LM =    [{
     CLUSTER_COUNT : 32,   
 }]
 
-TEST_RIS_STIFT_LM =    [{
+RIS_STIFT_LM =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1140,7 +1141,7 @@ TEST_RIS_STIFT_LM =    [{
     CLUSTER_COUNT : 32,   
 }]
 
-TEST_RWS_PCA_LM =    [{
+RWS_PCA_LM =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1156,7 +1157,7 @@ TEST_RWS_PCA_LM =    [{
     CLUSTER_COUNT : 32,   
 }]
 
-TEST_ROS_PCA_LM =    [{
+ROS_PCA_LM =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1172,7 +1173,7 @@ TEST_ROS_PCA_LM =    [{
     CLUSTER_COUNT : 32,   
 }]
 
-TEST_RIS_PCA_LM =    [{
+RIS_PCA_LM =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1189,7 +1190,7 @@ TEST_RIS_PCA_LM =    [{
 }]
 
 
-TEST_WS_S_TREE_LS =    [{
+WS_S_TREE_LS =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1205,7 +1206,7 @@ TEST_WS_S_TREE_LS =    [{
     CLUSTER_COUNT : 32 ,   
 }]
 
-TEST_OS_S_TREE_LS =    [{
+OS_S_TREE_LS =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1221,7 +1222,7 @@ TEST_OS_S_TREE_LS =    [{
     CLUSTER_COUNT : 32 ,   
 }]
 
-TEST_IS_S_TREE_LS =    [{
+IS_S_TREE_LS =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1237,7 +1238,7 @@ TEST_IS_S_TREE_LS =    [{
     CLUSTER_COUNT : 32 ,   
 }]
 
-TEST_WS_ST_TREE_AC_LS =    [{
+WS_ST_TREE_AC_LS =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1253,7 +1254,7 @@ TEST_WS_ST_TREE_AC_LS =    [{
     CLUSTER_COUNT : 32 ,   
 }]
 
-TEST_OS_ST_TREE_AC_LS =    [{
+OS_ST_TREE_AC_LS =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1269,7 +1270,7 @@ TEST_OS_ST_TREE_AC_LS =    [{
     CLUSTER_COUNT : 32 ,   
 }]
 
-TEST_IS_ST_TREE_AC_LS =    [{
+IS_ST_TREE_AC_LS =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1285,7 +1286,7 @@ TEST_IS_ST_TREE_AC_LS =    [{
     CLUSTER_COUNT : 32 ,   
 }]
 
-TEST_WS_STIFT_LS =    [{
+WS_STIFT_LS =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1301,7 +1302,7 @@ TEST_WS_STIFT_LS =    [{
     CLUSTER_COUNT : 32 ,   
 }]
 
-TEST_OS_STIFT_LS =    [{
+OS_STIFT_LS =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1317,7 +1318,7 @@ TEST_OS_STIFT_LS =    [{
     CLUSTER_COUNT : 32 ,   
 }]
 
-TEST_IS_STIFT_LS =    [{
+IS_STIFT_LS =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1333,7 +1334,7 @@ TEST_IS_STIFT_LS =    [{
     CLUSTER_COUNT : 32 ,   
 }]
 
-TEST_WS_PCA_LS =    [{
+WS_PCA_LS =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1349,7 +1350,7 @@ TEST_WS_PCA_LS =    [{
     CLUSTER_COUNT : 32 ,   
 }]
 
-TEST_OS_PCA_LS =    [{
+OS_PCA_LS =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 
@@ -1365,7 +1366,7 @@ TEST_OS_PCA_LS =    [{
     CLUSTER_COUNT : 32 ,   
 }]
 
-TEST_IS_PCA_LS =    [{
+IS_PCA_LS =    [{
     ELEMENT_SIZE: 27,    
     ELEMENT_COUNT: 32, # number of multiplier    
     UNITS_COUNT: 100, 

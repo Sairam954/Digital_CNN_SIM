@@ -7,9 +7,9 @@ torch.manual_seed(random_seed)
 
 C = 4
 D = 4
-K = 3
+K = 4
 N = 2 # size of DPE
-M = 2 # Number of DPEs in a DPU
+M = 4 # Number of DPEs in a DPU
 Y = 2 # Number of DPUs
 I = torch.randn(C,K)
 W = torch.randn(K,D)

@@ -18,20 +18,20 @@ from DAC import *
 from VoltageAdder import VoltageAdder
 
 
-# accelerator_list = [TEST_RIS_S_TREE_L1, TEST_RIS_S_TREE_L2, TEST_RIS_S_TREE_L4, TEST_RIS_S_TREE_L8,TEST_RIS_S_TREE_L16, TEST_RIS_S_TREE_LM,TEST_RWS_S_TREE_L1, TEST_RWS_S_TREE_L2, TEST_RWS_S_TREE_L4, TEST_RWS_S_TREE_L8, TEST_RWS_S_TREE_L16,TEST_RWS_S_TREE_LM, TEST_ROS_S_TREE_L1, TEST_ROS_S_TREE_L2, TEST_ROS_S_TREE_L4, TEST_ROS_S_TREE_L8,TEST_ROS_S_TREE_L16, TEST_ROS_S_TREE_LM,
-#                     TEST_RIS_ST_TREE_AC_L1, TEST_RIS_ST_TREE_AC_L2, TEST_RIS_ST_TREE_AC_L4, TEST_RIS_ST_TREE_AC_L8,TEST_RIS_ST_TREE_AC_L16, TEST_RIS_ST_TREE_AC_LM,TEST_RWS_ST_TREE_AC_L1, TEST_RWS_ST_TREE_AC_L2, TEST_RWS_ST_TREE_AC_L4, TEST_RWS_ST_TREE_AC_L8, TEST_RWS_ST_TREE_AC_L16, TEST_RWS_ST_TREE_AC_LM, TEST_ROS_ST_TREE_AC_L1, TEST_ROS_ST_TREE_AC_L2, TEST_ROS_ST_TREE_AC_L4, TEST_ROS_ST_TREE_AC_L8, TEST_ROS_ST_TREE_AC_L16,TEST_ROS_ST_TREE_AC_LM,
-#                     TEST_RIS_STIFT_L1, TEST_RIS_STIFT_L2, TEST_RIS_STIFT_L4, TEST_RIS_STIFT_L8, TEST_RIS_STIFT_L16,TEST_RIS_STIFT_LM,TEST_RWS_STIFT_L1, TEST_RWS_STIFT_L2, TEST_RWS_STIFT_L4, TEST_RWS_STIFT_L8, TEST_RWS_STIFT_L16,TEST_RWS_STIFT_LM, TEST_ROS_STIFT_L1, TEST_ROS_STIFT_L2, TEST_ROS_STIFT_L4, TEST_ROS_STIFT_L8, TEST_ROS_STIFT_L16,TEST_ROS_STIFT_LM,
-#                     TEST_RIS_PCA_L1, TEST_RIS_PCA_L2, TEST_RIS_PCA_L4, TEST_RIS_PCA_L8, TEST_RIS_PCA_L16,TEST_RIS_PCA_LM,TEST_RWS_PCA_L1, TEST_RWS_PCA_L2, TEST_RWS_PCA_L4, TEST_RWS_PCA_L8, TEST_RWS_PCA_L16, TEST_RWS_PCA_LM, TEST_ROS_PCA_L1, TEST_ROS_PCA_L2, TEST_ROS_PCA_L4, TEST_ROS_PCA_L8,TEST_ROS_PCA_L16, TEST_ROS_PCA_LM,
-#                     TEST_WS_S_TREE_LS, TEST_OS_S_TREE_LS, TEST_IS_S_TREE_LS, TEST_WS_ST_TREE_AC_LS,TEST_OS_ST_TREE_AC_LS, TEST_IS_ST_TREE_AC_LS, TEST_WS_STIFT_LS, TEST_OS_STIFT_LS, TEST_IS_STIFT_LS, TEST_WS_PCA_LS, TEST_OS_PCA_LS,TEST_IS_PCA_LS ]
+accelerator_list = [RIS_S_TREE_L1, RIS_S_TREE_L2, RIS_S_TREE_L4, RIS_S_TREE_L8,RIS_S_TREE_L16, RIS_S_TREE_LM,RWS_S_TREE_L1, RWS_S_TREE_L2, RWS_S_TREE_L4, RWS_S_TREE_L8, RWS_S_TREE_L16,RWS_S_TREE_LM, ROS_S_TREE_L1, ROS_S_TREE_L2, ROS_S_TREE_L4, ROS_S_TREE_L8,ROS_S_TREE_L16, ROS_S_TREE_LM,
+                    RIS_ST_TREE_AC_L1, RIS_ST_TREE_AC_L2, RIS_ST_TREE_AC_L4, RIS_ST_TREE_AC_L8,RIS_ST_TREE_AC_L16, RIS_ST_TREE_AC_LM,RWS_ST_TREE_AC_L1, RWS_ST_TREE_AC_L2, RWS_ST_TREE_AC_L4, RWS_ST_TREE_AC_L8, RWS_ST_TREE_AC_L16, RWS_ST_TREE_AC_LM, ROS_ST_TREE_AC_L1, ROS_ST_TREE_AC_L2, ROS_ST_TREE_AC_L4, ROS_ST_TREE_AC_L8, ROS_ST_TREE_AC_L16,ROS_ST_TREE_AC_LM,
+                    RIS_STIFT_L1, RIS_STIFT_L2, RIS_STIFT_L4, RIS_STIFT_L8, RIS_STIFT_L16,RIS_STIFT_LM,RWS_STIFT_L1, RWS_STIFT_L2, RWS_STIFT_L4, RWS_STIFT_L8, RWS_STIFT_L16,RWS_STIFT_LM, ROS_STIFT_L1, ROS_STIFT_L2, ROS_STIFT_L4, ROS_STIFT_L8, ROS_STIFT_L16,ROS_STIFT_LM,
+                    RIS_PCA_L1, RIS_PCA_L2, RIS_PCA_L4, RIS_PCA_L8, RIS_PCA_L16,RIS_PCA_LM,RWS_PCA_L1, RWS_PCA_L2, RWS_PCA_L4, RWS_PCA_L8, RWS_PCA_L16, RWS_PCA_LM, ROS_PCA_L1, ROS_PCA_L2, ROS_PCA_L4, ROS_PCA_L8,ROS_PCA_L16, ROS_PCA_LM,
+                    WS_S_TREE_LS, OS_S_TREE_LS, IS_S_TREE_LS, WS_ST_TREE_AC_LS,OS_ST_TREE_AC_LS, IS_ST_TREE_AC_LS, WS_STIFT_LS, OS_STIFT_LS, IS_STIFT_LS, WS_PCA_LS, OS_PCA_LS,IS_PCA_LS ]
 
 # accelerator_list = [TEST_WS_S_TREE_LS, TEST_OS_S_TREE_LS, TEST_IS_S_TREE_LS, TEST_WS_ST_TREE_AC_LS,TEST_OS_ST_TREE_AC_LS, TEST_IS_ST_TREE_AC_LS, TEST_WS_STIFT_LS, TEST_OS_STIFT_LS, TEST_IS_STIFT_LS, TEST_WS_PCA_LS, TEST_OS_PCA_LS,TEST_IS_PCA_LS ]
-accelerator_list = [AMW_IS_S_TREE_LS, MAW_IS_S_TREE_LS, HEANA_IS_PCA_LS, AMW5_IS_S_TREE_LS,MAW5_IS_S_TREE_LS,HEANA5_IS_PCA_LS, AMW10_IS_S_TREE_LS, MAW10_IS_S_TREE_LS, HEANA10_IS_PCA_LS]
+# accelerator_list = [RWS_S_TREE_L1, ROS_S_TREE_L1, RIS_S_TREE_L1, RWS_ST_TREE_AC_L1, ROS_ST_TREE_AC_L1, RIS_ST_TREE_AC_L1, RWS_S_TREE_L16, ROS_S_TREE_L16, RIS_S_TREE_L16, RWS_ST_TREE_AC_L16, ROS_ST_TREE_AC_L16, RIS_ST_TREE_AC_L16]
 model_precision = 8
 
 print("Required Model Precision ", model_precision)
 cnnModelDirectory = "CNNModels//"
 modelList = [f for f in listdir(cnnModelDirectory) if isfile(join(cnnModelDirectory, f))]
-modelList = ['GoogLeNet.csv','ResNet50.csv','ShuffleNet_V2.csv']
+modelList = ['ResNet50.csv']
 
 ns_to_sec = 1e-9
 us_to_sec = 1e-6
@@ -45,6 +45,8 @@ mW_to_W = 1e-3
 cacheParameters = pd.read_csv('CacheUtils\\Cache_Parameters.csv')
 l1_latency = cacheParameters[cacheParameters['cache']=='l1']
 l2_latency = cacheParameters[cacheParameters['cache']=='l2']
+print(l1_latency)
+print(l2_latency)
 dram_latency = cacheParameters[cacheParameters['cache']=='dram']  
 tpc_eval_result = []
 tpc_latency_result = []
@@ -189,13 +191,16 @@ for tpc in accelerator_list:
             # print('I', I.shape)
             # print('W', W.shape)
             # print('O', O.shape)
+            # print('C', C)
+            # print('K', K)
+            # print('D', D)
             
             # miss ratio for the given dataflow and C, K, D combination 
             miss_ratio = cacheMissRatioDf.loc[(cacheMissRatioDf['C']==C) & (cacheMissRatioDf['D']==D) & (cacheMissRatioDf['K']==K) & (cacheMissRatioDf['dataflow']== dataflow)]
             # print('Miss Ratio ', miss_ratio)
             # obj of components needed for calculating latency and energy 
             dpe_obj = MRR_DPE(X,data_rate)
-            rn_obj = RN(reduction_network_type)
+            rn_obj = RN(M,reduction_network_type)
             dac_obj = DAC()
             adc_obj = ADC(data_rate)
             va_obj = VoltageAdder()
@@ -752,7 +757,7 @@ for tpc in accelerator_list:
 
         # # Convert the date and time to a string format
         # datetime_string = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
-        datetime_string = "HEANA_ALL_BRS_IS"
+        datetime_string = "Reduction_Network_ResNet_ALL"
 
         # add time log to the output file
         latency_df.to_csv('tpc_latency_result'+datetime_string+'.csv',index=False)

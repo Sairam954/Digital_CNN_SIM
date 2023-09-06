@@ -6,7 +6,7 @@ from ReductionNetwork import RN
 from VoltageAdder import VoltageAdder
 import pandas as pd
 
-accelerator_list = [AMW_WS_S_TREE_LS, MAW_WS_S_TREE_LS, HEANA_WS_PCA_LS, AMW5_WS_S_TREE_LS,MAW5_WS_S_TREE_LS,HEANA5_WS_PCA_LS, AMW10_WS_S_TREE_LS, MAW10_WS_S_TREE_LS, HEANA10_WS_PCA_LS]
+accelerator_list = [AMW_WS_S_TREE_LS, MAW_WS_S_TREE_LS, HEANA_WS_PCA_LS]
 
 cacheParameters = pd.read_csv('C:\\Users\\SSR226\\Desktop\\DataflowTesting\\CacheUtils\\Cache_Parameters.csv')
 l1_latency = cacheParameters[cacheParameters['cache']=='l1']
