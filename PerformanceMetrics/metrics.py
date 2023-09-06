@@ -107,7 +107,7 @@ class Metrics:
             elif reduction_type == "STIFT":
                 reduction_power = 0.529
             elif reduction_type == "Photonic_RN":
-                reduction_power = 2.295
+                reduction_power = 2.412004181
 
             total_power += self.io_interface.power + self.activation.power + \
                 self.router.power + self.bus.power + vdp_power + self.eDram.power + reduction_power

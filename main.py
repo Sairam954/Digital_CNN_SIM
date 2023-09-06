@@ -352,7 +352,7 @@ cnnModelDirectory = "./CNNModels/"
 modelList = [f for f in listdir(
     cnnModelDirectory) if isfile(join(cnnModelDirectory, f))]
 #modelList = ['GoogLeNet.csv', 'ResNet50.csv', 'VGG16.csv', 'MobileNet_V2.csv', 'VGG19.csv', 'DenseNet121.csv']
-modelList = ['ResNet50.csv', 'MobileNet_V2.csv', 'GoogLeNet.csv', 'DenseNet121.csv']
+modelList = ['ResNet50.csv', 'GoogLeNet.csv', 'DenseNet121.csv', 'VGG16.csv']
 #modelList = ['ResNet50.csv']
 
 system_level_results = []
