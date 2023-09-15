@@ -1,2 +1,0 @@
-DPU,reduction_network,dataflow,cluster_count,propagation_latency,input_actuation_latency,weight_actuation_latency,psum_access_latency,input_access_latency,weight_access_latency,output_access_latency,psum_reduction_latency,total_latency
-AMM,S_Tree,RIS,1,5.120075232000121e-09,8.639999999999927e-07,0.010368000000000079,0.0002442714496506994,0.0005496107617146492,0.07035017749947592,0.0001221357248254771,3.633643448140176e-05,0.08167140099022346
