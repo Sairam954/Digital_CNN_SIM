@@ -8,7 +8,7 @@ import torch.nn.functional as F
 import datetime
 from config import *
 
-cnnModelDirectory = "CNNModels//Sample//"
+cnnModelDirectory = "CNNModels//"
 modelList = [f for f in listdir(cnnModelDirectory) if isfile(join(cnnModelDirectory, f))]
 modelList = ['GoogLeNet.csv']
 
@@ -94,10 +94,9 @@ for tpc in accelerator_list:
             # print('Layer', layer_type)
             for d in range(0,D):
                 for k in range(0, K):
-                    w_slice = W[k, d] # single weight for all PE
+                    w_slice = W[k, d] # weight stationary same weight is used by all the PEs 
                     for c in range(0,C,M):
-                        print('Layer')
-                        i_slice = I[c: min(c+M,C), k] # Different inputs for all PEs
+                        i_slice = I[c: min(c+M,C), k] # Each PE gets a different input value where each input corresponds to a different output pixel
                         i_slice = i_slice.reshape(-1, 1)
                         dpu_w_slice = w_slice
                         dpu_w_slice = dpu_w_slice.T.repeat(min(c+M,C)-c,1)
@@ -124,4 +123,5 @@ for tpc in accelerator_list:
         
         accelerator_model_inference = {"Name":architecture,"Model":model_name,"Total_Run_Time": total_latency,"Total_Data_Movement": total_data_movement_latency,"Total_MAC_Energy": total_mac_energy,"Utilized_PE": utilized_PE,"Idle_PE": idle_PE, "BottleNeck_Ratio": total_data_movement_latency/total_latency}
         accelerator_peformance.append(accelerator_model_inference)
-    accelerator_peformance.to_csv('acclerator_performance'+datetime_string+'.csv',index=False)
+    accelerator_peformance_df = pd.DataFrame(accelerator_peformance)
+    accelerator_peformance_df.to_csv('acclerator_performance.csv',index=False)

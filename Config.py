@@ -25,7 +25,7 @@ OUTPUT_DEPTH = "output_depth"
 
 DRISA_1T1C_NOR =    [{
     NAME: "DRISA_1T1C_NOR",
-    PE: 27,    
+    PE: 32768,    
     TRC: 8, # ns
     MUL_CYCLE: 200,
     ADD_CYCLE: 21,
