@@ -153,7 +153,7 @@ def ROBIN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_t
                     
                     
                     
-                    for dpu_idx in range(min(d+Y,D)-d):
+                    for dpu_idx in range(min(c+Y,C)-c):
                         dpu_i_slice = i_slice[dpu_idx,:]
                         dac_energy += act_dac_obj.energy*pJ_to_J*torch.numel(dpu_i_slice)
                         dac_energy += wgt_dac_obj.energy*pJ_to_J*torch.numel(w_slice)
