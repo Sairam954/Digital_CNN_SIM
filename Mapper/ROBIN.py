@@ -164,7 +164,8 @@ def ROBIN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_t
                         
                         dpu_i_slice = dpu_i_slice.T.repeat(min(d+M,D)-d,1)
                         dpu_w_slice = w_slice
-                        psum_dpu = torch.einsum('ij,ij->i', dpu_i_slice, dpu_w_slice)    
+                        psum_dpu = torch.einsum('ij,ij->i', dpu_i_slice, dpu_w_slice)  
+                          
                         adc_energy += adc_obj.energy*pJ_to_J*torch.numel(psum_dpu)
                         vcsel_energy += vcsel_obj.energy*pJ_to_J*torch.numel(psum_dpu)
                         O[c+dpu_idx,d:min(d+M,D)] = psum_dpu+O[c+dpu_idx,d:min(d+M,D)]

@@ -19,10 +19,14 @@ from Mapper.OXBNN import OXBNN_run
 from Mapper.ROBIN import ROBIN_run
 from ReductionNetwork import *
 from DAC import *
+from StaticPower import get_static_power
 from VoltageAdder import VoltageAdder
 
 
-accelerator_list = [TEST_HSCONNA, TEST_SCONNA, TEST_HQNNA, TEST_ROBIN_PO, TEST_ROBIN_EO, TEST_OXBNN]
+accelerator_list = [TEST_OXBNN, TEST_HSCONNA, TEST_SCONNA, TEST_HQNNA, TEST_ROBIN_PO, TEST_ROBIN_EO]
+
+accelerator_list = [TEST_ROBIN_PO]
+
 
 cnnModelDirectory = "CNNModels//Sample//"
 modelList = [f for f in listdir(cnnModelDirectory) if isfile(join(cnnModelDirectory, f))]
@@ -342,20 +346,26 @@ for tpc in accelerator_list:
 
         print("Total Latency",total_latency)   
         print("Total Energy",total_energy)
-
-        latency_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'propagation_latency':prop_latency, 'input_actuation_latency':input_actuation_latency,
+        total_static_power = get_static_power(reduction_network_type, vdp_type, data_rate, conv_dpe_count, conv_dpe_size, conv_dpu_count, fc_dpe_count, fc_dpe_size, fc_dpu_count, dpe_count, dpe_size, dpu_count)
+        total_dynamic_power = (total_energy/total_latency)
+        total_power = total_static_power+total_dynamic_power
+        
+        fps = 1/total_latency
+        fps_w = fps/total_power
+        
+        latency_dict = {'DPU':vdp_type,'total_latency':total_latency,'fps':fps,'fps_w':fps_w, 'reduction_network':reduction_network_type,'dataflow':dataflow,'propagation_latency':prop_latency, 'input_actuation_latency':input_actuation_latency,
                         'weight_actuation_latency':weight_actuation_latency, 'psum_access_latency':psum_access_latency,'input_access_latency':input_access_latency, 
                         'weight_access_latency':weight_access_latency, 'output_access_latency':output_access_latency, 'psum_reduction_latency':psum_reduction_latency,'soa_latency':soa_latency, 
-                        'b_to_s_latency': b_to_s_latency,'vcsel_latency':vcsel_latency,'total_latency':total_latency}
+                        'b_to_s_latency': b_to_s_latency,'vcsel_latency':vcsel_latency}
         tpc_latency_result.append(latency_dict)
     
-        energy_dict = {'DPU':vdp_type,'reduction_network':reduction_network_type,'dataflow':dataflow,'psum_access_energy': psum_access_energy,'input_actuation_energy':input_actuation_energy,
+        energy_dict = {'DPU':vdp_type,
+                       'total_power':total_power,'total_dynamic_energy': total_energy, 'total_static_power':total_static_power,'reduction_network':reduction_network_type,'dataflow':dataflow,'psum_access_energy': psum_access_energy,'input_actuation_energy':input_actuation_energy,
                        'weight_actuation_energy':weight_actuation_energy,'input_access_energy':input_access_energy,'weight_access_energy':weight_access_energy,
                        'output_access_energy':output_access_energy, 'psum_reduction_energy': psum_reduction_energy, 'dac_energy':dac_energy, 'adc_energy':adc_energy, 
-                       'soa_energy':soa_energy, 'b_to_s_energy': b_to_s_energy,'vcsel_energy':vcsel_energy,
-                       'total_energy': total_energy}
+                       'soa_energy':soa_energy, 'b_to_s_energy': b_to_s_energy,'vcsel_energy':vcsel_energy}
         tpc_energy_result.append(energy_dict)
-        latency_df = pd.DataFrame(tpc_latency_result)
+        latency_df = pd.DataFrame(tpc_latency_result)            
         energy_df = pd.DataFrame(tpc_energy_result)
 
 

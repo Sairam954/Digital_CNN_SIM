@@ -1,4 +1,2 @@
-DPU,reduction_network,dataflow,propagation_latency,input_actuation_latency,weight_actuation_latency,psum_access_latency,input_access_latency,weight_access_latency,output_access_latency,psum_reduction_latency,soa_latency,b_to_s_latency,vcsel_latency,total_latency
-HSCONNA,PCA,OS,1.3566690478078989e-06,9.215999999998071e-07,0.0,0.0,0,0,0,0.0,0.0,1.836000000000004e-08,0,1.623947447807856e-06
-SCONNA,PCA,OS,3.2344780484257054e-07,1.2885333333330575e-06,0.0,0.0,0,0,0,0.0,0.0,2.5670000000000064e-08,0,6.258026048425109e-07
-HQNNA,S_Tree,OS,2.5186035585321282e-08,2.421199999999208e-05,0.09684800000001391,0.05754943766780474,0,0,0,0.00018610751574634344,7.238399999996761e-06,0.0,0,0.0005324795313819899
+DPU,total_latency,fps,fps_w,reduction_network,dataflow,propagation_latency,input_actuation_latency,weight_actuation_latency,psum_access_latency,input_access_latency,weight_access_latency,output_access_latency,psum_reduction_latency,soa_latency,b_to_s_latency,vcsel_latency
+ROBIN,0.0008132389863717395,1229.650836664255,0.16834599330698025,S_Tree,OS,4.303794293333823e-08,1.7600000000000035e-05,0.07039999999998728,0.04692268705973392,0,0,0,0.0003906938684288173,0,0,0.0001759999999999483

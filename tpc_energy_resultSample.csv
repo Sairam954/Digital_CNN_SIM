@@ -1,4 +1,2 @@
-DPU,reduction_network,dataflow,psum_access_energy,input_actuation_energy,weight_actuation_energy,input_access_energy,weight_access_energy,output_access_energy,psum_reduction_energy,dac_energy,adc_energy,soa_energy,b_to_s_energy,vcsel_energy,total_energy
-HSCONNA,PCA,OS,0.0,8.697448584628288e-07,8.697448584628288e-07,0,0,0,0.0,0.003779827177901265,4.926396e-09,0.0,0.0002214283786,0,0.004002999972614191
-SCONNA,PCA,OS,0.0,8.697448584371871e-07,8.697448584371871e-07,0,0,0,0.0,0.003638793181565859,9.524874000000005e-09,0.0,0.00014265277350000008,0,0.003783194969656734
-HQNNA,S_Tree,OS,0.008604372834457467,2.281911225603669e-06,1.4014222859756655,0,0,0,6.550982249277587e-05,0.00010357190301740025,0.005567716560006902,8.466923519995288e-06,0.0,0,1.415774205930386
+DPU,total_power,total_dynamic_energy,total_static_power,reduction_network,dataflow,psum_access_energy,input_actuation_energy,weight_actuation_energy,input_access_energy,weight_access_energy,output_access_energy,psum_reduction_energy,dac_energy,adc_energy,soa_energy,b_to_s_energy,vcsel_energy
+ROBIN,7304.307114823796,5.631772860904121,379.19290451,S_Tree,OS,0.007014441166254479,1.65648793597648e-07,5.60577740819024,0,0,0,0.00013169314351554515,0.00026386077449819896,0.018445041664022964,0,0,0.00014025031679644476
