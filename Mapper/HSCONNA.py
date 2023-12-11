@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 import math
-from ADC import ADC, ADC_8bit
+from ADC.ADC_8bit import ADC_8b
 from ADC.ADC_16bit import ADC_16b
 from BtoSConverter import BToSConverter
 from DAC import DAC
@@ -16,14 +16,17 @@ from Shifter import Shifter
 from VCSEL import VCSEL
 from VoltageAdder import VoltageAdder
 import pandas as pd
+import sys
+sys.path.append(".")
+from Config import *
 
 random_seed = 1
 torch.manual_seed(random_seed)
 
 def HSCONNA_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_type):
     # cacha latency parameters
-    cacheMissRatioDf = pd.read_csv('C:\\Users\\SSR226\\Desktop\\MRRCNNSIM\\CacheUtils\\Miss_Ratio_Analysis1.csv')
-    cacheParameters = pd.read_csv('C:\\Users\\SSR226\\Desktop\\DataflowTesting\\CacheUtils\\Cache_Parameters.csv')
+    cacheMissRatioDf = pd.read_csv(CACHE_MISS_RATIO_LUT_PATH)
+    cacheParameters = pd.read_csv(CACHE_PARAMETER_LUT_PATH)
     l1_latency = cacheParameters[cacheParameters['cache']=='l1']
     l2_latency = cacheParameters[cacheParameters['cache']=='l2']
 
@@ -109,7 +112,7 @@ def HSCONNA_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network
     rn_obj = RN(reduction_network_type)
     wgt_dac_obj = DAC_1b()
     act_dac_obj = DAC_1b()
-    adc_obj = ADC_8bit()
+    adc_obj = ADC_8b()
     pd_obj = PD()
     BtoS_obj = BToSConverter()
     
@@ -130,11 +133,13 @@ def HSCONNA_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network
     B = 4  # Here B is the number of DPEs to support different bit shifted numbers
   
 
-    
+   
+    cycle = 0
     for c in range(0, C, Y):
         for d in range(0, D, M):
             temp_partial_sum_counter = 0
             for k in range(0, K, N):
+                cycle = cycle+1
                 i_slice = I[c: min(c+Y,C), k : min(k + N, K)]
                 w_slice = W[k : min(k + N, K), d:min(d+M,D)]
                 w_slice = w_slice.T
@@ -150,7 +155,7 @@ def HSCONNA_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network
                     prop_latency +=  dpe_obj.get_prop_latency()
                     pd_latency += pd_obj.latency*ps_to_sec
                     
-                    for dpu_idx in range(min(d+Y,D)-d):
+                    for dpu_idx in range(min(c+Y,C)-c):
                         dpu_i_slice = i_slice[dpu_idx,:]
                         dac_energy += act_dac_obj.energy*pJ_to_J*torch.numel(dpu_i_slice)
                         dac_energy += wgt_dac_obj.energy*pJ_to_J*torch.numel(w_slice)

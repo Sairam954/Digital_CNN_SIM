@@ -15,14 +15,18 @@ from Shifter import Shifter
 from VCSEL import VCSEL
 from VoltageAdder import VoltageAdder
 import pandas as pd
+import sys
+sys.path.append(".")
+from Config import *
+
 
 random_seed = 1
 torch.manual_seed(random_seed)
 
 def LIGHTBULB_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_type):
     # cacha latency parameters
-    cacheMissRatioDf = pd.read_csv('C:\\Users\\SSR226\\Desktop\\MRRCNNSIM\\CacheUtils\\Miss_Ratio_Analysis1.csv')
-    cacheParameters = pd.read_csv('C:\\Users\\SSR226\\Desktop\\DataflowTesting\\CacheUtils\\Cache_Parameters.csv')
+    cacheMissRatioDf = pd.read_csv(CACHE_MISS_RATIO_LUT_PATH)
+    cacheParameters = pd.read_csv(CACHE_PARAMETER_LUT_PATH)
     l1_latency = cacheParameters[cacheParameters['cache']=='l1']
     l2_latency = cacheParameters[cacheParameters['cache']=='l2']
 

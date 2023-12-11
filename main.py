@@ -22,7 +22,7 @@ from DAC import *
 from VoltageAdder import VoltageAdder
 
 
-accelerator_list = [TEST_HQNNA, TEST_OXBNN, TEST_ROBIN_EO, TEST_ROBIN_PO]
+accelerator_list = [TEST_HSCONNA, TEST_SCONNA, TEST_HQNNA, TEST_ROBIN_PO, TEST_ROBIN_EO, TEST_OXBNN]
 
 cnnModelDirectory = "CNNModels//Sample//"
 modelList = [f for f in listdir(cnnModelDirectory) if isfile(join(cnnModelDirectory, f))]
@@ -120,7 +120,7 @@ for tpc in accelerator_list:
                              'output_shape': str, 'tensor_shape': str,	'input_height': int,	'input_width': int, 'input_depth': int, 'output_height': int, 'output_width': int, 'output_depth': int})
         nnModel = pd.concat([nnModel]*batch_size, ignore_index=True)
         
-        cacheMissRatioDf = pd.read_csv('C:\\Users\\SSR226\\Desktop\\MRRCNNSIM\\CacheUtils\\Miss_Ratio_Analysis1.csv')
+        cacheMissRatioDf = pd.read_csv(CACHE_MISS_RATIO_LUT_PATH)
         for idx in nnModel.index:
             layer_type = nnModel[LAYER_TYPE][idx]
             model_name = nnModel[MODEL_NAME][idx]
@@ -291,7 +291,33 @@ for tpc in accelerator_list:
                 input_access_energy += 0
                 weight_access_energy += 0
                 output_access_energy += 0
-            
+                
+            elif vdp_type == 'HSCONNA':
+                latency_dict, energy_dict = HSCONNA_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_type)
+                prop_latency += latency_dict['propagation_latency']
+                input_actuation_latency += latency_dict['input_actuation_latency']
+                weight_actuation_latency += latency_dict['weight_actuation_latency']
+                b_to_s_latency += latency_dict['b_to_s_latency']
+                dac_latency += latency_dict['dac_latency']
+                adc_latency += latency_dict['adc_latency']
+                pd_latency += latency_dict['pd_latency']
+                psum_access_latency += latency_dict['psum_access_latency']
+                psum_reduction_latency += latency_dict['psum_reduction_latency']
+                input_access_latency += 0
+                weight_access_latency += 0
+                output_access_latency += 0
+                
+                psum_access_energy += energy_dict['psum_access_energy']
+                input_actuation_energy += energy_dict['input_actuation_energy']
+                weight_actuation_energy += energy_dict['weight_actuation_energy']
+                b_to_s_energy += energy_dict['b_to_s_energy']
+                dac_energy += energy_dict['dac_energy']
+                adc_energy += energy_dict['adc_energy']
+                psum_reduction_energy += energy_dict['psum_reduction_energy']
+                psum_access_energy += energy_dict['psum_access_energy']
+                input_access_energy += 0
+                weight_access_energy += 0
+                output_access_energy += 0
                 
                    
         # print all the latency parameters
@@ -310,7 +336,8 @@ for tpc in accelerator_list:
         print("Psum Reduction Latency",psum_reduction_latency)
         
         
-        total_latency = dac_latency + input_actuation_latency + weight_actuation_latency + prop_latency + soa_latency + b_to_s_latency + vcsel_latency+ pd_latency + adc_latency + psum_access_latency + psum_reduction_latency
+        # total_latency = dac_latency + input_actuation_latency + weight_actuation_latency + prop_latency + soa_latency + b_to_s_latency + vcsel_latency+ pd_latency + adc_latency + psum_access_latency + psum_reduction_latency
+        total_latency = prop_latency+ soa_latency + b_to_s_latency + vcsel_latency+ pd_latency + adc_latency + psum_reduction_latency
         total_energy = dac_energy + input_actuation_energy + weight_actuation_energy + soa_energy + b_to_s_energy + vcsel_energy + pd_energy + adc_energy + psum_access_energy + psum_reduction_energy
 
         print("Total Latency",total_latency)   

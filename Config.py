@@ -40,6 +40,10 @@ NAME = "name"
 BATCH_SIZE = "batch_size"
 ACT_PRECISION = "act_precision"
 WT_PRECISION = "wt_precision"
+CACHE_MISS_RATIO_LUT_PATH  = "C:\\Users\\saira\\Desktop\\DNN_SIM_V3\\Digital_CNN_SIM\\CacheUtils\\Miss_Ratio_Analysis1.csv"
+CACHE_PARAMETER_LUT_PATH = "C:\\Users\\saira\\Desktop\\DNN_SIM_V3\\Digital_CNN_SIM\\CacheUtils\\Cache_Parameters.csv" 
+
+
 
 TEST_HQNNA =    [{
     ELEMENT_SIZE: 0,    
@@ -49,8 +53,8 @@ TEST_HQNNA =    [{
     FC_ELEMENT_SIZE :  50,   # number of multiplier   
     FC_ELEMENT_COUNT : 50,
     UNITS_COUNT: 0, 
-    CONV_UNITS_COUNT: 1,
-    FC_UNITS_COUNT: 1,
+    CONV_UNITS_COUNT: 56,
+    FC_UNITS_COUNT: 34,
     RECONFIG: [], 
     VDP_TYPE: "HQNNA", 
     NAME: "HQNNA",  
@@ -68,7 +72,7 @@ TEST_ROBIN_EO =    [{
     CONV_ELEMENT_COUNT : 0,
     FC_ELEMENT_SIZE : 0,   # number of multiplier   
     FC_ELEMENT_COUNT : 0,
-    UNITS_COUNT: 1, 
+    UNITS_COUNT: 150, 
     CONV_UNITS_COUNT: 0,
     FC_UNITS_COUNT: 0,
     RECONFIG: [], 
@@ -88,7 +92,7 @@ TEST_ROBIN_PO =    [{
     CONV_ELEMENT_COUNT : 0,
     FC_ELEMENT_SIZE : 0,   # number of multiplier   
     FC_ELEMENT_COUNT : 0,
-    UNITS_COUNT: 1, 
+    UNITS_COUNT: 140, 
     CONV_UNITS_COUNT: 0,
     FC_UNITS_COUNT: 0,
     RECONFIG: [], 
@@ -109,7 +113,7 @@ TEST_OXBNN =    [{
     CONV_ELEMENT_COUNT : 0,
     FC_ELEMENT_SIZE : 0,   # number of multiplier   
     FC_ELEMENT_COUNT : 0,
-    UNITS_COUNT: 1, 
+    UNITS_COUNT: 270, 
     CONV_UNITS_COUNT: 0,
     FC_UNITS_COUNT: 0,
     RECONFIG: [], 
@@ -122,14 +126,34 @@ TEST_OXBNN =    [{
     REDUCTION_TYPE: "PCA", 
 }]
 
-TEST_HSCONNA =    [{
+TEST_SCONNA =    [{
     ELEMENT_SIZE: 176,    
     ELEMENT_COUNT: 176,
     CONV_ELEMENT_SIZE : 0,   # number of multiplier   
     CONV_ELEMENT_COUNT : 0,
     FC_ELEMENT_SIZE : 0,   # number of multiplier   
     FC_ELEMENT_COUNT : 0,
-    UNITS_COUNT: 1, 
+    UNITS_COUNT: 30, 
+    CONV_UNITS_COUNT: 0,
+    FC_UNITS_COUNT: 0,
+    RECONFIG: [], 
+    VDP_TYPE: "SCONNA", 
+    NAME: "SCONNA",   
+    PRECISION: 1, 
+    BITRATE: 30 , # GHz
+    BATCH_SIZE: 1,  
+    DATAFLOW: "OS",
+    REDUCTION_TYPE: "PCA", 
+}]
+
+TEST_HSCONNA =    [{
+    ELEMENT_SIZE: 1042,    
+    ELEMENT_COUNT: 25,
+    CONV_ELEMENT_SIZE : 0,   # number of multiplier   
+    CONV_ELEMENT_COUNT : 0,
+    FC_ELEMENT_SIZE : 0,   # number of multiplier   
+    FC_ELEMENT_COUNT : 0,
+    UNITS_COUNT: 58, 
     CONV_UNITS_COUNT: 0,
     FC_UNITS_COUNT: 0,
     RECONFIG: [], 
