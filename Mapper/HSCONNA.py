@@ -152,7 +152,7 @@ def HSCONNA_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network
                     dac_latency +=  act_dac_obj.latency*ns_to_sec
                     # weight_actuation_latency += dpe_obj.input_actuation_latency*ns_to_sec
                     input_actuation_latency += dpe_obj.input_actuation_latency*ns_to_sec # ! Weight actuation latency is same as input actuation latency
-                    prop_latency +=  dpe_obj.get_prop_latency()
+                    prop_latency +=  dpe_obj.get_prop_latency('HSCONNA')
                     pd_latency += pd_obj.latency*ps_to_sec
                     
                     for dpu_idx in range(min(c+Y,C)-c):

@@ -233,6 +233,7 @@ def get_static_power(reduction_network_type, vdp_type, data_rate,conv_dpe_count,
         total_power = total_conv_unit_power + total_fc_unit_power
         print("HQNNA Power", total_power*1e3, "mW")
     elif vdp_type =="SCONNA":
+        laser_power_per_wavelength = 10e-3 # W
         dpe_obj = MRR_DPE(conv_dpe_size,data_rate)
         rn_obj = RN(reduction_network_type)
         dac_obj = DAC_1b()
@@ -256,6 +257,7 @@ def get_static_power(reduction_network_type, vdp_type, data_rate,conv_dpe_count,
         total_power = total_sconna_unit_power
         print("SCONNA Power", total_power*1e3, "mW")
     elif vdp_type =="HSCONNA":
+        laser_power_per_wavelength = 0.05e-3 # W
         dpe_obj = MRR_DPE(conv_dpe_size,data_rate)
         rn_obj = RN(reduction_network_type)
         dac_obj = DAC_1b()

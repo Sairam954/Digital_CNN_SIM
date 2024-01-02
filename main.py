@@ -23,12 +23,11 @@ from StaticPower import get_static_power
 from VoltageAdder import VoltageAdder
 
 
-accelerator_list = [TEST_OXBNN, TEST_HSCONNA, TEST_SCONNA, TEST_HQNNA, TEST_ROBIN_PO, TEST_ROBIN_EO]
+accelerator_list = [TEST_HSCONNA, TEST_SCONNA, TEST_HQNNA, TEST_ROBIN_PO, TEST_ROBIN_EO]
 
-accelerator_list = [TEST_ROBIN_PO]
+# accelerator_list = [TEST_ROBIN_PO]
 
-
-cnnModelDirectory = "CNNModels//Sample//"
+cnnModelDirectory = "CNNModels//"
 modelList = [f for f in listdir(cnnModelDirectory) if isfile(join(cnnModelDirectory, f))]
 modelList = ['GoogLeNet.csv']
 
@@ -353,11 +352,17 @@ for tpc in accelerator_list:
         fps = 1/total_latency
         fps_w = fps/total_power
         
+        # latency_dict = {'DPU':vdp_type,'total_latency':total_latency,'fps':fps,'fps_w':fps_w, 'reduction_network':reduction_network_type,'dataflow':dataflow,'propagation_latency':prop_latency, 'input_actuation_latency':input_actuation_latency,
+        #                 'weight_actuation_latency':weight_actuation_latency, 'psum_access_latency':psum_access_latency,'input_access_latency':input_access_latency, 
+        #                 'weight_access_latency':weight_access_latency, 'output_access_latency':output_access_latency, 'psum_reduction_latency':psum_reduction_latency,'soa_latency':soa_latency, 
+        #                 'b_to_s_latency': b_to_s_latency,'vcsel_latency':vcsel_latency}
+        # tpc_latency_result.append(latency_dict)
+
         latency_dict = {'DPU':vdp_type,'total_latency':total_latency,'fps':fps,'fps_w':fps_w, 'reduction_network':reduction_network_type,'dataflow':dataflow,'propagation_latency':prop_latency, 'input_actuation_latency':input_actuation_latency,
-                        'weight_actuation_latency':weight_actuation_latency, 'psum_access_latency':psum_access_latency,'input_access_latency':input_access_latency, 
-                        'weight_access_latency':weight_access_latency, 'output_access_latency':output_access_latency, 'psum_reduction_latency':psum_reduction_latency,'soa_latency':soa_latency, 
+                        'weight_actuation_latency':weight_actuation_latency, 'psum_access_latency':psum_access_latency,'psum_reduction_latency':psum_reduction_latency,'soa_latency':soa_latency, 
                         'b_to_s_latency': b_to_s_latency,'vcsel_latency':vcsel_latency}
         tpc_latency_result.append(latency_dict)
+    
     
         energy_dict = {'DPU':vdp_type,
                        'total_power':total_power,'total_dynamic_energy': total_energy, 'total_static_power':total_static_power,'reduction_network':reduction_network_type,'dataflow':dataflow,'psum_access_energy': psum_access_energy,'input_actuation_energy':input_actuation_energy,
@@ -374,7 +379,7 @@ for tpc in accelerator_list:
 
         # # Convert the date and time to a string format
         # datetime_string = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
-        datetime_string = "Sample"
+        datetime_string = "_GoogleNet"
 
 
         # add time log to the output file

@@ -131,13 +131,17 @@ def ROBIN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_t
     sup_act_precision = 4
     B = 4  # Here B is the number of DPEs to support different bit shifted numbers
   
-
+    total_dot_products = num_of_act_bit_slice*num_of_wt_bit_slice*math.ceil(C/Y)*math.ceil(D/M)*math.ceil(K/N)
+    # print("Total Dot Products", total_dot_products)
+    current_dot_product = 0
     for bit_slice in range(num_of_act_bit_slice*num_of_wt_bit_slice): 
         O = torch.zeros(C,D)
         for c in range(0, C, Y):
             for d in range(0, D, M):
                 temp_partial_sum_counter = 0
                 for k in range(0, K, N):
+                    current_dot_product+=1
+                    # print("Dot Product No:", current_dot_product)
                     i_slice = I[c: min(c+Y,C), k : min(k + N, K)]
                     w_slice = W[k : min(k + N, K), d:min(d+M,D)]
                     w_slice = w_slice.T
@@ -164,11 +168,11 @@ def ROBIN_run(C, D, K, N, M, Y, act_precision, wt_precision, reduction_network_t
                         
                         dpu_i_slice = dpu_i_slice.T.repeat(min(d+M,D)-d,1)
                         dpu_w_slice = w_slice
-                        psum_dpu = torch.einsum('ij,ij->i', dpu_i_slice, dpu_w_slice)  
-                          
+                        # psum_dpu = torch.einsum('ij,ij->i', dpu_i_slice, dpu_w_slice)  
+                        psum_dpu = torch.zeros(dpu_i_slice.shape[0])        
                         adc_energy += adc_obj.energy*pJ_to_J*torch.numel(psum_dpu)
                         vcsel_energy += vcsel_obj.energy*pJ_to_J*torch.numel(psum_dpu)
-                        O[c+dpu_idx,d:min(d+M,D)] = psum_dpu+O[c+dpu_idx,d:min(d+M,D)]
+                        # O[c+dpu_idx,d:min(d+M,D)] = psum_dpu+O[c+dpu_idx,d:min(d+M,D)]
                         
                         temp_partial_sum_counter += torch.numel(psum_dpu)
                         psum_access_latency += 2*torch.numel(psum_dpu)*(l1_latency['ti(ns)'].values[0]+l2_latency['ti(ns)'].values[0]*miss_ratio['l1_miss_ratio'].values[0])*ns_to_sec

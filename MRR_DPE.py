@@ -14,7 +14,19 @@ class MRR_DPE:
         self.sconna_xnor_power = 2.3e-3 # W
         self.sconna_and_power = 3.52e-3 # W
         
-    def get_prop_latency(self):
-        path_distance = self.radius*2*3.143 + self.num_of_weight_bank_mrr*(self.radius*2+self.pitch)
+    def get_prop_latency(self, vdp_type='HQNNA'):
+        ns_to_sec = 1e-9
+        if vdp_type == 'HSCONNA':
+           self.pitch = 1
+           path_distance = self.radius*2*3.143 + self.num_of_weight_bank_mrr*(self.radius*2+self.pitch) 
+        elif vdp_type == 'SCONNA': 
+           self.radius = 15
+           self.pitch = 20
+           path_distance = self.radius*2*3.143*self.num_of_weight_bank_mrr + 2*self.num_of_weight_bank_mrr*(self.radius*2+self.pitch) 
+        else:
+           path_distance = self.radius*2*3.143 + self.num_of_weight_bank_mrr*(self.radius*2+self.pitch)    
         prop_latency = (path_distance*1e-6/(3*1e8)) # m/m/s = s 
-        return prop_latency      
+        
+        # return actuation latency as the DPE latency 
+      #   return prop_latency      
+        return self.input_actuation_latency*ns_to_sec

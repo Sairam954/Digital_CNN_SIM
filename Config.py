@@ -59,7 +59,7 @@ TEST_HQNNA =    [{
     VDP_TYPE: "HQNNA", 
     NAME: "HQNNA",  
     PRECISION: 1, 
-    BITRATE: 1 , # GHz
+    BITRATE: 5 , # GHz
     BATCH_SIZE: 1,  
     DATAFLOW: "OS",
     REDUCTION_TYPE: "S_Tree",   
@@ -79,7 +79,7 @@ TEST_ROBIN_EO =    [{
     VDP_TYPE: "ROBIN", 
     NAME: "ROBIN_EO",  
     PRECISION: 1, 
-    BITRATE: 1 , # GHz
+    BITRATE: 5 , # GHz
     BATCH_SIZE: 1,  
     DATAFLOW: "OS",
     REDUCTION_TYPE: "S_Tree", 
@@ -99,7 +99,7 @@ TEST_ROBIN_PO =    [{
     VDP_TYPE: "ROBIN", 
     NAME: "ROBIN_PO",  
     PRECISION: 1, 
-    BITRATE: 1 , # GHz
+    BITRATE: 5 , # GHz
     BATCH_SIZE: 1,  
     DATAFLOW: "OS",
     REDUCTION_TYPE: "S_Tree", 
@@ -153,7 +153,7 @@ TEST_HSCONNA =    [{
     CONV_ELEMENT_COUNT : 0,
     FC_ELEMENT_SIZE : 0,   # number of multiplier   
     FC_ELEMENT_COUNT : 0,
-    UNITS_COUNT: 58, 
+    UNITS_COUNT: 120, 
     CONV_UNITS_COUNT: 0,
     FC_UNITS_COUNT: 0,
     RECONFIG: [], 
